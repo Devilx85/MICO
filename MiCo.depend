@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1483117991 source:h:\mydocs\c++\mico\main.cpp
+1483124443 source:h:\mydocs\c++\mico\main.cpp
 	<iostream>
 	<string>
 	<fstream>
@@ -17,7 +17,7 @@
 	<string>
 	<chrono>
 
-1483119594 source:h:\mydocs\c++\mico\src\mcvar.cpp
+1483122068 source:h:\mydocs\c++\mico\src\mcvar.cpp
 	"MCVar.h"
 	<boost/algorithm/string.hpp>
 	<boost/uuid/uuid.hpp>
@@ -27,19 +27,19 @@
 	<boost/assign/list_of.hpp>
 	<algorithm>
 
-1483120036 h:\mydocs\c++\mico\include\mcvar.h
+1483121895 h:\mydocs\c++\mico\include\mcvar.h
 	<MCDataNode.h>
 	<MCCodeLine.h>
 	<vector>
 
-1483117890 h:\mydocs\c++\mico\include\mcengine.h
+1483122796 h:\mydocs\c++\mico\include\mcengine.h
 	<vector>
 	<MCCodeLine.h>
 	"MCRet.h"
 	"MCFuncRegister.h"
 	"MCFuncLibCore.h"
 
-1483120645 source:h:\mydocs\c++\mico\src\mcengine.cpp
+1483129351 source:h:\mydocs\c++\mico\src\mcengine.cpp
 	"MCEngine.h"
 	<iostream>
 	<boost/algorithm/string.hpp>
@@ -3327,12 +3327,13 @@
 1482665751 source:h:\mydocs\c++\mico\src\mcret.cpp
 	"MCRet.h"
 
-1483111549 source:h:\mydocs\c++\mico\src\mcfunclibcore.cpp
+1483123116 source:h:\mydocs\c++\mico\src\mcfunclibcore.cpp
 	"MCFunc.h"
 	"MCFuncLibCore.h"
 	<iostream>
+	<fstream>
 
-1483091457 h:\mydocs\c++\mico\include\mcfunclibcore.h
+1483122634 h:\mydocs\c++\mico\include\mcfunclibcore.h
 	<IMCFuncLib.h>
 
 1482762813 source:h:\mydocs\c++\mico\src\mcfparams.cpp

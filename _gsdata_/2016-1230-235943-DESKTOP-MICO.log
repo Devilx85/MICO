@@ -1,0 +1,22 @@
+2016-12-30 23:59:44: -- Analysis Started by On File Change Incremental
+2016-12-30 23:59:44: Changes: 87, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 402
+2016-12-30 23:59:44: Right to Left: Copy File: 87 
+2016-12-30 23:59:44: == Sync Started by On File Change Incremental
+2016-12-30 23:59:44: Create Folder 'H:/MyDOCS/c++/MiCo/.git/objects/5c'
+2016-12-30 23:59:44: Create Folder 'H:/MyDOCS/c++/MiCo/.git/objects/f6'
+2016-12-30 23:59:44: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 2, Errors: 0
+2016-12-30 23:59:45: -- Analysis Started by On File Change PostSync Re-Analyze
+2016-12-30 23:59:45: Changes: 107, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 432
+2016-12-30 23:59:45: Right to Left: Copy File: 107 
+2016-12-30 23:59:45: == Sync Started by On File Change PostSync Re-Analyze
+2016-12-30 23:59:45: Create Folder 'H:/MyDOCS/c++/MiCo/.git/objects/0f'
+2016-12-30 23:59:45: Create Folder 'H:/MyDOCS/c++/MiCo/.git/objects/3f'
+2016-12-30 23:59:45: Create Folder 'H:/MyDOCS/c++/MiCo/.git/objects/44'
+2016-12-30 23:59:45: Create Folder 'H:/MyDOCS/c++/MiCo/.git/objects/4c'
+2016-12-30 23:59:45: Create Folder 'H:/MyDOCS/c++/MiCo/.git/objects/55'
+2016-12-30 23:59:45: Create Folder 'H:/MyDOCS/c++/MiCo/.git/objects/86'
+2016-12-30 23:59:45: Create Folder 'H:/MyDOCS/c++/MiCo/.git/objects/89'
+2016-12-30 23:59:45: Create Folder 'H:/MyDOCS/c++/MiCo/.git/objects/9e'
+2016-12-30 23:59:45: Create Folder 'H:/MyDOCS/c++/MiCo/.git/objects/da'
+2016-12-30 23:59:45: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 9, Errors: 0
+2016-12-30 23:59:45: 

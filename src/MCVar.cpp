@@ -21,6 +21,16 @@ MCVar::MCVar()
 
 }
 
+std::string MCVar::SetValue(std::string val)
+{
+    if(data_type != MCVar::simple_type)
+    {
+        return "Can not assign value for type "  + data_type;
+    }
+    data = val;
+    return "";
+}
+
 MCVar* MCVar::FindSibling(std::string pname,MCVar* pparent)
 {
 auto it = std::find_if(std::begin(pparent->children), std::end(pparent->children),

@@ -1,6 +1,7 @@
 #include "MCFunc.h"
 #include "MCFuncLibCore.h"
 #include <iostream>
+#include <fstream>
 
 
 
@@ -135,6 +136,7 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     _f_a_logempty->func_ref = &_A_COMP;
     reg->AddFunc(_f_a_logempty);
 
+
     /*COMP**********************************************/
      MCFunc* _f_var = new MCFunc();
     _f_var->name = MCVar::simple_type;
@@ -163,6 +165,7 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     _f_concat->name = "CONCAT";
     _f_concat->templ->data_type = "FUNC";
     _f_concat->templ->AddParam("COMP","CONCAT","REQ");
+    _f_concat->templ->AddParam("COMP","SPACED","OPT","ADD");
     _f_concat->templ->AddParam("ANY","VALUE","SEQ");
     _f_concat->func_ref = &_CONCAT;
     reg->AddFunc(_f_concat);
@@ -275,6 +278,36 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     _f_mytype->templ->AddParam("VAR","VARNAME","REQ");
     _f_mytype->func_ref = &_MYTYPE;
     reg->AddFunc(_f_mytype);
+
+    MCFunc* _f_ce = new MCFunc();
+    _f_ce->name = "CE";
+    _f_ce->templ->data_type = "FUNC";
+    _f_ce->templ->AddParam("COMP","CE","REQ");
+    _f_ce->templ->AddParam("VAR","VARNAME","REQ");
+    _f_ce->func_ref = &_CE;
+    reg->AddFunc(_f_ce);
+
+    MCFunc* _f_savetofile = new MCFunc();
+    _f_savetofile->name = "SAVE TO FILE";
+    _f_savetofile->templ->data_type = "FUNC";
+    _f_savetofile->templ->AddParam("COMP","SAVE","REQ");
+    _f_savetofile->templ->AddParam("ANY","VALUE","REQ");
+    _f_savetofile->templ->AddParam("COMP","TO","REQ");
+    _f_savetofile->templ->AddParam("COMP","FILE","REQ");
+    _f_savetofile->templ->AddParam("ANY","FILENAME","REQ");
+    _f_savetofile->func_ref = &_SAVETOFILE;
+    reg->AddFunc(_f_savetofile);
+
+    MCFunc* _f_loadfromfile = new MCFunc();
+    _f_loadfromfile->name = "LOAD FROM FILE";
+    _f_loadfromfile->templ->data_type = "FUNC";
+    _f_loadfromfile->templ->AddParam("COMP","LOAD","REQ");
+    _f_loadfromfile->templ->AddParam("VAR","VARNAME","REQ");
+    _f_loadfromfile->templ->AddParam("COMP","FROM","REQ");
+    _f_loadfromfile->templ->AddParam("COMP","FILE","REQ");
+    _f_loadfromfile->templ->AddParam("ANY","FILENAME","REQ");
+    _f_loadfromfile->func_ref = &_LOADFROMFILE;
+    reg->AddFunc(_f_loadfromfile);
 
 /* TYPE FUNCTIONS ********************************************************************************
 *************************************************************************************************/
@@ -400,7 +433,16 @@ MCFuncLibCore::~MCFuncLibCore()
     MCRet* RET = engine->RetCreate(0,"","","",0);
     return RET;
  }
+  MCRet* _CE(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
+ {
 
+     MCFParams* name = params->GetParam("VARNAME");
+     std::string error_txt = name->value->ref_var->SetValue("");
+     if(error_txt!="")
+        return engine->RetCreate(engine->_C_F_PROTECTED_VALUE,"ERROR","",error_txt  + " in line [" + engine->cur_code->data +  "]" ,0);
+    MCRet* RET = engine->RetCreate(0,"","","",0);
+    return RET;
+ }
  MCRet* _MYTYPE(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
  {
 
@@ -446,12 +488,53 @@ MCFuncLibCore::~MCFuncLibCore()
      RET->ret_type = "OUT";
      return RET;
  }
+
+ MCRet* _SAVETOFILE(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
+ {
+
+     MCFParams* text = params->GetParam("VALUE");
+     std::string val_to_save = text->value->ret_data;
+     MCFParams* fname = params->GetParam("FILENAME");
+     std::string filename = fname->value->ret_data;
+
+     std::ofstream out(filename);
+     out << val_to_save;
+     out.close();
+     MCRet* RET = engine->RetCreate(0,"","","",0);
+    return RET;
+
+ }
+ MCRet* _LOADFROMFILE(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
+ {
+
+     MCFParams* toload = params->GetParam("VARNAME");
+     MCFParams* fname = params->GetParam("FILENAME");
+     std::string filename = fname->value->ret_data;
+     std::ifstream ifs(filename);
+     std::string content( (std::istreambuf_iterator<char>(ifs) ),
+                       (std::istreambuf_iterator<char>()    ) );
+     std::string error_txt = toload->value->ref_var->SetValue(content);
+     if(error_txt!="")
+        return engine->RetCreate(engine->_C_F_PROTECTED_VALUE,"ERROR","",error_txt  + " in line [" + engine->cur_code->data +  "]" ,0);
+
+     MCRet* RET = engine->RetCreate(0,content,"","",0);
+     return RET;
+
+ }
+
  MCRet* _CONCAT(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
  {
      MCRet* RET = new MCRet();
+    MCFParams* spaced = params->GetParam("SPACED");
+     bool is_spaced = false;
+     if(spaced!=NULL)
+        is_spaced = true;
+
      for (std::vector<MCDataNode *>::iterator it = params->children.begin() ; it != params->children.end(); ++it)
      {
         MCFParams* param =(MCFParams*) *it;
+        if(is_spaced)
+            RET->ret_data = RET->ret_data + " ";
         RET->ret_data = RET->ret_data + param->value->ret_data;
      }
      RET->ret_type = "VALUE";
@@ -486,9 +569,10 @@ MCFuncLibCore::~MCFuncLibCore()
      MCRet* RET = new MCRet();
      MCFParams* var_value = params->GetParam("VALUE");
      double cycles = var_value->value->ret_nr;
-
+     engine->inner_cycle_counter = 0;
      for(int ic=0;ic<cycles;ic++)
      {
+        engine->inner_cycle_counter ++;
         MCRet* RES = engine->EvaluateLine(line,vars,types);
 
         if(RES == NULL)
@@ -521,9 +605,10 @@ MCRet* _FOR(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFun
      }
      if(from<to)
      {
+         engine->inner_cycle_counter = 0;
          for(int ic=from;ic<to+1;ic++)
         {
-
+         engine->inner_cycle_counter ++;
         var_counter->data = std::to_string(ic);
         MCRet* RES = engine->EvaluateLine(line,vars,types);
 
@@ -537,10 +622,13 @@ MCRet* _FOR(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFun
 
 
         }
+
      }else
      {
+        engine->inner_cycle_counter = 0;
         for(int ic=from;ic>to-1;ic--)
         {
+        engine->inner_cycle_counter ++;
         var_counter->data = std::to_string(ic);
         MCRet* RES = engine->EvaluateLine(line,vars,types);
         if(RES == NULL)

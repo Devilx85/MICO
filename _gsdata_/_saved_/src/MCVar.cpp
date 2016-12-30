@@ -21,30 +21,25 @@ MCVar::MCVar()
 
 }
 
+std::string MCVar::SetValue(std::string val)
+{
+    if(data_type != MCVar::simple_type)
+    {
+        retrun "Can not assign value for type "  + data_type;
+    }
+    data = val;
+    return "";
+}
+
 MCVar* MCVar::FindSibling(std::string pname,MCVar* pparent)
 {
-/*    for (std::vector<MCDataNode *>::iterator it = pparent->children.begin() ; it != pparent->children.end(); ++it)
-    {
-        MCVar* comp = (MCVar*) *it;
-
-        if(pname==comp->var_name)
-        {
-            return comp;
-        }
-
-    }
-    return NULL;
-*/
-
 auto it = std::find_if(std::begin(pparent->children), std::end(pparent->children),
     [&pname](const MCDataNode* attr) -> bool
     { return ((MCVar*)attr)->var_name == pname; });
 
 if (it != pparent->children.end())
 {
-    MCVar* ch = (MCVar*)*it;
-    // Found the attribute named "someAttrName"
-    return ch;
+    return (MCVar*)*it;
 }
 return NULL;
 }

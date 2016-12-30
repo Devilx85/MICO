@@ -1,0 +1,18 @@
+2016-12-30 23:59:38: -- Analysis Started by On File Change Incremental
+2016-12-30 23:59:38: Changes: 69, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 362
+2016-12-30 23:59:38: Right to Left: Copy File: 69 
+2016-12-30 23:59:38: == Sync Started by On File Change Incremental
+2016-12-30 23:59:38: Create Folder 'H:/MyDOCS/c++/MiCo/.git/objects/2a'
+2016-12-30 23:59:38: Create Folder 'H:/MyDOCS/c++/MiCo/.git/objects/2e'
+2016-12-30 23:59:38: Create Folder 'H:/MyDOCS/c++/MiCo/.git/objects/ab'
+2016-12-30 23:59:38: Create Folder 'H:/MyDOCS/c++/MiCo/.git/objects/fd'
+2016-12-30 23:59:38: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 4, Errors: 0
+2016-12-30 23:59:39: -- Analysis Started by On File Change PostSync Re-Analyze
+2016-12-30 23:59:39: Changes: 74, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 372
+2016-12-30 23:59:39: Right to Left: Copy File: 74 
+2016-12-30 23:59:39: == Sync Started by On File Change PostSync Re-Analyze
+2016-12-30 23:59:39: Create Folder 'H:/MyDOCS/c++/MiCo/.git/objects/25'
+2016-12-30 23:59:39: Create Folder 'H:/MyDOCS/c++/MiCo/.git/objects/92'
+2016-12-30 23:59:39: Create Folder 'H:/MyDOCS/c++/MiCo/.git/objects/fe'
+2016-12-30 23:59:39: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 3, Errors: 0
+2016-12-30 23:59:39: 

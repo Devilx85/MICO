@@ -29,6 +29,7 @@ class MCEngine
         MCVar* func_scope;
 
         bool check_exec_time = true;
+        long long exec_time=0;
 
         int const _C_NO_REQ_PARAM = -1000;
         int const _C_F_NOTFOUND = -1001;

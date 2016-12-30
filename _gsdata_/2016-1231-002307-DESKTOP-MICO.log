@@ -1,0 +1,16 @@
+2016-12-31 00:23:08: -- Analysis Started by On File Change Incremental
+2016-12-31 00:23:08: Changes: 103, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 439
+2016-12-31 00:23:08: Right to Left: Copy File: 103 
+2016-12-31 00:23:08: == Sync Started by On File Change Incremental
+2016-12-31 00:23:08: Create Folder 'H:/MyDOCS/c++/MiCo/.git/logs/refs/remotes'
+2016-12-31 00:23:08: Create Folder 'H:/MyDOCS/c++/MiCo/.git/logs/refs/remotes/origin'
+2016-12-31 00:23:08: Create Folder 'H:/MyDOCS/c++/MiCo/.git/refs/remotes'
+2016-12-31 00:23:08: Create Folder 'H:/MyDOCS/c++/MiCo/.git/refs/remotes/origin'
+2016-12-31 00:23:08: Copy New 'H:/GIT/MICO/.git/config' -> 'H:/MyDOCS/c++/MiCo/.git/config'
+2016-12-31 00:23:08: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 5, Errors: 0
+2016-12-31 00:23:09: -- Analysis Started by On File Change PostSync Re-Analyze
+2016-12-31 00:23:10: Changes: 98, Conflicts: 0, CopyTime: 0, CopyState: 0/3, Errors: 0, All: 439
+2016-12-31 00:23:10: Right to Left: Copy File: 98 
+2016-12-31 00:23:10: == Sync Started by On File Change PostSync Re-Analyze
+2016-12-31 00:23:10: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 3, Errors: 0
+2016-12-31 00:23:10: 
