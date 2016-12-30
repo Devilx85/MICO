@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="MiCo" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/MiCo" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add directory="include" />
+					<Add directory="$(#boost)" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/MiCo" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add directory="include" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="include/IMCFuncLib.h" />
+		<Unit filename="include/MCCodeLine.h" />
+		<Unit filename="include/MCDataNode.h" />
+		<Unit filename="include/MCEngine.h" />
+		<Unit filename="include/MCFParams.h" />
+		<Unit filename="include/MCFTemplate.h" />
+		<Unit filename="include/MCFunc.h" />
+		<Unit filename="include/MCFuncLibCore.h" />
+		<Unit filename="include/MCFuncRegister.h" />
+		<Unit filename="include/MCRet.h" />
+		<Unit filename="include/MCVar.h" />
+		<Unit filename="main.cpp" />
+		<Unit filename="src/IMCFuncLib.cpp" />
+		<Unit filename="src/MCCodeLine.cpp" />
+		<Unit filename="src/MCDataNode.cpp" />
+		<Unit filename="src/MCEngine.cpp" />
+		<Unit filename="src/MCFParams.cpp" />
+		<Unit filename="src/MCFTemplate.cpp" />
+		<Unit filename="src/MCFunc.cpp" />
+		<Unit filename="src/MCFuncLibCore.cpp" />
+		<Unit filename="src/MCFuncRegister.cpp" />
+		<Unit filename="src/MCRet.cpp" />
+		<Unit filename="src/MCVar.cpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

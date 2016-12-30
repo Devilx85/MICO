@@ -1,0 +1,906 @@
+#include "MCEngine.h"
+#include <iostream>
+#include <boost/algorithm/string.hpp>
+#include <boost/lexical_cast.hpp>
+#include <boost/algorithm/string/replace.hpp>
+#include "MCFParams.h"
+#include "MCFunc.h"
+#include "MCVar.h"
+
+MCEngine::MCEngine()
+{
+    //ctor
+    code = new MCCodeLine();
+    code->data = "";
+    code->data_type = "PROGRAM";
+    fregister = new MCFuncRegister();
+    clib = new MCFuncLibCore();
+    clib->RegFunc(fregister);
+
+    //SCOPES
+    var_scope =  new MCVar();
+    type_scope =  new MCVar();
+    func_scope =  new MCVar();
+
+    var_scope->data_type = "[GLOBAL]";
+    var_scope->data_namespace = "VARS";
+    var_scope->data = "[GLOBAL]";
+    type_scope->data_type = "[GLOBAL]";
+    type_scope->data_namespace = "TYPES";
+    type_scope->data = "[GLOBAL]";
+
+}
+MCRet* MCEngine::CastNumc(std::string value)
+{
+    try
+    {
+      double i = boost::lexical_cast<double>(value);
+      MCRet* RET = RetCreate(0,"","NUMC","",0);
+      RET->ret_nr = i;
+      return RET;
+    }
+    catch(...)
+    {
+
+      MCRet* RET = RetCreate(_C_F_CAST_ERROR,"","ERROR","Can not cast to int value : " + value,-100);
+      return RET;
+    }
+}
+
+
+MCRet* MCEngine::Run()
+{
+    return EvaluateLine(code,var_scope,type_scope);
+}
+
+MCRet* MCEngine::EvaluateLine(MCCodeLine * line, MCVar* xvar_scope, MCVar* xtype_scope,std::string func_type )
+{
+
+    for (std::vector<MCDataNode *>::iterator it = line->children.begin() ; it != line->children.end(); ++it)
+    {
+
+        MCCodeLine * line=(MCCodeLine*) *it;
+
+        if(line->commented==true)
+            continue;
+
+        if(check_exec_time)
+        {
+           line->start_m = std::chrono::high_resolution_clock::now();
+           line->executed_count ++ ;
+        }
+
+        cur_code = line;
+
+        MCRet* ret = RenderLine(line,xvar_scope,xtype_scope,func_type);
+
+        if(ret!= NULL)
+        {
+            if(ret->bufout.length()!=0)
+                {
+                    out_buffer = out_buffer + ret->bufout;
+                    ret->bufout = "";
+                }
+
+        if(ret->stop_code!=0)
+        {
+            if(check_exec_time)
+            {
+                line->end_m = std::chrono::high_resolution_clock::now();
+                auto elapsed = std::chrono::high_resolution_clock::now() - line->start_m;
+                line->exec_time = std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
+            }
+            return ret;
+        }
+
+        delete ret;
+        }
+
+        if(check_exec_time)
+        {
+            line->end_m = std::chrono::high_resolution_clock::now();
+            auto elapsed = std::chrono::high_resolution_clock::now() - line->start_m;
+            line->exec_time = line->exec_time + std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
+        }
+
+    }
+    return RetCreate(0,"","","",0);
+}
+
+bool MCEngine::is_number(const std::string& s)
+{
+try
+    {
+      double x = boost::lexical_cast<double>(s); // double could be anything with >> operator.
+      return true;
+    }
+catch(...)
+    {
+        return false;
+    }
+}
+MCRet* MCEngine::RetCreate(int pcode,std::string pdata,std::string ptype,std::string pbufout,int pstop_code)
+{
+    MCRet* ret = new MCRet();
+    ret->code = pcode;
+    ret->ret_data = pdata;
+    ret->ret_type = ptype;
+    ret->bufout = pbufout;
+    ret->stop_code = pstop_code;
+    if(pcode<0)
+        ret->bufout = "\n\r [ERROR!]" + ret->bufout;
+    return ret;
+}
+
+MCRet* MCEngine::SubExpressionRender(MCCodeLine * line,MCVar* xvar_scope,MCVar* xtype_scope)
+{
+    std::string in_data = line->data;
+    for (std::vector<MCDataNode *>::iterator it = line->children.begin() ; it != line->children.end(); ++it)
+    {
+        MCCodeLine * subexpr=(MCCodeLine*) *it;
+        if(subexpr->data_type=="SUBEXPR")
+        {
+            MCRet* new_ret = RenderLine(subexpr,xvar_scope,xtype_scope);
+            if(new_ret->code < 0)
+                {
+                    return new_ret;
+                }
+            boost::replace_all(in_data, subexpr->formal_type , "[" + new_ret->ret_data + "]");
+
+        }
+    }
+
+    return RetCreate(0,in_data,"NAME","",0);
+}
+
+MCRet* MCEngine::RenderLine(MCCodeLine * line,MCVar* xvar_scope,MCVar* xtype_scope,std::string func_type)
+{
+
+    int in_params = line->expressions.size();
+    int cy_params = 0;
+    int detect_reqnr = 0;
+
+    bool detected = false;
+    bool optc_params_ommit = false;
+    int optc_params_was = 0;
+
+
+ if(in_params == 0)
+ {
+    if(line==NULL || line->data=="")
+    {
+        MCRet* RET = RetCreate(_C_F_EMPTY_ELEM,"","ERROR","Empty line detected (internal error) ",-100);
+        return RET;
+    }
+
+    in_params = 1;
+    MCCodeLine* auto_param = new MCCodeLine();
+    auto_param->data = line->data;
+    auto_param->data_type = "COMP";
+    line->expressions.push_back(auto_param);
+ }
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+if(in_params == 1)
+    {
+        std::string error_txt = "";
+        MCVar* f_var = NULL;
+        int er_type = 0;
+        MCCodeLine* v_param = (MCCodeLine*) line->expressions.at(0);
+        if(is_number(v_param->data))
+            {
+              MCRet* RET = RetCreate(0,v_param->data,"VALUE","",0);
+              return RET;
+            }
+        if(v_param->data == "#I")
+            {
+              MCRet* RET = RetCreate(0,v_param->data,"VALUE","",0);
+              return RET;
+            }
+        if(line->data == "EOL")
+            {
+              MCRet* RET = RetCreate(0,"\n\r","VALUE","",0);
+              return RET;
+            }
+
+        MCRet* RET  = SubExpressionRender(v_param,xvar_scope,xtype_scope);
+            if(RET->code < 0)
+                {
+                    return RET;
+                }
+        f_var = xvar_scope->FindVar(RET->ret_data,xvar_scope,error_txt,er_type);
+        delete RET;
+
+
+        if(f_var!=NULL)
+        {
+             MCRet* RET = RetCreate(0,f_var->data,"VAR","",0);
+             RET->ref_var = f_var;
+             return RET;
+
+        }else
+        {
+            if(er_type==-2)
+            {
+                MCRet* RET = RetCreate(_C_F_NON_ARRAY,"","ERROR","Array usage of non-array object : " + error_txt,-100);
+                return RET;
+            }else if (er_type==-3)
+            {
+                MCRet* RET = RetCreate(_C_F_INVALID_INDEX,"","ERROR","Invalid index/var  : " +  error_txt,-100);
+                return RET;
+            }
+        }
+
+    }
+
+    if(in_params < 3)
+    {
+
+    bool ismethod = false;
+    MCCodeLine* v_param = (MCCodeLine*) line->expressions.at(0);
+    MCVar* F_exists = func_scope->FindSibling(v_param->data,func_scope);
+
+    if(F_exists==NULL)
+    {
+      std::string er_text = "";
+      int er_int = 0;
+      F_exists = var_scope->FindVar(v_param->data,var_scope,er_text,er_int);
+      if(F_exists!=NULL && F_exists->data_type=="FUNC")
+      {
+        ismethod = true;
+
+      }else
+        F_exists = NULL;
+
+    }
+
+    if(F_exists!=NULL)
+    {
+        //FOUND
+    MCFParams* data_params = new  MCFParams();
+    MCFParams* fname_p = NULL;
+    MCCodeLine* v_fparams = NULL;
+    if(line->expressions.size()>1)
+    {
+        v_fparams = (MCCodeLine*) line->expressions.at(1);
+    }
+
+    fname_p = data_params->PutParam("FNAME",v_param,NULL);
+
+    if(ismethod == true)
+        {
+            //fname_p->ref_line->data = F_exists->data;
+            fname_p->ref_line->data_type = "METHOD";
+        }
+
+    if(v_fparams!=NULL)
+        for (std::vector<MCDataNode*>::iterator it = v_fparams->expressions.begin() ; it != v_fparams->expressions.end(); ++it)
+          {
+            MCCodeLine* callparam =( MCCodeLine* ) *it;
+
+            MCDataNode* newparam = new MCFParams();
+
+            MCFParams* cr_param = data_params->PutParam("VALUE",newparam,newparam);
+
+            if(callparam->data_type=="STR")
+            {
+                cr_param->value = RetCreate(0,callparam->data,"VALUE","",0);
+
+            }else
+            {
+                MCRet* RET = RenderLine(callparam,xvar_scope,xtype_scope,func_type);
+                if(RET->code < 0)
+                {
+                    delete data_params;
+                    return RET;
+                }
+                cr_param->value = RET;
+            }
+
+
+
+
+          }
+
+           MCRet* RET = fregister->call_func->func_ref(this,line,xvar_scope,xtype_scope,NULL,data_params);
+           delete data_params;
+           return RET;
+        }
+    }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// GLOBAL FUNCTIONS CALL
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    for (std::vector<MCFunc*>::iterator it = fregister->reg_funcs.begin() ; it != fregister->reg_funcs.end(); ++it)
+    {
+        MCFunc* func = *it;
+        if(func_type!=func->func_type)
+            continue;
+
+        cy_params = 0;
+        detect_reqnr = 0;
+        MCCodeLine * last_param = NULL;
+        MCFParams* data_params = new  MCFParams();
+        optc_params_ommit = false;
+        optc_params_was = 0;
+        bool try_func = false;
+        //CHECK
+        for (std::vector<MCDataNode *>::iterator it = func->templ->expressions.begin() ; it != func->templ->expressions.end(); ++it)
+        {
+
+            MCDataNode * f_param = *it;
+            cy_params++;
+            if(cy_params > in_params)
+                break;
+            MCDataNode * v_param = line->expressions.at(cy_params-1);
+            if(f_param->data_type == v_param->data_type && f_param->data_type=="COMP" && f_param->formal_type=="REQ" && f_param->data == v_param->data)
+            {
+                try_func = true;
+                break;
+
+            }
+        }
+
+        if(!try_func)
+            continue;
+
+
+        cy_params = 0;
+        for (std::vector<MCDataNode *>::iterator it = func->templ->expressions.begin() ; it != func->templ->expressions.end(); ++it)
+            {
+                MCDataNode * f_param = *it;
+                //IF OMITIING OPTIONAL PARAMETERS
+                if(optc_params_ommit == true && f_param->formal_type == "OPTC")
+                 {
+                     MCDataNode * v_param = line->expressions.at(cy_params-1);
+
+                         if ((it != func->templ->expressions.end()) && (next(it) == func->templ->expressions.end()))
+                            {
+
+                                MCRet* RET = RetCreate(_C_F_UNKNOWN_ELEM,"","ERROR","Unknown parameter " + v_param->data + " for function "+func->name,-100);
+                                return RET;
+
+                            }
+                         cy_params--;
+                         continue;
+
+                 }
+
+                optc_params_ommit = false;
+
+                cy_params++;
+
+                if(f_param->formal_type=="SEQ")
+                {
+                    std::string stop_templ = "";
+
+                    MCDataNode * next_f_param = NULL;
+                    ++it;
+                    if(it != func->templ->expressions.end())
+                        {
+                            next_f_param = *it;
+                        }
+
+                    bool cnt_seq = false;
+
+                    while(cy_params <= in_params)
+                    {
+
+                        MCDataNode * v_param = line->expressions.at(cy_params-1);
+                        if(next_f_param !=NULL && v_param->data_type == "COMP" && v_param->data == next_f_param->data)
+                        {
+                            cnt_seq = true;
+                            break;
+                        }
+
+                        data_params->PutParam(f_param->data,v_param,f_param);
+                        cy_params++;
+
+                    }
+
+                    if(cnt_seq)
+                        continue;
+
+                    break;
+                }
+
+
+                if(f_param->formal_type=="CSQ")
+                {
+                    if(detect_reqnr == 0)
+                       {
+                            break;
+                       }
+                    MCCodeLine * new_code = new MCCodeLine();
+                    MCDataNode * v_param = NULL;
+                    while(cy_params <= in_params)
+                    {
+
+                        v_param = line->expressions.at(cy_params-1);
+                        new_code->expressions.push_back(v_param);
+                        cy_params++;
+
+                    }
+
+                    if(new_code->expressions.size()==0)
+                    {
+                                MCRet* RET = RetCreate(_C_NO_REQ_PARAM,"","ERROR","No required parameter for function "+func->name,-100);
+                                return RET;
+                    }
+
+                    MCRet* new_ret = RenderLine(new_code,xvar_scope,xtype_scope);
+                    if(new_ret->code < 0)
+                        {
+                            return new_ret;
+                        }
+
+                    if(f_param->data_class == "NUMC")
+                    {
+                        MCRet* RET_INT = CastNumc(new_ret->ret_data);
+                        if(RET_INT->code<0)
+                            {
+                                delete data_params;
+                                return RET_INT;
+                            }
+
+                         new_ret->ret_nr = RET_INT->ret_nr;
+                         delete RET_INT;
+                    }
+
+                    MCFParams* param_x = data_params->PutParam(f_param->data,v_param,f_param);
+                    param_x->value = new_ret;
+
+                    break;
+
+                }
+
+                if(cy_params > in_params)
+                    {
+                       if(detect_reqnr == 0)
+                       {
+                            break;
+                       }
+
+                       if(f_param->formal_type == "OPTC" && optc_params_was == 0)
+                       {
+                           optc_params_was = 1;
+                       }else
+                       optc_params_was = 3;
+
+                       if(f_param->formal_type == "REQ" || optc_params_was == 1)
+                            {
+
+                                MCRet* RET = RetCreate(_C_NO_REQ_PARAM,"","ERROR","No required parameter for function "+func->name + " named " + f_param->data,-100);
+                                return RET;
+                            }
+
+                        continue;
+                    }
+
+
+                MCDataNode * v_param = line->expressions.at(cy_params-1);
+
+
+
+                if(f_param->data_type == v_param->data_type || f_param->data_type == "ANY" || f_param->data_type == "VAR" || f_param->data_type == "NAME")
+                {
+                     /*NAME*******************************************************************/
+
+                    if(f_param->data_type == "NAME" || f_param->data_type == "VAR")
+                        if(v_param->data_type != "COMP")
+                         {
+                            break;
+
+                         }else
+                         {
+                             data_params->PutParam(f_param->data,v_param,f_param);
+                             continue;
+                         }
+
+                     /*COMP*******************************************************************/
+
+                    if(f_param->data_type=="COMP")
+                    {
+
+                        if(f_param->data != v_param->data)
+                           {
+
+                            if(f_param->formal_type == "REQ"  || f_param->formal_type == "OPTC")
+                            {
+                                break;
+
+                            }else
+                            {
+
+                                 optc_params_ommit = true;
+                                 continue;
+                            }
+
+                           }
+                        if(f_param->data_class == "ADD")
+                            data_params->PutParam(f_param->data,v_param,f_param);
+                        if(f_param->formal_type == "REQ")
+                            detect_reqnr++;
+
+                        continue;
+                    }
+
+
+                     data_params->PutParam(f_param->data,v_param,f_param);
+                     continue;
+
+                }else
+                {
+                    break;
+                }
+        }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// DETECTED FUNCTION CALL
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        if(detect_reqnr==func->templ->req_count)
+        {
+            if(cy_params< line->expressions.size())
+            {
+                std::string elms = "";
+                cy_params++;
+                while(cy_params <= line->expressions.size())
+                {
+                    MCDataNode * v_param = line->expressions.at(cy_params-1);
+                    elms = elms + " '" + v_param->data + "' ";
+                    cy_params++;
+                }
+                MCRet* RET = RetCreate(_C_F_UNKNOWN_ELEM_END,"","ERROR","Unknown elements " + elms + " in the end of "+func->name,-100);
+                return RET;
+            }
+
+            detected = true;
+
+        // FILLLING PARAMETERS
+            for (std::vector<MCDataNode*>::iterator it = data_params->children.begin() ; it != data_params->children.end(); ++it)
+                {
+                    MCFParams* x_param =(MCFParams*) *it;
+                    if(x_param->ref_vline->data_type == "NAME" || x_param->ref_vline->data_class == "ADD" || x_param->ref_vline->formal_type == "CSQ" || x_param->is_unvalued == true)
+                        continue;
+
+                    if(x_param->ref_line->data_type == "EXPR" || x_param->ref_line->data_type == "COMP")
+                    {
+
+                        x_param->value = RenderLine((MCCodeLine*)x_param->ref_line,xvar_scope,xtype_scope);
+
+                        if(x_param->value->code < 0)
+                        {
+                            delete data_params;
+                            return x_param->value;
+                        }
+
+
+                    }else if(x_param->ref_line->data_type == "STR" )
+                        x_param->value = RetCreate(0,x_param->ref_line->data,"VALUE","",0);
+
+
+                    if(x_param->ref_vline->data_type == "VAR" && x_param->value->ref_var == NULL)
+                    {
+                            MCRet* RET = RetCreate(_C_F_LVALUE_REQ,"","ERROR","LVALUE required in place of "+x_param->ref_vline->data,-100);
+                            delete data_params;
+                            return RET;
+                    }
+
+                    if(x_param->ref_vline->data_class == "NUMC")
+                    {
+
+                         MCRet* RET_INT = CastNumc(x_param->value->ret_data);
+                        if(RET_INT->code<0)
+                            {
+                                delete data_params;
+                                return RET_INT;
+                            }
+
+                         x_param->value->ret_nr = RET_INT->ret_nr;
+                         delete RET_INT;
+                    }
+
+            }
+
+            //CALL FUNCTION
+            MCRet* RET =  func->func_ref(this,line,xvar_scope,xtype_scope,func,data_params);
+            delete data_params;
+            return RET;
+
+        }
+
+        delete data_params;
+    }
+
+
+      MCRet* RET = RetCreate(_C_F_NOTFOUND,"","ERROR","Unknown statement  "+line->data + " in [" + cur_code->data + "]",-100);
+      return RET;
+
+
+}
+
+int MCEngine::LoadString(std::string data)
+{
+    char cur;
+    std::string line;
+    std::vector<std::string> lines;
+
+
+    for(int ci = 0; ci < data.length();ci++)
+    {
+        cur = data[ci];
+        if( cur=='\n' || cur=='\r' )
+            continue;
+
+        if(cur==';')
+            {
+                boost::trim(line);
+                if(line.length()!=0)
+                    lines.push_back(line);
+                line = "";
+                continue;
+            }else
+        if(cur=='{')
+            {
+                boost::trim(line);
+                if(line.length()!=0)
+                    lines.push_back(line);
+                lines.push_back("BEGIN");
+                line = "";
+                continue;
+            }
+        if(cur=='}')
+            {
+                boost::trim(line);
+                if(line.length()!=0)
+                    lines.push_back(line);
+                lines.push_back("END");
+                line = "";
+                continue;
+            }
+        line = line + cur;
+
+    }
+
+
+    MCCodeLine *cursor = code;
+    MCCodeLine *new_line = code;
+    int rescode = 0;
+    for (std::vector<std::string>::iterator it = lines.begin() ; it != lines.end(); ++it)
+    {
+        std::string cur_line = *it;
+        if(cur_line=="BEGIN" )
+        {
+            if(new_line == NULL)
+                return -4;
+            cursor = new_line;
+            continue;
+
+        }else if (cur_line=="END")
+        {
+            if(cursor->parent == NULL)
+                return -5;
+            cursor  = (MCCodeLine *) cursor->parent;
+            continue;
+        }
+
+        new_line = new MCCodeLine();
+        cursor->AddChild(new_line);
+        rescode = LineToCode(new_line,cur_line);
+        if(rescode!=0)
+            return rescode;
+    }
+
+    return 0;
+}
+void MCEngine::PrintLines(MCCodeLine * xcode,int lev )
+{
+    //if(lev>100)
+    //    return;
+    std::string tabs = "";
+    for(int ci = 0; ci < lev; ci++)
+            tabs = tabs  +  " ";
+
+ std::cout  << std::endl;
+/*    std::cout  << tabs <<  xcode->data << std::endl;
+    std::cout  << tabs << "{" << std::endl;
+*/
+    for (std::vector<MCDataNode *>::iterator it = xcode->children.begin() ; it != xcode->children.end(); ++it)
+    {
+        MCCodeLine * line= (MCCodeLine *)*it;
+        std::cout << tabs << line->data << " ms " << line->exec_time << " counter " << line->executed_count << " " << std::endl;
+        PrintLines(line,lev+1);
+
+    }
+
+
+
+}
+void MCEngine::PrintCode(MCCodeLine * xcode,int lev )
+{
+    //if(lev>100)
+    //    return;
+    std::string tabs = "";
+    for(int ci = 0; ci < lev; ci++)
+            tabs = tabs  +  " ";
+
+    std::cout  << std::endl;
+    std::cout  << tabs <<  xcode->data_type << ":"  << xcode->data << std::endl;
+    std::cout  << tabs << "{" << std::endl;
+
+
+
+    for (std::vector<MCDataNode *>::iterator it = xcode->expressions.begin() ; it != xcode->expressions.end(); ++it)
+    {
+        MCCodeLine * line= (MCCodeLine *)*it;
+        std::cout << tabs << line->data_type << ":" << line->data << std::endl;
+
+        std::cout << tabs << "["  << std::endl ;
+
+
+        PrintCode(line,lev+1);
+        std::cout << tabs << "]" << std::endl ;
+    }
+
+    for (std::vector<MCDataNode *>::iterator it = xcode->children.begin() ; it != xcode->children.end(); ++it)
+    {
+        MCCodeLine * line= (MCCodeLine *)*it;
+        PrintCode(line,lev+1);
+
+    }
+
+
+    std::cout << tabs << "}" << std::endl ;
+}
+int MCEngine::LineToCode(MCCodeLine * line , std::string data)
+{
+    char cur;
+    char last_c;
+    bool open_str = false;
+    int open_br = 0;
+    bool was_expr = false;
+    bool was_str = false;
+    bool sub_expr = false;
+
+    int res_code = 0;
+
+    std::string cur_line;
+    std::string sub_exp_s = "";
+    std::vector<std::string> subexpr;
+    boost::trim(data);
+    line->data = data;
+    line->commented = false;
+    int line_len = data.length() - 1;
+
+
+    if(data.length() == 0)
+        return -1;
+
+
+    for(int ci = 0; ci < data.length();ci++)
+    {
+        cur = data[ci];
+
+        if(cur==']' && open_br == 0 && open_str==false)
+        {
+            sub_expr = false;
+            subexpr.push_back(sub_exp_s);
+            sub_exp_s = "";
+        }
+
+        if(sub_expr)
+        {
+            sub_exp_s = sub_exp_s + cur;
+        }
+
+        if(cur=='[' && open_br == 0 && open_str==false)
+        {
+            sub_expr = true;
+        }
+
+        if(cur=='"' && open_br == 0)
+            {
+                open_str = ! open_str;
+                if(open_str==true)
+                    continue;
+                was_str = true;
+            }
+        if(cur=='(' && open_str==false)
+        {
+            open_br++;
+            if(open_br==1)
+            continue;
+        }
+
+        if( cur==')' && open_str==false)
+            {
+                open_br--;
+                if(open_br==0)
+                    was_expr = true;
+            }
+
+        if(open_str == false && open_br == 0 && ( cur==' ' ||  line_len == ci ))
+        {
+            if( last_c == ' ' &&  cur==' ' && was_str == false && was_expr == false )
+                continue;
+
+            if(line_len == ci && cur!=' ' && was_str == false && was_expr == false)
+                cur_line = cur_line + cur;
+
+            MCCodeLine * child = new MCCodeLine();
+
+            child->data = cur_line;
+            if(cur_line=="//")
+                line->commented = true;
+
+            if(was_expr)
+            {
+                    child->data_type = "EXPR";
+                    res_code = LineToCode(child,cur_line);
+                    if(res_code!=0)
+                        return res_code;
+            }
+            else if(was_str)
+                child->data_type = "STR";
+            else
+                child->data_type = "COMP";
+
+            //Analyze subexpr
+            for (std::vector<std::string>::iterator it = subexpr.begin() ; it != subexpr.end(); ++it)
+            {
+                std::string  sub_expr= *it;
+                MCCodeLine * sub_child = new MCCodeLine();
+                sub_child->data = sub_expr;
+                sub_child->data_type = "SUBEXPR";
+                sub_child->formal_type = "[" + sub_expr + "]";
+                res_code = LineToCode(sub_child,sub_expr);
+                    if(res_code!=0)
+                        return res_code;
+                child->children.push_back(sub_child);
+                child->has_subexr = true;
+            }
+
+            line->expressions.push_back(child);
+
+            cur_line = "";
+
+            last_c = cur;
+            was_expr = false;
+            was_str = false;
+            subexpr.clear();
+
+            continue;
+        }
+
+        if(was_str || was_expr)
+            continue;
+
+        cur_line = cur_line + cur;
+
+        if(open_br == 0 && open_str==false)
+            last_c = cur;
+
+        was_expr = false;
+        was_str = false;
+
+    }
+
+    if(open_str==true)
+        return -2;
+    if(open_br!=0)
+        return -3;
+
+    return 0;
+}
+MCEngine::~MCEngine()
+{
+    //dtor
+    var_scope->Free();
+    type_scope->Free();
+    func_scope->Free();
+    code->Free();
+
+}
