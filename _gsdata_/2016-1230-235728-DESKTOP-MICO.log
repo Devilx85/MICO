@@ -1,0 +1,16 @@
+2016-12-30 23:57:29: -- Analysis Started by On File Change Incremental
+2016-12-30 23:57:29: Changes: 4, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 159
+2016-12-30 23:57:29: Left to Right: Copy File: 4 
+2016-12-30 23:57:29: == Sync Started by On File Change Incremental
+2016-12-30 23:57:29: Copy Over 'H:/MyDOCS/c++/MiCo/MiCo.depend' -> 'H:/GIT/MICO/MiCo.depend'
+2016-12-30 23:57:29: Copy Over 'H:/MyDOCS/c++/MiCo/obj/Debug/src/MCEngine.o' -> 'H:/GIT/MICO/obj/Debug/src/MCEngine.o'
+2016-12-30 23:57:29: Copy Over 'H:/MyDOCS/c++/MiCo/obj/Debug/src/MCFParams.o' -> 'H:/GIT/MICO/obj/Debug/src/MCFParams.o'
+2016-12-30 23:57:29: Copy Over 'H:/MyDOCS/c++/MiCo/src/MCEngine.cpp' -> 'H:/GIT/MICO/src/MCEngine.cpp'
+2016-12-30 23:57:29: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 4, Errors: 0
+2016-12-30 23:57:30: -- Analysis Started by On File Change PostSync Re-Analyze
+2016-12-30 23:57:30: Changes: 1, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 159
+2016-12-30 23:57:30: Left to Right: Copy File: 1 
+2016-12-30 23:57:30: == Sync Started by On File Change PostSync Re-Analyze
+2016-12-30 23:57:30: Copy Over 'H:/MyDOCS/c++/MiCo/obj/Debug/src/MCFunc.o' -> 'H:/GIT/MICO/obj/Debug/src/MCFunc.o'
+2016-12-30 23:57:30: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 1, Errors: 0
+2016-12-30 23:57:30: 

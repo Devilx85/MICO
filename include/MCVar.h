@@ -5,6 +5,9 @@
 #include <MCCodeLine.h>
 #include <vector>
 
+class MCFParams;
+class MCCodeLine;
+
 class MCVar : public MCDataNode
 
 {

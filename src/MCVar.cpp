@@ -6,6 +6,8 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/assign/list_of.hpp>
 #include <algorithm>
+using namespace std::placeholders;
+
 
 std::vector<std::string> MCVar::meta_types = boost::assign::list_of("VAR")("TYPE")("REF")("ARRAY")("FUNC")("OBJECT");
 std::string MCVar::simple_type = "VAR";
@@ -21,17 +23,15 @@ MCVar::MCVar()
 
 MCVar* MCVar::FindSibling(std::string pname,MCVar* pparent)
 {
-    for (std::vector<MCDataNode *>::iterator it = pparent->children.begin() ; it != pparent->children.end(); ++it)
-    {
-        MCVar* comp = (MCVar*) *it;
+auto it = std::find_if(std::begin(pparent->children), std::end(pparent->children),
+    [&pname](const MCDataNode* attr) -> bool
+    { return ((MCVar*)attr)->var_name == pname; });
 
-        if(pname==comp->var_name)
-        {
-            return comp;
-        }
-
-    }
-    return NULL;
+if (it != pparent->children.end())
+{
+    return (MCVar*)*it;
+}
+return NULL;
 }
 
 bool MCVar::AllowName(std::string pname)

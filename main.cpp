@@ -20,7 +20,7 @@ int main()
     std::cout << Engine->out_buffer;
     Engine->PrintLines(Engine->code);
     //Engine->PrintCode(Engine->code);
-    //std::cout << std::endl << res;
+    std::cout << std::endl << Engine->exec_time << " ms";
     delete Engine;
     return 0;
 }

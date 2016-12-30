@@ -1,9 +1,12 @@
 #ifndef MCCODELINE_H
 #define MCCODELINE_H
 #include <MCDataNode.h>
+#include <MCFParams.h>
 #include <vector>
 #include <string>
 #include <chrono>
+
+class MCFParams;
 
 class MCCodeLine : public MCDataNode
 {
@@ -14,10 +17,13 @@ class MCCodeLine : public MCDataNode
     int time_data = 0;
     std::chrono::high_resolution_clock::time_point start_m;
     std::chrono::high_resolution_clock::time_point end_m;
+    int fselect_tries;
     int executed_count = 0;
     long long exec_time=0;
     bool has_subexr = false;
     bool commented = false;
+    int cached_f = -1;
+    MCFParams* cached_data_params = NULL;
     protected:
 
     private:

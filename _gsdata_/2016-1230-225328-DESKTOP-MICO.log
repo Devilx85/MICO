@@ -1,0 +1,15 @@
+2016-12-30 22:53:29: -- Analysis Started by On File Change Incremental
+2016-12-30 22:53:29: Analyze has finished with Conflicts. Resolve Conflicts by selecting the correct sync direction, then click Sync
+2016-12-30 22:53:29: Changes: 2, Conflicts: 1, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 159
+2016-12-30 22:53:29: Left to Right: Copy File: 1 
+2016-12-30 22:53:29: == Sync Started by On File Change Incremental
+2016-12-30 22:53:29: Copy Over 'H:/MyDOCS/c++/MiCo/include/MCCodeLine.h' -> 'H:/GIT/MICO/include/MCCodeLine.h'
+2016-12-30 22:53:29: /src/MCEngine.cpp: unresolved conflict results in No Copy
+2016-12-30 22:53:29: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 1, Errors: 0, Conflicts: 1
+2016-12-30 22:53:30: -- Analysis Started by On File Change PostSync Re-Analyze
+2016-12-30 22:53:30: Analyze has finished with Conflicts. Resolve Conflicts by selecting the correct sync direction, then click Sync
+2016-12-30 22:53:30: Changes: 1, Conflicts: 1, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 159
+2016-12-30 22:53:30: == Sync Started by On File Change PostSync Re-Analyze
+2016-12-30 22:53:30: /src/MCEngine.cpp: unresolved conflict results in No Copy
+2016-12-30 22:53:30: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 0, Errors: 0, Conflicts: 1
+2016-12-30 22:53:30: 

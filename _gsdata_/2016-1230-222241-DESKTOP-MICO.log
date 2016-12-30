@@ -1,0 +1,23 @@
+2016-12-30 22:22:42: -- Analysis Started by On File Change Incremental
+2016-12-30 22:22:42: Changes: 1, Conflicts: 0, CopyTime: 0, CopyState: 0/1, Errors: 0, All: 90
+2016-12-30 22:22:42: Right to Left: Copy File: 1 
+2016-12-30 22:22:42: == Sync Started by On File Change Incremental
+2016-12-30 22:22:42: Create Folder 'H:/MyDOCS/c++/MiCo/.git/objects'
+2016-12-30 22:22:42: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 2, Errors: 0
+2016-12-30 22:22:43: -- Analysis Started by On File Change PostSync Re-Analyze
+2016-12-30 22:22:43: Changes: 11, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 101
+2016-12-30 22:22:43: Right to Left: Copy File: 11 
+2016-12-30 22:22:43: == Sync Started by On File Change PostSync Re-Analyze
+2016-12-30 22:22:43: Create Folder 'H:/MyDOCS/c++/MiCo/.git/objects/a8'
+2016-12-30 22:22:43: Create Folder 'H:/MyDOCS/c++/MiCo/.git/objects/c1'
+2016-12-30 22:22:43: Create Folder 'H:/MyDOCS/c++/MiCo/.git/objects/c9'
+2016-12-30 22:22:43: Create Folder 'H:/MyDOCS/c++/MiCo/.git/objects/cc'
+2016-12-30 22:22:43: Create Folder 'H:/MyDOCS/c++/MiCo/.git/objects/ee'
+2016-12-30 22:22:43: Copy New 'H:/GIT/MICO/.git/objects/a8/be450a59d01eb33cb675450eeb033c6cb237ca' -> 'H:/MyDOCS/c++/MiCo/.git/objects/a8/be450a59d01eb33cb675450eeb033c6cb237ca'
+2016-12-30 22:22:43: Copy New 'H:/GIT/MICO/.git/objects/c1/40172d904ab5ccc2d634d121ef36302f87ea5f' -> 'H:/MyDOCS/c++/MiCo/.git/objects/c1/40172d904ab5ccc2d634d121ef36302f87ea5f'
+2016-12-30 22:22:43: Copy New 'H:/GIT/MICO/.git/objects/c9/f6b9f79f632f5ce11ddf63a9bcb430cd96f4ce' -> 'H:/MyDOCS/c++/MiCo/.git/objects/c9/f6b9f79f632f5ce11ddf63a9bcb430cd96f4ce'
+2016-12-30 22:22:43: Copy New 'H:/GIT/MICO/.git/objects/cc/321fdffed3ddf269637a714b78917d556e2e02' -> 'H:/MyDOCS/c++/MiCo/.git/objects/cc/321fdffed3ddf269637a714b78917d556e2e02'
+2016-12-30 22:22:43: Copy New 'H:/GIT/MICO/.git/objects/cc/a041abfbfaf1fd53f4b5c1b64bd9769cb8f009' -> 'H:/MyDOCS/c++/MiCo/.git/objects/cc/a041abfbfaf1fd53f4b5c1b64bd9769cb8f009'
+2016-12-30 22:22:43: Copy New 'H:/GIT/MICO/.git/objects/ee/e60d69e101c3f45b8f8781e5c9ce510a77e3f3' -> 'H:/MyDOCS/c++/MiCo/.git/objects/ee/e60d69e101c3f45b8f8781e5c9ce510a77e3f3'
+2016-12-30 22:22:43: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 11, Errors: 0
+2016-12-30 22:22:43: 

@@ -3,6 +3,7 @@
 
 #include <MCDataNode.h>
 #include <MCRet.h>
+class MCRet;
 
 class MCFParams: public MCDataNode
 {
