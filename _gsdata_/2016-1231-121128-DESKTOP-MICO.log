@@ -1,0 +1,27 @@
+2016-12-31 12:11:29: -- Analysis Started by On File Change Incremental
+2016-12-31 12:11:29: L: State File has changed, so re-read it: H:/MyDOCS/c++/MiCo/_gsdata_/_file_state_v4._gs
+2016-12-31 12:11:29: /src/MCEngine.cpp: Conflict: File Modified on Both Sides
+2016-12-31 12:11:29: Changes: 16, Conflicts: 0, CopyTime: 0, CopyState: 0/9, Errors: 0, All: 332
+2016-12-31 12:11:29: Left to Right: Copy File: 16 
+2016-12-31 12:11:29: == Sync Started by On File Change Incremental
+2016-12-31 12:11:29: Copy Over 'H:/MyDOCS/c++/MiCo/include/IMCFuncLib.h' -> 'H:/GIT/MICO/include/IMCFuncLib.h'
+2016-12-31 12:11:29: Copy Over 'H:/MyDOCS/c++/MiCo/include/MCCodeLine.h' -> 'H:/GIT/MICO/include/MCCodeLine.h'
+2016-12-31 12:11:29: Copy Over 'H:/MyDOCS/c++/MiCo/include/MCDataNode.h' -> 'H:/GIT/MICO/include/MCDataNode.h'
+2016-12-31 12:11:29: Copy Over 'H:/MyDOCS/c++/MiCo/include/MCEngine.h' -> 'H:/GIT/MICO/include/MCEngine.h'
+2016-12-31 12:11:29: Copy Over 'H:/MyDOCS/c++/MiCo/include/MCFParams.h' -> 'H:/GIT/MICO/include/MCFParams.h'
+2016-12-31 12:11:29: Copy Over 'H:/MyDOCS/c++/MiCo/include/MCFTemplate.h' -> 'H:/GIT/MICO/include/MCFTemplate.h'
+2016-12-31 12:11:29: Copy Over 'H:/MyDOCS/c++/MiCo/include/MCFunc.h' -> 'H:/GIT/MICO/include/MCFunc.h'
+2016-12-31 12:11:29: Copy Over 'H:/MyDOCS/c++/MiCo/include/MCFuncLibCore.h' -> 'H:/GIT/MICO/include/MCFuncLibCore.h'
+2016-12-31 12:11:29: Copy Over 'H:/MyDOCS/c++/MiCo/include/MCFuncRegister.h' -> 'H:/GIT/MICO/include/MCFuncRegister.h'
+2016-12-31 12:11:29: Copy Over 'H:/MyDOCS/c++/MiCo/include/MCRet.h' -> 'H:/GIT/MICO/include/MCRet.h'
+2016-12-31 12:11:29: Copy Over 'H:/MyDOCS/c++/MiCo/include/MCVar.h' -> 'H:/GIT/MICO/include/MCVar.h'
+2016-12-31 12:11:29: Copy Over 'H:/MyDOCS/c++/MiCo/main.cpp' -> 'H:/GIT/MICO/main.cpp'
+2016-12-31 12:11:29: Copy Over 'H:/MyDOCS/c++/MiCo/src/MCDataNode.cpp' -> 'H:/GIT/MICO/src/MCDataNode.cpp'
+2016-12-31 12:11:29: Copy Over 'H:/MyDOCS/c++/MiCo/src/MCEngine.cpp' -> 'H:/GIT/MICO/src/MCEngine.cpp'
+2016-12-31 12:11:29: Copy Over 'H:/MyDOCS/c++/MiCo/src/MCRet.cpp' -> 'H:/GIT/MICO/src/MCRet.cpp'
+2016-12-31 12:11:29: Copy Over 'H:/MyDOCS/c++/MiCo/src/MCVar.cpp' -> 'H:/GIT/MICO/src/MCVar.cpp'
+2016-12-31 12:11:29: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 25, Errors: 0
+2016-12-31 12:11:30: -- Analysis Started by On File Change PostSync Re-Analyze
+2016-12-31 12:11:30: Changes: 0, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 332
+2016-12-31 12:11:30: -- Analysis Complete. Time 00:00:01, Speed: 61 files/s
+2016-12-31 12:11:30: 

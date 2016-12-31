@@ -12,15 +12,15 @@ class MCEngine;
 
 class MCFuncLibCore : public IMCFuncLib
 {
-    public:
-        MCFuncLibCore();
-        virtual ~MCFuncLibCore();
-        void RegFunc(MCFuncRegister * reg);
+public:
+    MCFuncLibCore();
+    virtual ~MCFuncLibCore();
+    void RegFunc(MCFuncRegister * reg);
 
 
-    protected:
+protected:
 
-    private:
+private:
 };
 
 MCRet* _IF(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params);

@@ -5,9 +5,9 @@
 
 class MCDataNode
 {
-    public:
-        MCDataNode();
-        virtual ~MCDataNode();
+public:
+    MCDataNode();
+    virtual ~MCDataNode();
     std::vector<MCDataNode*> children;
     std::vector<MCDataNode*> expressions;
     MCDataNode *parent = NULL;
@@ -21,9 +21,9 @@ class MCDataNode
     void AddChild(MCDataNode *child);
     void AddAutoExpression();
     void Free();
-    protected:
+protected:
 
-    private:
+private:
 };
 
 #endif // MCDATANODE_H

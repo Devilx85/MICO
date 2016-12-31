@@ -30,6 +30,7 @@ class MCVar : public MCDataNode
         MCVar* GetVarIndex(std::string pindex,MCVar* pparent);
         bool AllowName(std::string pname);
         std::string GetKey(std::string pname,std::string &key,std::string &afterkey);
+        std::string SetValue(std::string val);
         int CreateArrayItem(std::string pindex,std::string pvalue,MCVar* type_scope,std::string &error_text,MCVar* &cr_var);
         void CopyChildren(MCVar* from,MCVar* to);
         int ar_index = 0;

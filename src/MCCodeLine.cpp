@@ -4,12 +4,12 @@
 MCCodeLine::MCCodeLine()
 {
     //ctor
+    data_type = "LINE";
 
 }
 
 MCCodeLine::~MCCodeLine()
 {
     //dtor
-    if(cached_data_params!=NULL)
-        delete cached_data_params;
+
 }

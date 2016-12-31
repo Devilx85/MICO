@@ -23,7 +23,7 @@ class MCEngine
         MCRet* CastNumc(std::string value);
         bool is_number(const std::string& s);
         MCRet* RetCreate(int pcode,std::string pdata,std::string ptype,std::string pbufout,int pstop_code);
-        int inner_cycle_counter = 0;
+    int inner_cycle_counter = 0;
         MCVar* var_scope;
         MCVar* type_scope;
         MCVar* func_scope;

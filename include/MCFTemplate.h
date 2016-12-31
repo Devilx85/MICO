@@ -6,14 +6,14 @@
 
 class MCFTemplate : public MCDataNode
 {
-    public:
-        MCFTemplate();
-        virtual ~MCFTemplate();
-        int req_count = 0;
-        void AddParam(std::string ptype,std::string pvalue,std::string pformal,std::string pclass = "ANY");
-    protected:
+public:
+    MCFTemplate();
+    virtual ~MCFTemplate();
+    int req_count = 0;
+    void AddParam(std::string ptype,std::string pvalue,std::string pformal,std::string pclass = "ANY");
+protected:
 
-    private:
+private:
 };
 
 #endif // MCFTEMPLATE_H

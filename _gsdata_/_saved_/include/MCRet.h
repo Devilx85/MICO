@@ -3,6 +3,8 @@
 #include <string>
 #include "MCVar.h"
 
+class MCVar;
+
 class MCRet
 {
     public:

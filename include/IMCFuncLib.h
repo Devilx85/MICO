@@ -5,15 +5,15 @@
 
 class IMCFuncLib
 {
-    public:
-        std::string name;
-        std::string description;
-        std::string version;
-        virtual void RegFunc(MCFuncRegister * reg) = 0;
+public:
+    std::string name;
+    std::string description;
+    std::string version;
+    virtual void RegFunc(MCFuncRegister * reg) = 0;
 
-    protected:
+protected:
 
-    private:
+private:
 };
 
 #endif // IMCFUNCLIB_H

@@ -25,7 +25,7 @@ std::string MCVar::SetValue(std::string val)
 {
     if(data_type != MCVar::simple_type)
     {
-        retrun "Can not assign value for type "  + data_type;
+        return "Can not assign value for type "  + data_type;
     }
     data = val;
     return "";

@@ -33,23 +33,23 @@ std::string MCVar::SetValue(std::string val)
 
 MCVar* MCVar::FindSibling(std::string pname,MCVar* pparent)
 {
-auto it = std::find_if(std::begin(pparent->children), std::end(pparent->children),
-    [&pname](const MCDataNode* attr) -> bool
+    auto it = std::find_if(std::begin(pparent->children), std::end(pparent->children),
+                           [&pname](const MCDataNode* attr) -> bool
     { return ((MCVar*)attr)->var_name == pname; });
 
-if (it != pparent->children.end())
-{
-    return (MCVar*)*it;
-}
-return NULL;
+    if (it != pparent->children.end())
+    {
+        return (MCVar*)*it;
+    }
+    return NULL;
 }
 
 bool MCVar::AllowName(std::string pname)
 {
     if(pname.length()==0)
-       {
-         return false;
-       }
+    {
+        return false;
+    }
 
     if(!std::isalpha(pname[0]))
     {
@@ -68,7 +68,7 @@ std::string MCVar::GetKey(std::string pname,std::string &key,std::string &afterk
     key = "";
     std::string name = "";
     afterkey = "";
-    for(int ci=0;ci<pname.length();ci++)
+    for(int ci=0; ci<pname.length(); ci++)
     {
         if(aftkey==true)
         {
@@ -79,8 +79,8 @@ std::string MCVar::GetKey(std::string pname,std::string &key,std::string &afterk
         {
             keybeg = true;
             continue;
-        }else
-        if(pname[ci]==']')
+        }
+        else if(pname[ci]==']')
         {
             keybeg = false;
             aftkey = true;
@@ -89,7 +89,8 @@ std::string MCVar::GetKey(std::string pname,std::string &key,std::string &afterk
         if(!keybeg)
         {
             name = name + pname[ci];
-        }else
+        }
+        else
             key = key + pname[ci];
     }
     return name;
@@ -110,11 +111,11 @@ MCVar* MCVar::FindVar(std::string pname,MCVar* pparent,std::string &error_text,i
         vname = GetKey(comp,vkey,afterkey);
         MCVar* var_f = FindSibling(vname,pparent);
         if(var_f==NULL)
-           {
-                error_text = " component not found " + comp + " of " + pname;
-                er_type = -1;
-                return NULL;
-           }
+        {
+            error_text = " component not found " + comp + " of " + pname;
+            er_type = -1;
+            return NULL;
+        }
 
         if(var_f->data_type == "REF")
             var_f = var_f->refvar;
@@ -151,7 +152,7 @@ MCVar* MCVar::FindVar(std::string pname,MCVar* pparent,std::string &error_text,i
 }
 void MCVar::CopyChildren(MCVar* from,MCVar* to)
 {
-  for (std::vector<MCDataNode *>::iterator it = from->children.begin() ; it != from->children.end(); ++it)
+    for (std::vector<MCDataNode *>::iterator it = from->children.begin() ; it != from->children.end(); ++it)
     {
         MCVar* comp = (MCVar*) *it;
         MCVar* newcomp = new MCVar();
@@ -167,10 +168,10 @@ int MCVar::CopyType(std::string ptype,MCVar* child, MCVar* type_scope,std::strin
 {
     MCVar* t_var = FindSibling(ptype,type_scope);
     if(t_var == NULL)
-       {
-           error_text = " unknown type " + ptype;
-           return -2;
-       }
+    {
+        error_text = " unknown type " + ptype;
+        return -2;
+    }
     child->refclass = t_var;
     child->extended_type = t_var->extended_type;
     //Just check
@@ -201,14 +202,14 @@ int MCVar::CreateVar(std::string pname,std::string ptype,std::string pvalue,MCVa
 
     MCVar* var_f = FindSibling(pname,pparent);
     if(var_f!=NULL)
-        {
-            error_text = " object exists " + pname;
-            return -1;
-        }
+    {
+        error_text = " object exists " + pname;
+        return -1;
+    }
     if(!AllowName(pname))
     {
-            error_text = " Name is not allowed " + pname;
-            return -3;
+        error_text = " Name is not allowed " + pname;
+        return -3;
     }
     MCVar* newvar = new MCVar();
     bool is_object = false;
@@ -232,16 +233,17 @@ int MCVar::CreateVar(std::string pname,std::string ptype,std::string pvalue,MCVa
 
     }
     else
-      {
-          newvar->data = pvalue;
-          newvar->extended_type = ptype;
-      }
+    {
+        newvar->data = pvalue;
+        newvar->extended_type = ptype;
+    }
 
     if(extends_type)
     {
         newvar->data_type = "TYPE";
         newvar->extended_type = extended_type + "/" + ptype;
-    }else
+    }
+    else
         newvar->data_type = ptype;
 
     newvar->var_name = pname;
@@ -254,10 +256,10 @@ int MCVar::CreateArrayItem(std::string pindex,std::string pvalue,MCVar* type_sco
 
 
     if(data_type != "ARRAY")
-        {
-            error_text = " array is the type of " + var_name;
-            return -3;
-        }
+    {
+        error_text = " array is the type of " + var_name;
+        return -3;
+    }
 
     if(GetVarIndex(pindex,this)!=NULL)
         return -1;

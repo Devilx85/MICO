@@ -32,6 +32,7 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
 
     MCFunc* _f_a_div = new MCFunc();
     _f_a_div->name = "/";
+    _f_a_div->calc_order = 0;
     _f_a_div->templ->data_type = "FUNC";
     _f_a_div->templ->AddParam("ANY","VALUE1","REQ","NUMC");
     _f_a_div->templ->AddParam("COMP","/","REQ");
@@ -41,6 +42,7 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
 
     MCFunc* _f_a_multi = new MCFunc();
     _f_a_multi->name = "*";
+    _f_a_multi->calc_order = 0;
     _f_a_multi->templ->data_type = "FUNC";
     _f_a_multi->templ->AddParam("ANY","VALUE1","REQ","NUMC");
     _f_a_multi->templ->AddParam("COMP","*","REQ");

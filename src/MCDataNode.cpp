@@ -25,7 +25,7 @@ void MCDataNode::Free()
             delete comp;
         it = children.erase(it);
     }
- //   children.clear();
+//   children.clear();
 
 
     for ( it = expressions.begin(); it != expressions.end(); )
@@ -33,9 +33,9 @@ void MCDataNode::Free()
         MCDataNode* comp = *it;
         if(comp!=NULL)
             delete comp;
-       it = expressions.erase(it);
+        it = expressions.erase(it);
     }
- //   expressions.clear();
+//   expressions.clear();
 
 
 

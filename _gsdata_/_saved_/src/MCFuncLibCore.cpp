@@ -32,6 +32,7 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
 
     MCFunc* _f_a_div = new MCFunc();
     _f_a_div->name = "/";
+    _f_a_plus->calc_order = 0;
     _f_a_div->templ->data_type = "FUNC";
     _f_a_div->templ->AddParam("ANY","VALUE1","REQ","NUMC");
     _f_a_div->templ->AddParam("COMP","/","REQ");
@@ -41,6 +42,7 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
 
     MCFunc* _f_a_multi = new MCFunc();
     _f_a_multi->name = "*";
+    _f_a_plus->calc_order = 0;
     _f_a_multi->templ->data_type = "FUNC";
     _f_a_multi->templ->AddParam("ANY","VALUE1","REQ","NUMC");
     _f_a_multi->templ->AddParam("COMP","*","REQ");
@@ -525,9 +527,16 @@ MCFuncLibCore::~MCFuncLibCore()
  MCRet* _CONCAT(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
  {
      MCRet* RET = new MCRet();
+    MCFParams* spaced = params->GetParam("SPACED");
+     bool is_spaced = false;
+     if(spaced!=NULL)
+        is_spaced = true;
+
      for (std::vector<MCDataNode *>::iterator it = params->children.begin() ; it != params->children.end(); ++it)
      {
         MCFParams* param =(MCFParams*) *it;
+        if(is_spaced)
+            RET->ret_data = RET->ret_data + " ";
         RET->ret_data = RET->ret_data + param->value->ret_data;
      }
      RET->ret_type = "VALUE";

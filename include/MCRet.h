@@ -7,19 +7,19 @@ class MCVar;
 
 class MCRet
 {
-    public:
-        MCRet();
-        virtual ~MCRet();
-        int code=0;
-        int stop_code = 0;
-        std::string bufout = "";
-        std::string ret_type = "";
-        std::string ret_data = "";
-        MCVar* ref_var = NULL;
-        double ret_nr = 0;
-    protected:
+public:
+    MCRet();
+    virtual ~MCRet();
+    int code=0;
+    int stop_code = 0;
+    std::string bufout = "";
+    std::string ret_type = "";
+    std::string ret_data = "";
+    MCVar* ref_var = NULL;
+    double ret_nr = 0;
+protected:
 
-    private:
+private:
 };
 
 #endif // MCRET_H

@@ -23,7 +23,7 @@ class MCCodeLine : public MCDataNode
     bool has_subexr = false;
     bool commented = false;
     int cached_f = -1;
-
+    MCFParams* cached_data_params = NULL;
     protected:
 
     private:
