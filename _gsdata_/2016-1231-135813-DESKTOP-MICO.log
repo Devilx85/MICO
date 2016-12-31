@@ -1,0 +1,12 @@
+2016-12-31 13:58:14: -- Analysis Started by On File Change Incremental
+2016-12-31 13:58:14: Changes: 38, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 522
+2016-12-31 13:58:14: Right to Left: Copy File: 38 
+2016-12-31 13:58:14: == Sync Started by On File Change Incremental
+2016-12-31 13:58:14: Create Folder 'H:/MyDOCS/c++/MiCo/.git/objects/ea'
+2016-12-31 13:58:14: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 1, Errors: 0
+2016-12-31 13:58:15: -- Analysis Started by On File Change PostSync Re-Analyze
+2016-12-31 13:58:15: Changes: 37, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 528
+2016-12-31 13:58:15: Right to Left: Copy File: 37 
+2016-12-31 13:58:15: == Sync Started by On File Change PostSync Re-Analyze
+2016-12-31 13:58:15: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 0, Errors: 0
+2016-12-31 13:58:15: 
