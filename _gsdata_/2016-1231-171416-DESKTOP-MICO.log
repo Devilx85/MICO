@@ -1,0 +1,14 @@
+2016-12-31 17:14:17: -- Analysis Started by On File Change Incremental
+2016-12-31 17:14:17: Changes: 59, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 661
+2016-12-31 17:14:17: Left to Right: Copy File: 2 
+2016-12-31 17:14:17: Right to Left: Copy File: 57 
+2016-12-31 17:14:17: == Sync Started by On File Change Incremental
+2016-12-31 17:14:17: Copy New 'H:/MyDOCS/c++/MiCo/bin/Debug/MiCo.exe' -> 'H:/GIT/MICO/bin/Debug/MiCo.exe'
+2016-12-31 17:14:17: Copy New 'H:/MyDOCS/c++/MiCo/obj/Debug/src/MCVar.o' -> 'H:/GIT/MICO/obj/Debug/src/MCVar.o'
+2016-12-31 17:14:17: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 2, Errors: 0
+2016-12-31 17:14:19: -- Analysis Started by On File Change PostSync Re-Analyze
+2016-12-31 17:14:19: Changes: 57, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 661
+2016-12-31 17:14:19: Right to Left: Copy File: 57 
+2016-12-31 17:14:19: == Sync Started by On File Change PostSync Re-Analyze
+2016-12-31 17:14:19: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 0, Errors: 0
+2016-12-31 17:14:19: 

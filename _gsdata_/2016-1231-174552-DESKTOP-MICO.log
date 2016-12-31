@@ -1,0 +1,25 @@
+2016-12-31 17:45:53: -- Analysis Started by On File Change Incremental
+2016-12-31 17:45:53: Changes: 70, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 661
+2016-12-31 17:45:53: Left to Right: Copy File: 4 Delete File: 9 
+2016-12-31 17:45:53: Right to Left: Copy File: 57 
+2016-12-31 17:45:54: == Sync Started by On File Change Incremental
+2016-12-31 17:45:54: Delete File 'H:/GIT/MICO/bin/Debug/MiCo.exe'
+2016-12-31 17:45:54: Delete File 'H:/GIT/MICO/obj/Debug/src/MCEngine.o'
+2016-12-31 17:45:54: Delete File 'H:/GIT/MICO/obj/Debug/src/MCFParams.o'
+2016-12-31 17:45:54: Delete File 'H:/GIT/MICO/obj/Debug/src/MCFTemplate.o'
+2016-12-31 17:45:54: Delete File 'H:/GIT/MICO/obj/Debug/src/MCFunc.o'
+2016-12-31 17:45:54: Delete File 'H:/GIT/MICO/obj/Debug/src/MCFuncLibCore.o'
+2016-12-31 17:45:54: Delete File 'H:/GIT/MICO/obj/Debug/src/MCFuncRegister.o'
+2016-12-31 17:45:54: Delete File 'H:/GIT/MICO/obj/Debug/src/MCRet.o'
+2016-12-31 17:45:54: Delete File 'H:/GIT/MICO/obj/Debug/src/MCVar.o'
+2016-12-31 17:45:54: Copy Over 'H:/MyDOCS/c++/MiCo/obj/Debug/main.o' -> 'H:/GIT/MICO/obj/Debug/main.o'
+2016-12-31 17:45:54: Copy Over 'H:/MyDOCS/c++/MiCo/obj/Debug/src/IMCFuncLib.o' -> 'H:/GIT/MICO/obj/Debug/src/IMCFuncLib.o'
+2016-12-31 17:45:54: Copy Over 'H:/MyDOCS/c++/MiCo/obj/Debug/src/MCCodeLine.o' -> 'H:/GIT/MICO/obj/Debug/src/MCCodeLine.o'
+2016-12-31 17:45:54: Copy Over 'H:/MyDOCS/c++/MiCo/obj/Debug/src/MCDataNode.o' -> 'H:/GIT/MICO/obj/Debug/src/MCDataNode.o'
+2016-12-31 17:45:54: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 13, Errors: 0
+2016-12-31 17:45:55: -- Analysis Started by On File Change PostSync Re-Analyze
+2016-12-31 17:45:55: Changes: 57, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 661
+2016-12-31 17:45:55: Right to Left: Copy File: 57 
+2016-12-31 17:45:55: == Sync Started by On File Change PostSync Re-Analyze
+2016-12-31 17:45:55: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 0, Errors: 0
+2016-12-31 17:45:55: 

@@ -18,6 +18,7 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     _f_a_plus->templ->AddParam("ANY","VALUE1","REQ","NUMC");
     _f_a_plus->templ->AddParam("COMP","+","REQ");
     _f_a_plus->templ->AddParam("ANY","VALUE2","CSQ","NUMC");
+    reg->pos_func = _f_a_plus;
     _f_a_plus->func_ref = &_A_ARITH;
     reg->AddFunc(_f_a_plus);
 
@@ -28,7 +29,16 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     _f_a_minus->templ->AddParam("COMP","-","REQ");
     _f_a_minus->templ->AddParam("ANY","VALUE2","CSQ","NUMC");
     _f_a_minus->func_ref = &_A_ARITH;
+    reg->neg_func = _f_a_minus;
     reg->AddFunc(_f_a_minus);
+
+    MCFunc* _f_a_minus_sh = new MCFunc();
+    _f_a_minus_sh->name = "N";
+    _f_a_minus_sh->templ->data_type = "FUNC";
+    _f_a_minus_sh->templ->AddParam("COMP","-","REQ");
+    _f_a_minus_sh->templ->AddParam("ANY","VALUE1","CSQ","NUMC");
+    _f_a_minus_sh->func_ref = &_A_ARITH;
+    reg->AddFunc(_f_a_minus_sh);
 
     MCFunc* _f_a_div = new MCFunc();
     _f_a_div->name = "/";
@@ -652,6 +662,20 @@ MCRet* _A_ARITH(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, M
 {
      MCRet* RET = new MCRet();
      MCFParams* var_value1 = params->GetParam("VALUE1");
+     if(func->name == "N")
+     {
+        double val1 = var_value1->value->ret_nr;
+        val1 = -val1;
+        RET->ret_data = std::to_string(val1);
+
+        RET->ret_data.erase ( RET->ret_data.find_last_not_of('0') + 1, std::string::npos );
+        if(RET->ret_data[RET->ret_data.length()-1]=='.')
+            RET->ret_data = RET->ret_data.erase(RET->ret_data.length()-1,1);
+
+        RET->ret_type = "VALUE";
+        return RET;
+     }
+
      MCFParams* var_value2 = params->GetParam("VALUE2");
      double val1 = var_value1->value->ret_nr;
      double val2 = var_value2->value->ret_nr;
@@ -659,6 +683,7 @@ MCRet* _A_ARITH(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, M
      if(func->name == "+")
      {
         RET->ret_data = std::to_string(val1+val2);
+
      }else
      if(func->name  == "-")
      {

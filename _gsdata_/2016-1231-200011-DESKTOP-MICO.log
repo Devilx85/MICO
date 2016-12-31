@@ -1,0 +1,16 @@
+2016-12-31 20:00:12: -- Analysis Started by On File Change Incremental
+2016-12-31 20:00:12: L: State File has changed, so re-read it: H:/MyDOCS/c++/MiCo/_gsdata_/_file_state_v4._gs
+2016-12-31 20:00:12: /src/MCEngine.cpp: Conflict: File Modified on Both Sides
+2016-12-31 20:00:12: Changes: 58, Conflicts: 0, CopyTime: 0, CopyState: 0/17, Errors: 0, All: 661
+2016-12-31 20:00:12: Left to Right: Copy File: 1 
+2016-12-31 20:00:12: Right to Left: Copy File: 57 
+2016-12-31 20:00:12: == Sync Started by On File Change Incremental
+2016-12-31 20:00:12: H:/MyDOCS/c++/MiCo/src/MCEngine.cpp: Source file has changed between Analyze and Sync from '[file] size=30 902 accu-time=2016-12-31 20:00:09 attr=Archive' to 'size=30 903 time=2016-12-31 20:00:12', noted in source file state
+2016-12-31 20:00:12: Copy Over 'H:/MyDOCS/c++/MiCo/src/MCEngine.cpp' -> 'H:/GIT/MICO/src/MCEngine.cpp'
+2016-12-31 20:00:12: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 18, Errors: 0
+2016-12-31 20:00:13: -- Analysis Started by On File Change PostSync Re-Analyze
+2016-12-31 20:00:13: Changes: 57, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 661
+2016-12-31 20:00:13: Right to Left: Copy File: 57 
+2016-12-31 20:00:13: == Sync Started by On File Change PostSync Re-Analyze
+2016-12-31 20:00:13: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 0, Errors: 0
+2016-12-31 20:00:13: 

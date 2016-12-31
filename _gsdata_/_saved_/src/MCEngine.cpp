@@ -485,17 +485,70 @@ MCRet* MCEngine::RenderLine(MCCodeLine * line,MCVar* xvar_scope,MCVar* xtype_sco
 
                     break;
                 }
-
+                bool wasneg = false;
                 MCCodeLine * v_param = (MCCodeLine *) line->expressions.at(cy_params-1);
+
+                if(cy_params+1<=in_params && func->calc_order == 1 && func->name != "N")
+                {
+
+
+
+                    MCCodeLine * next_expres = new MCCodeLine();
+                    std::string expr_data = "";
+                    int iccter = 0;
+
+                    while(cy_params <= in_params)
+                    {
+                    MCCodeLine * x_param = (MCCodeLine *) line->expressions.at(cy_params-1);
+                    expr_data = expr_data + " " + x_param->data;
+                    if(func->name == "-")
+                        {
+                            x_param->data_type = "EXPR";
+                            MCCodeLine * x_param1 = new MCCodeLine();
+                            x_param1->data_type = "COMP";
+                            x_param1->data = "-";
+                            x_param->children.push_back(x_param1);
+                            MCCodeLine * x_param2 = new MCCodeLine();
+                            x_param2->data_type = "COMP";
+                            x_param2->data = x_param->data;
+                            x_param->children.push_back(x_param2);
+                            wasneg = true;
+                            func = fregister->pos_func;
+                        }
+                    next_expres->expressions.push_back(x_param);
+                    cy_params++;
+                    last_detected++;
+                    }
+
+                    MCRet* new_ret = RenderLine(next_expres,xvar_scope,xtype_scope);
+
+                    if(new_ret->code < 0)
+                        return new_ret;
+
+                    v_param = new MCCodeLine();
+
+                    /* if( wasneg )
+                    {
+
+                        wasneg = false;
+                    }*/
+                    v_param->data = new_ret->ret_data;
+                    v_param->data_type = "COMP";
+
+                }
+
+
                 data_params->PutParam(f_param->data,v_param,f_param);
 
                 cy_params++;
                 last_detected++;
 
+                if(cy_params <= in_params)
+                        after_code = new MCCodeLine();
+
                 while(cy_params <= in_params)
                 {
-                    if(after_code==NULL)
-                        after_code = new MCCodeLine();
+
                     MCCodeLine * x_param = (MCCodeLine *) line->expressions.at(cy_params-1);
                     after_code->expressions.push_back(x_param);
                     cy_params++;

@@ -15,6 +15,8 @@ public:
     virtual ~MCFuncRegister();
     std::vector<MCFunc*> reg_funcs;
     MCFunc* call_func = NULL;
+    MCFunc* neg_func = NULL;
+    MCFunc* pos_func = NULL;
     int AddFunc(MCFunc* f);
 protected:
 

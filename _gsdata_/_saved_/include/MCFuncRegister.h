@@ -10,15 +10,16 @@ class MCFunc;
 
 class MCFuncRegister
 {
-    public:
-        MCFuncRegister();
-        virtual ~MCFuncRegister();
-        std::vector<MCFunc*> reg_funcs;
-        MCFunc* call_func = NULL;
-        int AddFunc(MCFunc* f);
-    protected:
+public:
+    MCFuncRegister();
+    virtual ~MCFuncRegister();
+    std::vector<MCFunc*> reg_funcs;
+    MCFunc* call_func = NULL;
+    MCFunc* neg_func = NULL;
+    int AddFunc(MCFunc* f);
+protected:
 
-    private:
+private:
 };
 
 #endif // MCFUNCREGISTER_H
