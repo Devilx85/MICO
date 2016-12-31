@@ -66,6 +66,7 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     _f_a_eq->templ->AddParam("ANY","VALUE1","REQ");
     _f_a_eq->templ->AddParam("COMP","=","REQ");
     _f_a_eq->templ->AddParam("ANY","VALUE2","CSQ");
+    _f_a_eq->calc_order = 0;
     _f_a_eq->func_ref = &_A_COMP;
     reg->AddFunc(_f_a_eq);
 
@@ -75,6 +76,7 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     _f_a_bg->templ->AddParam("ANY","VALUE1","REQ","NUMC");
     _f_a_bg->templ->AddParam("COMP",">","REQ");
     _f_a_bg->templ->AddParam("ANY","VALUE2","CSQ","NUMC");
+    _f_a_bg->calc_order = 0;
     _f_a_bg->func_ref = &_A_COMP;
     reg->AddFunc(_f_a_bg);
 
@@ -84,6 +86,7 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     _f_a_sm->templ->AddParam("ANY","VALUE1","REQ","NUMC");
     _f_a_sm->templ->AddParam("COMP","<","REQ");
     _f_a_sm->templ->AddParam("ANY","VALUE2","CSQ","NUMC");
+    _f_a_sm->calc_order = 0;
     _f_a_sm->func_ref = &_A_COMP;
     reg->AddFunc(_f_a_sm);
 
@@ -93,6 +96,7 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     _f_a_smeq->templ->AddParam("ANY","VALUE1","REQ","NUMC");
     _f_a_smeq->templ->AddParam("COMP","<=","REQ");
     _f_a_smeq->templ->AddParam("ANY","VALUE2","CSQ","NUMC");
+    _f_a_smeq->calc_order = 0;
     _f_a_smeq->func_ref = &_A_COMP;
     reg->AddFunc(_f_a_smeq);
 
@@ -102,6 +106,7 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     _f_a_bgeq->templ->AddParam("ANY","VALUE1","REQ","NUMC");
     _f_a_bgeq->templ->AddParam("COMP",">=","REQ");
     _f_a_bgeq->templ->AddParam("ANY","VALUE2","CSQ","NUMC");
+    _f_a_bgeq->calc_order = 0;
     _f_a_bgeq->func_ref = &_A_COMP;
     reg->AddFunc(_f_a_bgeq);
 
@@ -111,6 +116,7 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     _f_a_noneq->templ->AddParam("ANY","VALUE1","REQ");
     _f_a_noneq->templ->AddParam("COMP","<>","REQ");
     _f_a_noneq->templ->AddParam("ANY","VALUE2","CSQ");
+    _f_a_noneq->calc_order = 0;
     _f_a_noneq->func_ref = &_A_COMP;
     reg->AddFunc(_f_a_noneq);
 
@@ -119,7 +125,7 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     _f_a_logand->templ->data_type = "FUNC";
     _f_a_logand->templ->AddParam("ANY","VALUE1","REQ","NUMC");
     _f_a_logand->templ->AddParam("COMP","AND","REQ");
-    _f_a_logand->templ->AddParam("ANY","VALUE2","REQ","NUMC");
+    _f_a_logand->templ->AddParam("ANY","VALUE2","CSQ","NUMC");
     _f_a_logand->func_ref = &_A_COMP;
     reg->AddFunc(_f_a_logand);
 
@@ -128,7 +134,7 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     _f_a_logor->templ->data_type = "FUNC";
     _f_a_logor->templ->AddParam("ANY","VALUE1","REQ","NUMC");
     _f_a_logor->templ->AddParam("COMP","OR","REQ");
-    _f_a_logor->templ->AddParam("ANY","VALUE2","REQ","NUMC");
+    _f_a_logor->templ->AddParam("ANY","VALUE2","CSQ","NUMC");
     _f_a_logor->func_ref = &_A_COMP;
     reg->AddFunc(_f_a_logor);
 
@@ -136,7 +142,7 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     _f_a_lognot->name = "NOT";
     _f_a_lognot->templ->data_type = "FUNC";
     _f_a_lognot->templ->AddParam("COMP","NOT","REQ");
-    _f_a_lognot->templ->AddParam("ANY","VALUE2","REQ","NUMC");
+    _f_a_lognot->templ->AddParam("ANY","VALUE2","CSQ","NUMC");
     _f_a_lognot->func_ref = &_A_COMP;
     reg->AddFunc(_f_a_lognot);
 
