@@ -1,0 +1,18 @@
+2017-01-01 12:34:12: -- Analysis Started by On File Change Incremental
+2017-01-01 12:34:12: Changes: 3, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 502
+2017-01-01 12:34:12: Left to Right: Copy File: 3 
+2017-01-01 12:34:12: == Sync Started by On File Change Incremental
+2017-01-01 12:34:12: H:/MyDOCS/c++/MiCo/bin/Debug/MiCo.exe: Source file has changed between Analyze and Sync from '[file] size=2 465 436 accu-time=2017-01-01 12:34:11 attr=Archive' to 'size=2 588 862 time=2017-01-01 12:34:11', noted in source file state
+2017-01-01 12:34:12: H:/MyDOCS/c++/MiCo/bin/Debug/MiCo.exe: Source file has changed during Sync from '[file] size=2 588 862 accu-time=2017-01-01 12:34:11 attr=Archive' to 'size=3 285 304 time=2017-01-01 12:34:11', will be retried
+2017-01-01 12:34:12: Destination side file adjusted to '[file] size=2 600 292 accu-time=2017-01-01 12:34:08 attr=Archive', to force retry
+2017-01-01 12:34:12: Copy Over 'H:/MyDOCS/c++/MiCo/bin/Debug/MiCo.exe' -> 'H:/GIT/MICO/bin/Debug/MiCo.exe'
+2017-01-01 12:34:12: Copy Over 'H:/MyDOCS/c++/MiCo/obj/Debug/src/MCEngine.o' -> 'H:/GIT/MICO/obj/Debug/src/MCEngine.o'
+2017-01-01 12:34:12: Copy Over 'H:/MyDOCS/c++/MiCo/src/MCEngine.cpp' -> 'H:/GIT/MICO/src/MCEngine.cpp'
+2017-01-01 12:34:12: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 3, Errors: 0
+2017-01-01 12:34:13: -- Analysis Started by On File Change PostSync Re-Analyze
+2017-01-01 12:34:13: Changes: 1, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 502
+2017-01-01 12:34:13: Left to Right: Copy File: 1 
+2017-01-01 12:34:13: == Sync Started by On File Change PostSync Re-Analyze
+2017-01-01 12:34:13: Copy Over 'H:/MyDOCS/c++/MiCo/bin/Debug/MiCo.exe' -> 'H:/GIT/MICO/bin/Debug/MiCo.exe'
+2017-01-01 12:34:13: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 1, Errors: 0
+2017-01-01 12:34:13: 

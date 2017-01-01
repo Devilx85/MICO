@@ -1,0 +1,13 @@
+2017-01-01 12:13:47: -- Analysis Started by On File Change Incremental
+2017-01-01 12:13:47: L: State File has changed, so re-read it: H:/MyDOCS/c++/MiCo/_gsdata_/_file_state_v4._gs
+2017-01-01 12:13:47: /.git/FETCH_HEAD: Conflict: File Modified on Both Sides
+2017-01-01 12:13:47: /.git/FETCH_HEAD: Warning: Older file to replace Newer file
+2017-01-01 12:13:47: Changes: 1, Conflicts: 0, CopyTime: 0, CopyState: 0/12, Errors: 0, All: 502
+2017-01-01 12:13:47: Left to Right: Copy File: 1 
+2017-01-01 12:13:47: == Sync Started by On File Change Incremental
+2017-01-01 12:13:47: Copy Over 'H:/MyDOCS/c++/MiCo/.git/FETCH_HEAD' -> 'H:/GIT/MICO/.git/FETCH_HEAD'
+2017-01-01 12:13:47: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 13, Errors: 0
+2017-01-01 12:13:48: -- Analysis Started by On File Change PostSync Re-Analyze
+2017-01-01 12:13:48: Changes: 0, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 502
+2017-01-01 12:13:48: -- Analysis Complete. Time 00:00:01, Speed: 190 files/s
+2017-01-01 12:13:48: 

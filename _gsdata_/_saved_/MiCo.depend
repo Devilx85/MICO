@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1483193645 source:h:\mydocs\c++\mico\main.cpp
+1483251751 source:h:\mydocs\c++\mico\main.cpp
 	<iostream>
 	<string>
 	<fstream>
@@ -32,14 +32,15 @@
 	<MCCodeLine.h>
 	<vector>
 
-1483164688 h:\mydocs\c++\mico\include\mcengine.h
+1483254636 h:\mydocs\c++\mico\include\mcengine.h
 	<vector>
 	<MCCodeLine.h>
 	"MCRet.h"
 	"MCFuncRegister.h"
 	"MCFuncLibCore.h"
+	"MCTextLine.h"
 
-1483193176 source:h:\mydocs\c++\mico\src\mcengine.cpp
+1483254997 source:h:\mydocs\c++\mico\src\mcengine.cpp
 	"MCEngine.h"
 	<iostream>
 	<boost/algorithm/string.hpp>
@@ -3302,7 +3303,7 @@
 1482643774 source:h:\mydocs\c++\mico\src\mcfunc.cpp
 	"MCFunc.h"
 
-1483164688 h:\mydocs\c++\mico\include\mcfunc.h
+1483250485 h:\mydocs\c++\mico\include\mcfunc.h
 	<string>
 	"IMCFuncLib.h"
 	"MCFTemplate.h"
@@ -3327,7 +3328,7 @@
 1483164688 source:h:\mydocs\c++\mico\src\mcret.cpp
 	"MCRet.h"
 
-1483212166 source:h:\mydocs\c++\mico\src\mcfunclibcore.cpp
+1483250472 source:h:\mydocs\c++\mico\src\mcfunclibcore.cpp
 	"MCFunc.h"
 	"MCFuncLibCore.h"
 	<iostream>
@@ -5862,4 +5863,10 @@
 	<boost/preprocessor/config/config.hpp>
 	<boost/preprocessor/slot/slot.hpp>
 	<boost/preprocessor/tuple/elem.hpp>
+
+1483252909 h:\mydocs\c++\mico\include\mctextline.h
+	<string>
+
+1483250571 source:h:\mydocs\c++\mico\src\mctextline.cpp
+	"MCTextLine.h"
 

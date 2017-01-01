@@ -141,7 +141,13 @@ MCRet* MCEngine::RetCreate(int pcode,std::string pdata,std::string ptype,std::st
     ret->bufout = pbufout;
     ret->stop_code = pstop_code;
     if(pcode<0)
-        ret->bufout = "\n\r [ERROR!]" + ret->bufout;
+        {
+            std::string ref_cont = FindLineContent(cur_code->line_id );
+            if(ref_cont!="")
+                ret->bufout = "\n\r [ERROR!]" + ret->bufout + " refer to line " + std::to_string(cur_code->line_id) + " /" + ref_cont +"/" ;
+            else
+                ret->bufout = "\n\r [ERROR!]" + ret->bufout + " refer to unknown line " ;
+        }
     return ret;
 }
 
@@ -193,6 +199,7 @@ MCRet* MCEngine::RenderLine(MCCodeLine * line,MCVar* xvar_scope,MCVar* xtype_sco
         MCCodeLine* auto_param = new MCCodeLine();
         auto_param->data = line->data;
         auto_param->data_type = "COMP";
+        auto_param->line_id = line->line_id;
         line->expressions.push_back(auto_param);
     }
 
@@ -499,25 +506,19 @@ MCRet* MCEngine::RenderLine(MCCodeLine * line,MCVar* xvar_scope,MCVar* xtype_sco
 
                     while(cy_params <= in_params)
                     {
-                    MCCodeLine * x_param = (MCCodeLine *) line->expressions.at(cy_params-1);
-                    expr_data = expr_data + " " + x_param->data;
-                    if(func->name == "-")
+                        MCCodeLine * x_param = (MCCodeLine *) line->expressions.at(cy_params-1);
+                        expr_data = expr_data + " " + x_param->data;
+                        if(func->name == "-")
                         {
-                            x_param->data_type = "EXPR";
                             MCCodeLine * x_param1 = new MCCodeLine();
                             x_param1->data_type = "COMP";
                             x_param1->data = "-";
-                            x_param->children.push_back(x_param1);
-                            MCCodeLine * x_param2 = new MCCodeLine();
-                            x_param2->data_type = "COMP";
-                            x_param2->data = x_param->data;
-                            x_param->children.push_back(x_param2);
-                            wasneg = true;
+                            next_expres->expressions.push_back(x_param1);
                             func = fregister->pos_func;
                         }
-                    next_expres->expressions.push_back(x_param);
-                    cy_params++;
-                    last_detected++;
+                        next_expres->expressions.push_back(x_param);
+                        cy_params++;
+                        last_detected++;
                     }
 
                     MCRet* new_ret = RenderLine(next_expres,xvar_scope,xtype_scope);
@@ -544,7 +545,7 @@ MCRet* MCEngine::RenderLine(MCCodeLine * line,MCVar* xvar_scope,MCVar* xtype_sco
                 last_detected++;
 
                 if(cy_params <= in_params)
-                        after_code = new MCCodeLine();
+                    after_code = new MCCodeLine();
 
                 while(cy_params <= in_params)
                 {
@@ -758,58 +759,129 @@ MCRet* MCEngine::RenderLine(MCCodeLine * line,MCVar* xvar_scope,MCVar* xtype_sco
 
 
 }
+bool MCEngine::ends_with(std::string const & value, std::string const & ending)
+{
+    if (ending.size() > value.size()) return false;
+    return std::equal(ending.rbegin(), ending.rend(), value.rbegin());
+}
 
 int MCEngine::LoadString(std::string data)
 {
     char cur;
-    std::string line;
+    std::string line = "";
     std::vector<std::string> lines;
 
+    int li = 0;
+    boost::split(lines,data,boost::is_any_of("\n"));
+    //std::string  cline= "";
 
-    for(int ci = 0; ci < data.length(); ci++)
+    for (std::vector<std::string>::iterator it = lines.begin() ; it != lines.end(); ++it)
     {
-        cur = data[ci];
-        if( cur=='\n' || cur=='\r' )
-            continue;
+        li = (it - lines.begin()) + 1;
 
-        if(cur==';')
+        std::string data = *it;
+        //std::cout << std::endl << "Line: " << li << ")" << data;
+        boost::trim(data);
+        while(ends_with(data,"/&") && it != lines.end())
+           {
+                ++it;
+                li++;
+                std::string next_data = *it;
+                data = data.substr(0, data.size()-2) + next_data;
+
+           }
+        if(data.length()>0)
+        for(int ci = 0; ci < data.length(); ci++)
         {
-            boost::trim(line);
-            if(line.length()!=0)
-                lines.push_back(line);
-            line = "";
-            continue;
+            cur = data[ci];
+            if( cur=='\n' || cur=='\r' )
+                continue;
+
+            if(cur==';')
+            {
+                boost::trim(line);
+                if(line.length()!=0)
+                {
+                    MCTextLine * mtline = new MCTextLine();
+                    mtline->text = line;
+                    mtline->line_nr = li;
+                    mtline->full_line = data;
+                    loaded_lines.push_back(mtline);
+                    //std::cout << std::endl << li << "Line: " << data;
+                }
+                line = "";
+                continue;
+            }
+            else if(cur=='{')
+            {
+                boost::trim(line);
+                if(line.length()!=0)
+                {
+                    MCTextLine * mtline = new MCTextLine();
+                    mtline->text = line;
+                    mtline->line_nr = li;
+                    mtline->full_line = data;
+                    loaded_lines.push_back(mtline);
+                    //std::cout << std::endl << li << "Line: " << data;
+                }
+                MCTextLine * mtline = new MCTextLine();
+                mtline->text = "BEGIN";
+                mtline->line_nr = li;
+                mtline->full_line = data;
+                loaded_lines.push_back(mtline);
+                //std::cout << std::endl << li << "Line: {" << data;
+                line = "";
+                continue;
+            }
+            if(cur=='}')
+            {
+                boost::trim(line);
+                if(line.length()!=0)
+                {
+                    MCTextLine * mtline = new MCTextLine();
+                    mtline->text = line;
+                    mtline->line_nr = li;
+                    mtline->full_line = data;
+                    loaded_lines.push_back(mtline);
+                    //std::cout << std::endl << li << "Line: }" << data;
+                }
+                MCTextLine * mtline = new MCTextLine();
+                mtline->text = "END";
+                mtline->line_nr = li;
+                mtline->full_line = data;
+                loaded_lines.push_back(mtline);
+                //std::cout << std::endl << li << "Line: " << data;
+                line = "";
+                continue;
+            }
+            line = line + cur;
+
         }
-        else if(cur=='{')
-        {
-            boost::trim(line);
-            if(line.length()!=0)
-                lines.push_back(line);
-            lines.push_back("BEGIN");
-            line = "";
-            continue;
-        }
-        if(cur=='}')
-        {
-            boost::trim(line);
-            if(line.length()!=0)
-                lines.push_back(line);
-            lines.push_back("END");
-            line = "";
-            continue;
-        }
-        line = line + cur;
 
     }
 
+    if(line!="")
+    {
+        return -6;
+    }
 
+
+
+    line = "";
     MCCodeLine *cursor = code;
     MCCodeLine *new_line = code;
     int rescode = 0;
-    for (std::vector<std::string>::iterator it = lines.begin() ; it != lines.end(); ++it)
+    /*for (std::vector<MCTextLine *>::iterator it = loaded_lines.begin() ; it != loaded_lines.end(); ++it)
     {
-        std::string cur_line = *it;
-        if(cur_line=="BEGIN" )
+        MCTextLine * cur_line = *it;
+        std::cout << std::endl << cur_line->line_nr << "Line: }" << cur_line->full_line << " text: " << cur_line->text;
+    }*/
+
+    for (std::vector<MCTextLine *>::iterator it = loaded_lines.begin() ; it != loaded_lines.end(); ++it)
+    {
+        MCTextLine * cur_line = *it;
+
+        if(cur_line->text=="BEGIN" )
         {
             if(new_line == NULL)
                 return -4;
@@ -817,7 +889,7 @@ int MCEngine::LoadString(std::string data)
             continue;
 
         }
-        else if (cur_line=="END")
+        else if (cur_line->text=="END")
         {
             if(cursor->parent == NULL)
                 return -5;
@@ -836,16 +908,13 @@ int MCEngine::LoadString(std::string data)
 }
 void MCEngine::PrintLines(MCCodeLine * xcode,int lev )
 {
-    //if(lev>100)
-    //    return;
+
     std::string tabs = "";
     for(int ci = 0; ci < lev; ci++)
         tabs = tabs  +  " ";
 
     std::cout  << std::endl;
-    /*    std::cout  << tabs <<  xcode->data << std::endl;
-        std::cout  << tabs << "{" << std::endl;
-    */
+
     for (std::vector<MCDataNode *>::iterator it = xcode->children.begin() ; it != xcode->children.end(); ++it)
     {
         MCCodeLine * line= (MCCodeLine *)*it;
@@ -859,8 +928,7 @@ void MCEngine::PrintLines(MCCodeLine * xcode,int lev )
 }
 void MCEngine::PrintCode(MCCodeLine * xcode,int lev )
 {
-    //if(lev>100)
-    //    return;
+
     std::string tabs = "";
     for(int ci = 0; ci < lev; ci++)
         tabs = tabs  +  " ";
@@ -893,7 +961,7 @@ void MCEngine::PrintCode(MCCodeLine * xcode,int lev )
 
     std::cout << tabs << "}" << std::endl ;
 }
-int MCEngine::LineToCode(MCCodeLine * line, std::string data)
+int MCEngine::LineToCode(MCCodeLine * line, MCTextLine * xdata)
 {
     char cur;
     char last_c;
@@ -904,7 +972,8 @@ int MCEngine::LineToCode(MCCodeLine * line, std::string data)
     bool sub_expr = false;
 
     int res_code = 0;
-
+    std::string data = xdata->text;
+    line->line_id = xdata->line_nr;
     std::string cur_line;
     std::string sub_exp_s = "";
     std::vector<std::string> subexpr;
@@ -980,7 +1049,11 @@ int MCEngine::LineToCode(MCCodeLine * line, std::string data)
             if(was_expr)
             {
                 child->data_type = "EXPR";
-                res_code = LineToCode(child,cur_line);
+                MCTextLine * new_data = new MCTextLine();
+                new_data->line_nr = xdata->line_nr;
+                new_data->text = cur_line;
+                res_code = LineToCode(child,new_data);
+                delete new_data;
                 if(res_code!=0)
                     return res_code;
             }
@@ -997,9 +1070,16 @@ int MCEngine::LineToCode(MCCodeLine * line, std::string data)
                 sub_child->data = sub_expr;
                 sub_child->data_type = "SUBEXPR";
                 sub_child->formal_type = "[" + sub_expr + "]";
-                res_code = LineToCode(sub_child,sub_expr);
+                //res_code = LineToCode(sub_child,sub_expr);
+                MCTextLine * new_data = new MCTextLine();
+                new_data->line_nr = xdata->line_nr;
+                new_data->text = sub_expr;
+                res_code = LineToCode(sub_child,new_data);
+                delete new_data;
+
                 if(res_code!=0)
                     return res_code;
+
                 child->children.push_back(sub_child);
                 child->has_subexr = true;
             }
@@ -1036,6 +1116,27 @@ int MCEngine::LineToCode(MCCodeLine * line, std::string data)
 
     return 0;
 }
+MCTextLine* MCEngine::FindLine(int line_id)
+{
+    for (std::vector<MCTextLine *>::iterator it = loaded_lines.begin() ; it != loaded_lines.end(); ++it)
+    {
+        MCTextLine * cur_line = *it;
+        if(cur_line->line_nr == line_id)
+            return cur_line;
+    }
+return NULL;
+}
+std::string MCEngine::FindLineContent(int line_id)
+{
+
+    for (std::vector<MCTextLine *>::iterator it = loaded_lines.begin() ; it != loaded_lines.end(); ++it)
+    {
+        MCTextLine * cur_line = *it;
+        if(cur_line->line_nr == line_id)
+            return cur_line->full_line;
+    }
+return "";
+}
 MCEngine::~MCEngine()
 {
     //dtor
@@ -1044,4 +1145,12 @@ MCEngine::~MCEngine()
     func_scope->Free();
     code->Free();
 
+    std::vector<MCTextLine*>::iterator it;
+    for ( it = loaded_lines.begin(); it != loaded_lines.end(); )
+    {
+        MCTextLine* comp = *it;
+        if(comp!=NULL)
+            delete comp;
+        it = loaded_lines.erase(it);
+    }
 }

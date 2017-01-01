@@ -45,6 +45,7 @@
 		<Unit filename="include/MCFuncLibCore.h" />
 		<Unit filename="include/MCFuncRegister.h" />
 		<Unit filename="include/MCRet.h" />
+		<Unit filename="include/MCTextLine.h" />
 		<Unit filename="include/MCVar.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/IMCFuncLib.cpp" />
@@ -57,6 +58,7 @@
 		<Unit filename="src/MCFuncLibCore.cpp" />
 		<Unit filename="src/MCFuncRegister.cpp" />
 		<Unit filename="src/MCRet.cpp" />
+		<Unit filename="src/MCTextLine.cpp" />
 		<Unit filename="src/MCVar.cpp" />
 		<Extensions>
 			<code_completion />

@@ -110,7 +110,7 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     _f_a_bgeq->func_ref = &_A_COMP;
     reg->AddFunc(_f_a_bgeq);
 
-     MCFunc* _f_a_noneq = new MCFunc();
+    MCFunc* _f_a_noneq = new MCFunc();
     _f_a_noneq->name = "<>";
     _f_a_noneq->templ->data_type = "FUNC";
     _f_a_noneq->templ->AddParam("ANY","VALUE1","REQ");
@@ -129,7 +129,7 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     _f_a_logand->func_ref = &_A_COMP;
     reg->AddFunc(_f_a_logand);
 
-     MCFunc* _f_a_logor = new MCFunc();
+    MCFunc* _f_a_logor = new MCFunc();
     _f_a_logor->name = "OR";
     _f_a_logor->templ->data_type = "FUNC";
     _f_a_logor->templ->AddParam("ANY","VALUE1","REQ","NUMC");
@@ -156,7 +156,7 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
 
 
     /*COMP**********************************************/
-     MCFunc* _f_var = new MCFunc();
+    MCFunc* _f_var = new MCFunc();
     _f_var->name = MCVar::simple_type;
     _f_var->templ->data_type = "FUNC";
     _f_var->templ->AddParam("COMP","VAR","REQ");
@@ -170,7 +170,7 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     _f_var->func_ref = &_VAR;
     reg->AddFunc(_f_var);
 
-     MCFunc* _f_out = new MCFunc();
+    MCFunc* _f_out = new MCFunc();
     _f_out->name = "OUT";
     _f_out->templ->data_type = "FUNC";
     _f_out->templ->AddParam("COMP","OUT","REQ");
@@ -229,7 +229,7 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     reg->AddFunc(_f_type_def);
 
 
-     MCFunc* _f_set = new MCFunc();
+    MCFunc* _f_set = new MCFunc();
     _f_set->name = "SET";
     _f_set->templ->data_type = "FUNC";
     _f_set->templ->AddParam("COMP","SET","REQ");
@@ -238,7 +238,7 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     _f_set->func_ref = &_SET;
     reg->AddFunc(_f_set);
 
-     MCFunc* _f_set2 = new MCFunc();
+    MCFunc* _f_set2 = new MCFunc();
     _f_set2->name = ":=";
     _f_set2->templ->data_type = "FUNC";
     _f_set2->templ->AddParam("VAR","VARNAME","REQ");
@@ -247,7 +247,7 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     _f_set2->func_ref = &_SET;
     reg->AddFunc(_f_set2);
 
-     MCFunc* _f_add_item = new MCFunc();
+    MCFunc* _f_add_item = new MCFunc();
     _f_add_item->name = "ADD ITEM";
     _f_add_item->templ->data_type = "FUNC";
     _f_add_item->templ->AddParam("COMP","ADD","REQ");
@@ -256,7 +256,7 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     _f_add_item->func_ref = &_ADD_ITEM;
     reg->AddFunc(_f_add_item);
 
-     MCFunc* _f_def_func = new MCFunc();
+    MCFunc* _f_def_func = new MCFunc();
     _f_def_func->name = "DEF FUNC";
     _f_def_func->templ->data_type = "FUNC";
     _f_def_func->templ->AddParam("COMP","FUNC","REQ");
@@ -301,7 +301,7 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     _f_ce->name = "CE";
     _f_ce->templ->data_type = "FUNC";
     _f_ce->templ->AddParam("COMP","CE","REQ");
-    _f_ce->templ->AddParam("VAR","VARNAME","REQ");
+    _f_ce->templ->AddParam("VAR","VARNAME","SEQ");
     _f_ce->func_ref = &_CE;
     reg->AddFunc(_f_ce);
 
@@ -327,8 +327,8 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     _f_loadfromfile->func_ref = &_LOADFROMFILE;
     reg->AddFunc(_f_loadfromfile);
 
-/* TYPE FUNCTIONS ********************************************************************************
-*************************************************************************************************/
+    /* TYPE FUNCTIONS ********************************************************************************
+    *************************************************************************************************/
 
     MCFunc* _f_type_of = new MCFunc();
     _f_type_of->name = "TYPE OF";
@@ -363,233 +363,238 @@ MCFuncLibCore::~MCFuncLibCore()
 
 /*FUNCTIONS*/
 
- MCRet* _VAR(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
- {
-     MCRet* RET = new MCRet();
-     MCFParams* name = params->GetParam("VARNAME");
-     MCFParams* typeof = params->GetParam("ARRAYTYPE");
+MCRet* _VAR(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
+{
+    MCRet* RET = new MCRet();
+    MCFParams* name = params->GetParam("VARNAME");
+    MCFParams* typeof = params->GetParam("ARRAYTYPE");
 
-     std::string v_name = name->ref_line->data;
-     std::string v_value = "";
-     MCFParams* var_value = params->GetParam("VARVALUE");
-     if(var_value!=NULL)
-     v_value = var_value->value->ret_data;
-     std::string error_text = "";
-     MCVar* cr_var;
-     std::string var_type = MCVar::simple_type;
-     std::string array_type = MCVar::simple_type;
+    std::string v_name = name->ref_line->data;
+    std::string v_value = "";
+    MCFParams* var_value = params->GetParam("VARVALUE");
+    if(var_value!=NULL)
+        v_value = var_value->value->ret_data;
+    std::string error_text = "";
+    MCVar* cr_var;
+    std::string var_type = MCVar::simple_type;
+    std::string array_type = MCVar::simple_type;
 
-     MCFParams* vtype = params->GetParam("TYPENAME");
-     if(vtype!=NULL)
-           {
-             var_type = vtype->ref_line->data;
-             if(var_type!="ARRAY" && typeof!=NULL)
-             {
-                MCRet* RET = engine->RetCreate(engine->_C_F_TYPE_NOT_FOUND,"","ERROR","You can not specify item type of non-array object " + v_name,-100);
-                return RET;
-             }
-           }
-            else
-           {
-             if(typeof!=NULL)
-             {
-                MCRet* RET = engine->RetCreate(engine->_C_F_TYPE_NOT_FOUND,"","ERROR","You can not specify item type of non-array object " + v_name,-100);
-                return RET;
-             }
-           }
-
-     if(var_type=="ARRAY" && typeof!=NULL )
+    MCFParams* vtype = params->GetParam("TYPENAME");
+    if(vtype!=NULL)
+    {
+        var_type = vtype->ref_line->data;
+        if(var_type!="ARRAY" && typeof!=NULL)
         {
-            if( types->FindSibling(typeof->ref_line->data,types) == NULL)
-            {
-                MCRet* RET = engine->RetCreate(engine->_C_F_TYPE_NOT_FOUND,"","ERROR","Type of item not found " + typeof->ref_line->data,-100);
-                return RET;
-            }
-            array_type = typeof->ref_line->data;
+            MCRet* RET = engine->RetCreate(engine->_C_F_TYPE_NOT_FOUND,"","ERROR","You can not specify item type of non-array object " + v_name,-100);
+            return RET;
         }
-
-     int res = vars->CreateVar(v_name,var_type,v_value,types,error_text,cr_var);
-
-     if(var_type=="ARRAY")
+    }
+    else
+    {
+        if(typeof!=NULL)
         {
-            cr_var->array_type = array_type;
+            MCRet* RET = engine->RetCreate(engine->_C_F_TYPE_NOT_FOUND,"","ERROR","You can not specify item type of non-array object " + v_name,-100);
+            return RET;
         }
+    }
 
-     if(res==-1)
-     {
+    if(var_type=="ARRAY" && typeof!=NULL )
+    {
+        if( types->FindSibling(typeof->ref_line->data,types) == NULL)
+        {
+            MCRet* RET = engine->RetCreate(engine->_C_F_TYPE_NOT_FOUND,"","ERROR","Type of item not found " + typeof->ref_line->data,-100);
+            return RET;
+        }
+        array_type = typeof->ref_line->data;
+    }
+
+    int res = vars->CreateVar(v_name,var_type,v_value,types,error_text,cr_var);
+
+    if(var_type=="ARRAY")
+    {
+        cr_var->array_type = array_type;
+    }
+
+    if(res==-1)
+    {
         MCRet* RET = engine->RetCreate(engine->_C_F_VAR_EXIST,"","ERROR","Object already exists " + v_name + " : " + error_text,-100);
         return RET;
 
-     }else
-     if(res==-2)
-     {
+    }
+    else if(res==-2)
+    {
         MCRet* RET = engine->RetCreate(engine->_C_F_TYPE_NOT_FOUND,"","ERROR","Can not find all types for " + v_name+ " : " + error_text,-100);
         return RET;
 
-     }
+    }
     if(res==-3)
-     {
+    {
         MCRet* RET = engine->RetCreate(engine->_C_F_NAME_NOT_ALLOWED,"","ERROR","Name is not allowed : " + v_name,-100);
         return RET;
-     }
-     return RET;
- }
-  MCRet* _SET(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
- {
+    }
+    return RET;
+}
+MCRet* _SET(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
+{
 
-     MCFParams* name = params->GetParam("VARNAME");
-     MCFParams* var_value = params->GetParam("VARVALUE");
-     if(name->value->ref_var->data_type!=MCVar::simple_type)
-     {
+    MCFParams* name = params->GetParam("VARNAME");
+    MCFParams* var_value = params->GetParam("VARVALUE");
+    if(name->value->ref_var->data_type!=MCVar::simple_type)
+    {
         MCRet* RET = engine->RetCreate(engine->_C_F_PROTECTED_VALUE,"","ERROR","Can not assign value for type " + name->value->ref_var->data_type + " in line [" + engine->cur_code->data +  "]",-100);
         return RET;
-     }
-     std::string v_value = var_value->value->ret_data;
-     std::string error_text = "";
-     name->value->ref_var->data = v_value;
+    }
+    std::string v_value = var_value->value->ret_data;
+    std::string error_text = "";
+    name->value->ref_var->data = v_value;
 
     MCRet* RET = engine->RetCreate(0,"","","",0);
     return RET;
- }
-  MCRet* _CE(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
- {
+}
+MCRet* _CE(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
+{
 
-     MCFParams* name = params->GetParam("VARNAME");
-     std::string error_txt = name->value->ref_var->SetValue("");
-     if(error_txt!="")
-        return engine->RetCreate(engine->_C_F_PROTECTED_VALUE,"ERROR","",error_txt  + " in line [" + engine->cur_code->data +  "]" ,0);
+    for (std::vector<MCDataNode *>::iterator it = params->children.begin() ; it != params->children.end(); ++it)
+    {
+        MCFParams* name = (MCFParams*)*it;
+        std::string error_txt = name->value->ref_var->SetValue("");
+        if(error_txt!="")
+            return engine->RetCreate(engine->_C_F_PROTECTED_VALUE,"ERROR","",error_txt  + " in line [" + engine->cur_code->data +  "]",0);
+
+    }
+
     MCRet* RET = engine->RetCreate(0,"","","",0);
     return RET;
- }
- MCRet* _MYTYPE(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
- {
+}
+MCRet* _MYTYPE(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
+{
 
     MCFParams* name = params->GetParam("VARNAME");
     MCRet* RET = engine->RetCreate(0,name->value->ref_var->extended_type,"","",0);
     return RET;
- }
-   MCRet* _LEN(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
- {
+}
+MCRet* _LEN(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
+{
 
-     MCFParams* varname = params->GetParam("VARNAME");
-     MCVar* var = varname->value->ref_var;
-     std::string v_len = "0";
-     if(var->data_type=="ARRAY")
-     {
-         v_len = std::to_string(var->children.size());
+    MCFParams* varname = params->GetParam("VARNAME");
+    MCVar* var = varname->value->ref_var;
+    std::string v_len = "0";
+    if(var->data_type=="ARRAY")
+    {
+        v_len = std::to_string(var->children.size());
 
-     }
-     else
+    }
+    else
 
-     {
-         v_len = std::to_string(var->data.size());
-     }
+    {
+        v_len = std::to_string(var->data.size());
+    }
 
     MCRet* RET = engine->RetCreate(0,v_len,"VALUE","",0);
     return RET;
- }
+}
 
- MCRet* _OUT(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
- {
-     MCRet* RET = new MCRet();
-     MCFParams* spaced = params->GetParam("SPACED");
-     bool is_spaced = false;
-     if(spaced!=NULL)
+MCRet* _OUT(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
+{
+    MCRet* RET = new MCRet();
+    MCFParams* spaced = params->GetParam("SPACED");
+    bool is_spaced = false;
+    if(spaced!=NULL)
         is_spaced = true;
-     for (std::vector<MCDataNode *>::iterator it = params->children.begin() ; it != params->children.end(); ++it)
-     {
+    for (std::vector<MCDataNode *>::iterator it = params->children.begin() ; it != params->children.end(); ++it)
+    {
         MCFParams* param =(MCFParams*) *it;
         if(is_spaced)
-             RET->bufout  =  RET->bufout  + " ";
+            RET->bufout  =  RET->bufout  + " ";
         RET->bufout = RET->bufout + param->value->ret_data;
-     }
-     RET->ret_type = "OUT";
-     return RET;
- }
+    }
+    RET->ret_type = "OUT";
+    return RET;
+}
 
- MCRet* _SAVETOFILE(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
- {
+MCRet* _SAVETOFILE(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
+{
 
-     MCFParams* text = params->GetParam("VALUE");
-     std::string val_to_save = text->value->ret_data;
-     MCFParams* fname = params->GetParam("FILENAME");
-     std::string filename = fname->value->ret_data;
+    MCFParams* text = params->GetParam("VALUE");
+    std::string val_to_save = text->value->ret_data;
+    MCFParams* fname = params->GetParam("FILENAME");
+    std::string filename = fname->value->ret_data;
 
-     std::ofstream out(filename);
-     out << val_to_save;
-     out.close();
-     MCRet* RET = engine->RetCreate(0,"","","",0);
+    std::ofstream out(filename);
+    out << val_to_save;
+    out.close();
+    MCRet* RET = engine->RetCreate(0,"","","",0);
     return RET;
 
- }
- MCRet* _LOADFROMFILE(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
- {
+}
+MCRet* _LOADFROMFILE(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
+{
 
-     MCFParams* toload = params->GetParam("VARNAME");
-     MCFParams* fname = params->GetParam("FILENAME");
-     std::string filename = fname->value->ret_data;
-     std::ifstream ifs(filename);
-     std::string content( (std::istreambuf_iterator<char>(ifs) ),
-                       (std::istreambuf_iterator<char>()    ) );
-     std::string error_txt = toload->value->ref_var->SetValue(content);
-     if(error_txt!="")
-        return engine->RetCreate(engine->_C_F_PROTECTED_VALUE,"ERROR","",error_txt  + " in line [" + engine->cur_code->data +  "]" ,0);
+    MCFParams* toload = params->GetParam("VARNAME");
+    MCFParams* fname = params->GetParam("FILENAME");
+    std::string filename = fname->value->ret_data;
+    std::ifstream ifs(filename);
+    std::string content( (std::istreambuf_iterator<char>(ifs) ),
+                         (std::istreambuf_iterator<char>()    ) );
+    std::string error_txt = toload->value->ref_var->SetValue(content);
+    if(error_txt!="")
+        return engine->RetCreate(engine->_C_F_PROTECTED_VALUE,"ERROR","",error_txt  + " in line [" + engine->cur_code->data +  "]",0);
 
-     MCRet* RET = engine->RetCreate(0,content,"","",0);
-     return RET;
+    MCRet* RET = engine->RetCreate(0,content,"","",0);
+    return RET;
 
- }
+}
 
- MCRet* _CONCAT(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
- {
-     MCRet* RET = new MCRet();
+MCRet* _CONCAT(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
+{
+    MCRet* RET = new MCRet();
     MCFParams* spaced = params->GetParam("SPACED");
-     bool is_spaced = false;
-     if(spaced!=NULL)
+    bool is_spaced = false;
+    if(spaced!=NULL)
         is_spaced = true;
 
-     for (std::vector<MCDataNode *>::iterator it = params->children.begin() ; it != params->children.end(); ++it)
-     {
+    for (std::vector<MCDataNode *>::iterator it = params->children.begin() ; it != params->children.end(); ++it)
+    {
         MCFParams* param =(MCFParams*) *it;
         if(is_spaced)
             RET->ret_data = RET->ret_data + " ";
         RET->ret_data = RET->ret_data + param->value->ret_data;
-     }
-     RET->ret_type = "VALUE";
-     return RET;
- }
-  MCRet* _IF(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
- {
-     MCRet* RET = new MCRet();
-     MCFParams* var_value = params->GetParam("VALUE");
-     std::string v_value = "";
-     v_value = var_value->value->ret_data;
-     MCRet* RET_INT = engine->CastNumc(v_value);
-     if(RET_INT->code<0)
-            return RET_INT;
-     double res = RET_INT->ret_nr;
-     delete RET_INT;
-     if(res==1)
-     {
+    }
+    RET->ret_type = "VALUE";
+    return RET;
+}
+MCRet* _IF(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
+{
+    MCRet* RET = new MCRet();
+    MCFParams* var_value = params->GetParam("VALUE");
+    std::string v_value = "";
+    v_value = var_value->value->ret_data;
+    MCRet* RET_INT = engine->CastNumc(v_value);
+    if(RET_INT->code<0)
+        return RET_INT;
+    double res = RET_INT->ret_nr;
+    delete RET_INT;
+    if(res==1)
+    {
         MCRet* RES = engine->EvaluateLine(line,vars,types);
 
         if(RES != NULL)
-        if(RES->code < 0 || RES->stop_code != 0)
-            return RES;
+            if(RES->code < 0 || RES->stop_code != 0)
+                return RES;
         delete RES;
-     }
+    }
 
-     RET->ret_type = "VALUE";
-     return RET;
- }
- MCRet* _DO_TIMES(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
- {
-     MCRet* RET = new MCRet();
-     MCFParams* var_value = params->GetParam("VALUE");
-     double cycles = var_value->value->ret_nr;
-     engine->inner_cycle_counter = 0;
-     for(int ic=0;ic<cycles;ic++)
-     {
+    RET->ret_type = "VALUE";
+    return RET;
+}
+MCRet* _DO_TIMES(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
+{
+    MCRet* RET = new MCRet();
+    MCFParams* var_value = params->GetParam("VALUE");
+    double cycles = var_value->value->ret_nr;
+    engine->inner_cycle_counter = 0;
+    for(int ic=0; ic<cycles; ic++)
+    {
         engine->inner_cycle_counter ++;
         MCRet* RES = engine->EvaluateLine(line,vars,types);
 
@@ -600,76 +605,77 @@ MCFuncLibCore::~MCFuncLibCore()
             return RES;
 
         delete RES;
-     }
-     RET->ret_type = "VALUE";
-     return RET;
- }
+    }
+    RET->ret_type = "VALUE";
+    return RET;
+}
 MCRet* _FOR(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
 {
-     MCRet* RET = new MCRet();
+    MCRet* RET = new MCRet();
 
-     MCFParams* var_value1 = params->GetParam("VALUE1");
-     double from = var_value1->value->ret_nr;
+    MCFParams* var_value1 = params->GetParam("VALUE1");
+    double from = var_value1->value->ret_nr;
 
-     MCFParams* var_value2 = params->GetParam("VALUE2");
-     double to = var_value2->value->ret_nr;
+    MCFParams* var_value2 = params->GetParam("VALUE2");
+    double to = var_value2->value->ret_nr;
 
-     MCFParams* var_value = params->GetParam(MCVar::simple_type);
-     MCVar* var_counter = var_value->value->ref_var;
-     if(var_counter->data_type!=MCVar::simple_type)
-     {
+    MCFParams* var_value = params->GetParam(MCVar::simple_type);
+    MCVar* var_counter = var_value->value->ref_var;
+    if(var_counter->data_type!=MCVar::simple_type)
+    {
         MCRet* RET = engine->RetCreate(engine->_C_F_PROTECTED_VALUE,"","ERROR","Can not assign value for type " + var_counter->data_type + " in line [" + engine->cur_code->data +  "]",-100);
         return RET;
-     }
-     if(from<to)
-     {
-         engine->inner_cycle_counter = 0;
-         for(int ic=from;ic<to+1;ic++)
-        {
-         engine->inner_cycle_counter ++;
-        var_counter->data = std::to_string(ic);
-        MCRet* RES = engine->EvaluateLine(line,vars,types);
-
-        if(RES == NULL)
-            continue;
-
-        if(RES->code < 0 || RES->stop_code != 0)
-            return RES;
-
-        delete RES;
-
-
-        }
-
-     }else
-     {
+    }
+    if(from<to)
+    {
         engine->inner_cycle_counter = 0;
-        for(int ic=from;ic>to-1;ic--)
+        for(int ic=from; ic<to+1; ic++)
         {
-        engine->inner_cycle_counter ++;
-        var_counter->data = std::to_string(ic);
-        MCRet* RES = engine->EvaluateLine(line,vars,types);
-        if(RES == NULL)
-            continue;
+            engine->inner_cycle_counter ++;
+            var_counter->data = std::to_string(ic);
+            MCRet* RES = engine->EvaluateLine(line,vars,types);
 
-        if(RES->code < 0 || RES->stop_code != 0)
-            return RES;
+            if(RES == NULL)
+                continue;
 
-        delete RES;
+            if(RES->code < 0 || RES->stop_code != 0)
+                return RES;
+
+            delete RES;
 
 
         }
-     }
-     RET->ret_type = "VALUE";
-     return RET;
+
+    }
+    else
+    {
+        engine->inner_cycle_counter = 0;
+        for(int ic=from; ic>to-1; ic--)
+        {
+            engine->inner_cycle_counter ++;
+            var_counter->data = std::to_string(ic);
+            MCRet* RES = engine->EvaluateLine(line,vars,types);
+            if(RES == NULL)
+                continue;
+
+            if(RES->code < 0 || RES->stop_code != 0)
+                return RES;
+
+            delete RES;
+
+
+        }
+    }
+    RET->ret_type = "VALUE";
+    return RET;
 
 }
 MCRet* _A_ARITH(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
 {
-     MCRet* RET = new MCRet();
-     MCFParams* var_value1 = params->GetParam("VALUE1");
-     if(func->name == "N")
-     {
+    MCRet* RET = new MCRet();
+    MCFParams* var_value1 = params->GetParam("VALUE1");
+    if(func->name == "N")
+    {
         double val1 = var_value1->value->ret_nr;
         val1 = -val1;
         RET->ret_data = std::to_string(val1);
@@ -680,73 +686,73 @@ MCRet* _A_ARITH(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, M
 
         RET->ret_type = "VALUE";
         return RET;
-     }
+    }
 
-     MCFParams* var_value2 = params->GetParam("VALUE2");
-     double val1 = var_value1->value->ret_nr;
-     double val2 = var_value2->value->ret_nr;
+    MCFParams* var_value2 = params->GetParam("VALUE2");
+    double val1 = var_value1->value->ret_nr;
+    double val2 = var_value2->value->ret_nr;
 
-     if(func->name == "+")
-     {
+    if(func->name == "+")
+    {
         RET->ret_data = std::to_string(val1+val2);
 
-     }else
-     if(func->name  == "-")
-     {
+    }
+    else if(func->name  == "-")
+    {
         RET->ret_data = std::to_string(val1-val2);
-     }else
-     if(func->name  == "/")
-     {
+    }
+    else if(func->name  == "/")
+    {
         RET->ret_data = std::to_string(val1/val2);
-     }else
-    if(func->name  == "*")
-     {
+    }
+    else if(func->name  == "*")
+    {
         RET->ret_data = std::to_string(val1*val2);
-     }
+    }
 
-     RET->ret_data.erase ( RET->ret_data.find_last_not_of('0') + 1, std::string::npos );
+    RET->ret_data.erase ( RET->ret_data.find_last_not_of('0') + 1, std::string::npos );
 
-     if(RET->ret_data[RET->ret_data.length()-1]=='.')
+    if(RET->ret_data[RET->ret_data.length()-1]=='.')
         RET->ret_data = RET->ret_data.erase(RET->ret_data.length()-1,1);
 
-     RET->ret_type = "VALUE";
-     return RET;
+    RET->ret_type = "VALUE";
+    return RET;
 
 }
 
 MCRet* _A_COMP(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
 {
-     MCRet* RET = new MCRet();
+    MCRet* RET = new MCRet();
 
-     MCFParams* var_value2 = params->GetParam("VALUE2");
-     std::string v_value2 = "";
-     v_value2 = var_value2->value->ret_data;
+    MCFParams* var_value2 = params->GetParam("VALUE2");
+    std::string v_value2 = "";
+    v_value2 = var_value2->value->ret_data;
 
-     if(func->name == "NOT")
-     {
+    if(func->name == "NOT")
+    {
         if(v_value2=="0")
             RET->ret_data = "1";
         else
             RET->ret_data = "0";
         RET->ret_type = "VALUE";
         return RET;
-     }else
-    if(func->name == "EMPTY")
-     {
+    }
+    else if(func->name == "EMPTY")
+    {
         if(v_value2=="")
             RET->ret_data = "1";
         else
             RET->ret_data = "0";
         RET->ret_type = "VALUE";
         return RET;
-     }
+    }
 
-     MCFParams* var_value1 = params->GetParam("VALUE1");
-     std::string v_value1 = "";
-     v_value1 = var_value1->value->ret_data;
+    MCFParams* var_value1 = params->GetParam("VALUE1");
+    std::string v_value1 = "";
+    v_value1 = var_value1->value->ret_data;
 
-     if(func->name  == "AND")
-     {
+    if(func->name  == "AND")
+    {
 
 
         if(v_value1=="1" && v_value2 == "1")
@@ -756,9 +762,9 @@ MCRet* _A_COMP(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MC
 
         RET->ret_type = "VALUE";
         return RET;
-     }else
-     if(func->name  == "OR")
-     {
+    }
+    else if(func->name  == "OR")
+    {
 
 
         if(v_value1=="1" || v_value2=="1")
@@ -768,9 +774,9 @@ MCRet* _A_COMP(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MC
 
         RET->ret_type = "VALUE";
         return RET;
-     }else
-     if(func->name  == "=")
-     {
+    }
+    else if(func->name  == "=")
+    {
 
 
         if(v_value1==v_value2)
@@ -780,9 +786,9 @@ MCRet* _A_COMP(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MC
 
         RET->ret_type = "VALUE";
         return RET;
-     }else
-     if(func->name  == "<>")
-     {
+    }
+    else if(func->name  == "<>")
+    {
 
 
         if(v_value1!=v_value2)
@@ -792,182 +798,182 @@ MCRet* _A_COMP(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MC
 
         RET->ret_type = "VALUE";
         return RET;
-     }
+    }
 
-     double val1 = var_value1->value->ret_nr;
-     double val2 = var_value2->value->ret_nr;
+    double val1 = var_value1->value->ret_nr;
+    double val2 = var_value2->value->ret_nr;
 
 
 
-     if(func->name == "<")
-     {
+    if(func->name == "<")
+    {
         if(val1<val2)
             RET->ret_data = "1";
         else
             RET->ret_data = "0";
-     }else
-     if(func->name  == ">")
-     {
+    }
+    else if(func->name  == ">")
+    {
         if(val1>val2)
             RET->ret_data = "1";
         else
             RET->ret_data = "0";
-     }else
-    if(func->name  == ">=")
-     {
+    }
+    else if(func->name  == ">=")
+    {
         if(val1>=val2)
             RET->ret_data = "1";
         else
             RET->ret_data = "0";
-     }
+    }
     if(func->name  == "<=")
-     {
+    {
         if(val1<=val2)
             RET->ret_data = "1";
         else
             RET->ret_data = "0";
-     }
+    }
 
-     RET->ret_type = "VALUE";
-     return RET;
+    RET->ret_type = "VALUE";
+    return RET;
 
 }
- MCRet* _TYPE_DEF(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
- {
-     MCRet* RET = new MCRet();
-     MCFParams* name = params->GetParam("TYPENAME");
-     std::string v_name = name->ref_line->data;
-     std::string error_text = "";
-     std::string type_cr = "TYPE";
-     MCFParams* extname = params->GetParam("EXTNAME");
-     bool extends_type = false;
-     if(extname!=NULL)
-     {
+MCRet* _TYPE_DEF(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
+{
+    MCRet* RET = new MCRet();
+    MCFParams* name = params->GetParam("TYPENAME");
+    std::string v_name = name->ref_line->data;
+    std::string error_text = "";
+    std::string type_cr = "TYPE";
+    MCFParams* extname = params->GetParam("EXTNAME");
+    bool extends_type = false;
+    if(extname!=NULL)
+    {
         extends_type = true;
         type_cr = extname->ref_line->data;
 
-     }
-     MCVar* cr_var;
+    }
+    MCVar* cr_var;
 
-     int res = types->CreateVar(v_name,type_cr,"",types,error_text,cr_var,extends_type);
-     if(res==-1)
-     {
+    int res = types->CreateVar(v_name,type_cr,"",types,error_text,cr_var,extends_type);
+    if(res==-1)
+    {
         MCRet* RET = engine->RetCreate(engine->_C_F_TYPE_EXIST,"","ERROR","Type already exists " + v_name+ " : " + error_text,-100);
         return RET;
 
-     }else
-     if(res==-2)
-     {
+    }
+    else if(res==-2)
+    {
         MCRet* RET = engine->RetCreate(engine->_C_F_TYPE_NOT_FOUND,"","ERROR","Can not find all types for " + v_name+ " : " + error_text,-100);
         return RET;
 
-     }
-     if(res==-3)
-     {
+    }
+    if(res==-3)
+    {
         MCRet* RET = engine->RetCreate(engine->_C_F_NAME_NOT_ALLOWED,"","ERROR","Name is not allowed " + v_name+ " : " + error_text,-100);
         return RET;
 
-     }
+    }
     MCRet* RES = engine->EvaluateLine(line,vars,cr_var,"TYPE");
     if(RES != NULL)
         if(RES->code < 0 || RES->stop_code != 0)
-            {
-                return RES;
+        {
+            return RES;
 
-            }
+        }
 
     delete RES;
 
     return RET;
- }
- MCRet* _TYPE_OF(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
- {
-     if(types->data=="[GLOBAL]")
-     {
+}
+MCRet* _TYPE_OF(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
+{
+    if(types->data=="[GLOBAL]")
+    {
         MCRet* RET = engine->RetCreate(engine->_C_F_GLOBAL_TYPE,"","ERROR","Components could be defined only in types",-100);
         return RET;
-     }
+    }
 
-     MCFParams* vname = params->GetParam("NAME");
-     std::string v_name = vname->ref_line->data;
-     MCFParams* tname = params->GetParam("TYPENAME");
-     std::string t_name = tname->ref_line->data;
-     std::string error_text = "";
-     MCVar* cr_var;
-     int res = types->CreateVar(v_name,t_name,"",engine->type_scope,error_text,cr_var);
-     if(res==-1)
-     {
+    MCFParams* vname = params->GetParam("NAME");
+    std::string v_name = vname->ref_line->data;
+    MCFParams* tname = params->GetParam("TYPENAME");
+    std::string t_name = tname->ref_line->data;
+    std::string error_text = "";
+    MCVar* cr_var;
+    int res = types->CreateVar(v_name,t_name,"",engine->type_scope,error_text,cr_var);
+    if(res==-1)
+    {
         MCRet* RET = engine->RetCreate(engine->_C_F_TYPE_EXIST,"","ERROR","Type already exists " + v_name+ " : " + error_text,-100);
         return RET;
 
-     }else
-     if(res==-2)
-     {
+    }
+    else if(res==-2)
+    {
         MCRet* RET = engine->RetCreate(engine->_C_F_TYPE_NOT_FOUND,"","ERROR","Can not find all types for " + v_name+ " : " + error_text,-100);
         return RET;
 
-     }
+    }
 
     MCRet* RET = engine->RetCreate(0,"","","",0);
     return RET;
- }
-  MCRet* _ADD_ITEM(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
- {
-     std::string index = "";
-     MCFParams* vname = params->GetParam("VARNAME");
-     if(vname->value->ref_var->data_type !="ARRAY")
-     {
+}
+MCRet* _ADD_ITEM(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
+{
+    std::string index = "";
+    MCFParams* vname = params->GetParam("VARNAME");
+    if(vname->value->ref_var->data_type !="ARRAY")
+    {
         MCRet* RET = engine->RetCreate(engine->_C_F_NON_ARRAY,"","ERROR","You can not use as array object " + vname->value->ref_var->var_name,-100);
         return RET;
-     }
+    }
 
-     std::string error_text = "";
-     MCVar* cr_var;
-     int res = vname->value->ref_var->CreateArrayItem("","",engine->type_scope,error_text,cr_var);
+    std::string error_text = "";
+    MCVar* cr_var;
+    int res = vname->value->ref_var->CreateArrayItem("","",engine->type_scope,error_text,cr_var);
 
-     if(res==-1)
-     {
+    if(res==-1)
+    {
         MCRet* RET = engine->RetCreate(engine->_C_F_TYPE_EXIST,"","ERROR","index already exists " + index+ " : " + error_text,-100);
         return RET;
 
-     }else
-     if(res==-2)
-     {
+    }
+    else if(res==-2)
+    {
         MCRet* RET = engine->RetCreate(engine->_C_F_TYPE_NOT_FOUND,"","ERROR","Can not find all types for " + vname->value->ref_var->var_name+ " : " + error_text,-100);
         return RET;
 
-     }
+    }
 
     MCRet* RET = engine->RetCreate(0,"","","",0);
     return RET;
- }
- MCRet* _DEF_FUNC(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
- {
-     MCFParams* fname = params->GetParam("FNAME");
+}
+MCRet* _DEF_FUNC(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
+{
+    MCFParams* fname = params->GetParam("FNAME");
 
-     if(engine->func_scope->FindSibling(fname->ref_line->data,engine->func_scope)!=NULL)
-     {
+    if(engine->func_scope->FindSibling(fname->ref_line->data,engine->func_scope)!=NULL)
+    {
         MCRet* RET = engine->RetCreate(engine->_C_F_FUNC_EXIST,"","ERROR","Function already exists " + fname->ref_line->data,-100);
         return RET;
-     }
+    }
 
-     MCVar* Func = NULL;
-     std::string error_txt="";
-     int res = engine->func_scope->CreateVar(fname->ref_line->data,"FUNC","",types,error_txt,Func);
+    MCVar* Func = NULL;
+    std::string error_txt="";
+    int res = engine->func_scope->CreateVar(fname->ref_line->data,"FUNC","",types,error_txt,Func);
 
     if(res!=0)
-     {
+    {
         MCRet* RET = engine->RetCreate(engine->_C_F_NAME_NOT_ALLOWED,"","ERROR","Can not create object : " + fname->ref_line->data,-100);
         return RET;
-     }
+    }
 
-     Func->line_ref = line;
-     int parser = 0;
+    Func->line_ref = line;
+    int parser = 0;
 
-     MCVar* pfunc = NULL;
+    MCVar* pfunc = NULL;
 
-     for (std::vector<MCDataNode *>::iterator it = params->children.begin() ; it != params->children.end(); ++it)
-     {
+    for (std::vector<MCDataNode *>::iterator it = params->children.begin() ; it != params->children.end(); ++it)
+    {
         MCFParams* param =(MCFParams*) *it;
         if(param->ref_vline->data!="VALUE")
             continue;
@@ -979,16 +985,16 @@ MCRet* _A_COMP(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MC
                 ++it;
                 if(it == params->children.end())
                 {
-                     MCRet* RET = engine->RetCreate(engine->_C_F_INCOMPLETE_DEF,"","ERROR","Incomplete definition of parameter " + pfunc->var_name + " : " + error_txt,-100);
-                     return RET;
+                    MCRet* RET = engine->RetCreate(engine->_C_F_INCOMPLETE_DEF,"","ERROR","Incomplete definition of parameter " + pfunc->var_name + " : " + error_txt,-100);
+                    return RET;
                 }
                 MCFParams* next_param =(MCFParams*) *it;
 
                 if(!pfunc->is_ref &&  next_param->ref_line->data!=MCVar::simple_type )
                 {
                     MCRet* RET = engine->RetCreate(engine->_C_F_INCOMPLETE_DEF,"","ERROR","Non-VAR types allowed only as references, use OUT keyword " + pfunc->var_name + " : " + error_txt,-100);
-                     //delete Func;
-                     return RET;
+                    //delete Func;
+                    return RET;
                 }
                 pfunc->data_class = next_param->ref_line->data;
                 continue;
@@ -1004,53 +1010,53 @@ MCRet* _A_COMP(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MC
         }
 
 
-            int res = Func->CreateVar(param->ref_line->data,MCVar::simple_type,"",types,error_txt,pfunc);
-             if(res==-1)
-            {
-                MCRet* RET = engine->RetCreate(engine->_C_F_VAR_EXIST,"","ERROR","Parameter already exist " + param->ref_line->data + " : " + error_txt,-100);
-                return RET;
-            }
+        int res = Func->CreateVar(param->ref_line->data,MCVar::simple_type,"",types,error_txt,pfunc);
+        if(res==-1)
+        {
+            MCRet* RET = engine->RetCreate(engine->_C_F_VAR_EXIST,"","ERROR","Parameter already exist " + param->ref_line->data + " : " + error_txt,-100);
+            return RET;
+        }
 
         if(parser==1)
             pfunc->is_ref = true;
         pfunc->data_class = MCVar::simple_type;
-     }
+    }
 
     MCRet* RET = engine->RetCreate(0,"","","",0);
     return RET;
- }
-  MCRet* _DEF_METHOD(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
- {
+}
+MCRet* _DEF_METHOD(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
+{
     if(types->data=="[GLOBAL]")
-     {
+    {
         MCRet* RET = engine->RetCreate(engine->_C_F_GLOBAL_TYPE,"","ERROR","Components could be defined only in types",-100);
         return RET;
-     }
+    }
 
-     MCFParams* fname = params->GetParam("FNAME");
+    MCFParams* fname = params->GetParam("FNAME");
 
-     if(types->FindSibling(fname->ref_line->data,types)!=NULL)
-     {
+    if(types->FindSibling(fname->ref_line->data,types)!=NULL)
+    {
         MCRet* RET = engine->RetCreate(engine->_C_F_FUNC_EXIST,"","ERROR","Function already exists " + fname->ref_line->data,-100);
         return RET;
-     }
+    }
 
-     MCVar* Func = NULL;
-     std::string error_txt="";
-     int res = types->CreateVar(fname->ref_line->data,"FUNC","",types,error_txt,Func);
+    MCVar* Func = NULL;
+    std::string error_txt="";
+    int res = types->CreateVar(fname->ref_line->data,"FUNC","",types,error_txt,Func);
 
-     if(res!=0)
-     {
+    if(res!=0)
+    {
         MCRet* RET = engine->RetCreate(engine->_C_F_NAME_NOT_ALLOWED,"","ERROR","Can not create object : " + fname->ref_line->data,-100);
         return RET;
-     }
+    }
 
-     Func->line_ref = line;
-     int parser = 0;
-     MCVar* pfunc = NULL;
+    Func->line_ref = line;
+    int parser = 0;
+    MCVar* pfunc = NULL;
 
-     for (std::vector<MCDataNode *>::iterator it = params->children.begin() ; it != params->children.end(); ++it)
-     {
+    for (std::vector<MCDataNode *>::iterator it = params->children.begin() ; it != params->children.end(); ++it)
+    {
         MCFParams* param =(MCFParams*) *it;
         if(param->ref_vline->data!="VALUE")
             continue;
@@ -1062,16 +1068,16 @@ MCRet* _A_COMP(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MC
                 ++it;
                 if(it == params->children.end())
                 {
-                     MCRet* RET = engine->RetCreate(engine->_C_F_INCOMPLETE_DEF,"","ERROR","Incomplete definition of parameter " + pfunc->var_name + " : " + error_txt,-100);
-                     //delete Func;
-                     return RET;
+                    MCRet* RET = engine->RetCreate(engine->_C_F_INCOMPLETE_DEF,"","ERROR","Incomplete definition of parameter " + pfunc->var_name + " : " + error_txt,-100);
+                    //delete Func;
+                    return RET;
                 }
                 MCFParams* next_param =(MCFParams*) *it;
                 if(!pfunc->is_ref &&  next_param->ref_line->data!=MCVar::simple_type )
                 {
                     MCRet* RET = engine->RetCreate(engine->_C_F_INCOMPLETE_DEF,"","ERROR","Non-VAR types allowed only as references, use OUT keyword " + pfunc->var_name + " : " + error_txt,-100);
-                     //delete Func;
-                     return RET;
+                    //delete Func;
+                    return RET;
                 }
                 pfunc->data_class = next_param->ref_line->data;
                 continue;
@@ -1086,55 +1092,56 @@ MCRet* _A_COMP(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MC
         }
 
 
-            int res = Func->CreateVar(param->ref_line->data,MCVar::simple_type,"",types,error_txt,pfunc);
-             if(res==-1)
-            {
-                MCRet* RET = engine->RetCreate(engine->_C_F_VAR_EXIST,"","ERROR","Parameter already exist " + param->ref_line->data + " : " + error_txt,-100);
-                return RET;
-            }
+        int res = Func->CreateVar(param->ref_line->data,MCVar::simple_type,"",types,error_txt,pfunc);
+        if(res==-1)
+        {
+            MCRet* RET = engine->RetCreate(engine->_C_F_VAR_EXIST,"","ERROR","Parameter already exist " + param->ref_line->data + " : " + error_txt,-100);
+            return RET;
+        }
 
         if(parser==1)
             pfunc->is_ref = true;
 
         pfunc->data_class = MCVar::simple_type;
 
-     }
+    }
 
     MCRet* RET = engine->RetCreate(0,"","","",0);
     return RET;
- }
- MCRet* _CALL_FUNC(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
- {
-     MCFParams* f_name = params->GetParam("FNAME");
-     MCVar* Func = NULL;
-     std::string fname = f_name->ref_line->data;
+}
+MCRet* _CALL_FUNC(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
+{
+    MCFParams* f_name = params->GetParam("FNAME");
+    MCVar* Func = NULL;
+    std::string fname = f_name->ref_line->data;
 
-     if(f_name->ref_line->data_type=="METHOD")
-     {
-         std::string err_txt = "";
-         int err_int = 0;
-         Func = vars->FindVar(fname,vars,err_txt,err_int);
+    if(f_name->ref_line->data_type=="METHOD")
+    {
+        std::string err_txt = "";
+        int err_int = 0;
+        Func = vars->FindVar(fname,vars,err_txt,err_int);
 
-     }else
-     {
-         Func = engine->func_scope->FindSibling(f_name->ref_line->data,engine->func_scope);
-     }
+    }
+    else
+    {
+        Func = engine->func_scope->FindSibling(f_name->ref_line->data,engine->func_scope);
+    }
 
-     if(Func==NULL)
-     {
+    if(Func==NULL)
+    {
         MCRet* RET = engine->RetCreate(engine->_C_F_FUNC_EXIST,"","ERROR","Function does not exists " + fname,-100);
         return RET;
-     }
+    }
 
-     std::string error_txt="";
+    std::string error_txt="";
 
-     int var_c  = Func->children.size();
-     int var_cc = 0;
+    int var_c  = Func->children.size();
+    int var_cc = 0;
 
 
 
-     for (std::vector<MCDataNode *>::iterator it = params->children.begin() ; it != params->children.end(); ++it)
-     {
+    for (std::vector<MCDataNode *>::iterator it = params->children.begin() ; it != params->children.end(); ++it)
+    {
         MCFParams* param =(MCFParams*) *it;
 
         if(param->ref_line->data == fname)
@@ -1144,8 +1151,8 @@ MCRet* _A_COMP(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MC
 
         if(var_cc>var_c)
         {
-        MCRet* RET = engine->RetCreate(engine->_C_F_FUNC_PARAM_ERROR,"","ERROR","Unknown parameter " + param->ref_line->data + " in " + fname,-100);
-        return RET;
+            MCRet* RET = engine->RetCreate(engine->_C_F_FUNC_PARAM_ERROR,"","ERROR","Unknown parameter " + param->ref_line->data + " in " + fname,-100);
+            return RET;
         }
 
         MCVar* pfunc = (MCVar*) Func->children.at(var_cc-1);
@@ -1165,22 +1172,22 @@ MCRet* _A_COMP(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MC
             return RET;
         }
 
-     }
+    }
 
-     if(var_cc != var_c)
-     {
-            MCRet* RET = engine->RetCreate(engine->_C_F_FUNC_PARAM_ERROR,"","ERROR","Not all parameters are provided (" + std::to_string(var_cc)  + ") to " + fname,-100);
-            return RET;
-     }
-
-
-     MCVar* lvar_scope = new MCVar();
+    if(var_cc != var_c)
+    {
+        MCRet* RET = engine->RetCreate(engine->_C_F_FUNC_PARAM_ERROR,"","ERROR","Not all parameters are provided (" + std::to_string(var_cc)  + ") to " + fname,-100);
+        return RET;
+    }
 
 
-     var_cc = 0;
+    MCVar* lvar_scope = new MCVar();
 
-     for (std::vector<MCDataNode *>::iterator it = params->children.begin() ; it != params->children.end(); ++it)
-     {
+
+    var_cc = 0;
+
+    for (std::vector<MCDataNode *>::iterator it = params->children.begin() ; it != params->children.end(); ++it)
+    {
         MCFParams* param =(MCFParams*) *it;
 
         if(param->ref_line->data == fname)
@@ -1196,7 +1203,7 @@ MCRet* _A_COMP(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MC
 
         lvar_scope->CreateVar(pfunc->var_name,MCVar::simple_type, param->value->ret_data,types,error_txt,actvar);
 
-       if(pfunc->is_ref)
+        if(pfunc->is_ref)
         {
             actvar->data_type = "REF";
             actvar->refvar = param->value->ref_var;
@@ -1204,27 +1211,27 @@ MCRet* _A_COMP(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MC
 
 
 
-     }
+    }
 
     MCVar* actvar = NULL;
     if(f_name->ref_line->data_type=="METHOD")
     {
-         lvar_scope->CreateVar("This",MCVar::simple_type, "",types,error_txt,actvar);
-         actvar->data_type = "REF";
-         actvar->refvar =(MCVar*)  Func->parent;
+        lvar_scope->CreateVar("This",MCVar::simple_type, "",types,error_txt,actvar);
+        actvar->data_type = "REF";
+        actvar->refvar =(MCVar*)  Func->parent;
     }
 
     MCRet* RES = engine->EvaluateLine(Func->line_ref,lvar_scope,types);
     if(RES != NULL)
         if(RES->code < 0 || RES->stop_code != 0)
-            {
-                return RES;
+        {
+            return RES;
 
-            }
+        }
 
     delete RES;
     delete lvar_scope;
 
     MCRet* RET = engine->RetCreate(0,"","","",0);
     return RET;
- }
+}

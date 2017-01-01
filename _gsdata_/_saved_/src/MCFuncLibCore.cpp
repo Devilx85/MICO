@@ -125,7 +125,7 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     _f_a_logand->templ->data_type = "FUNC";
     _f_a_logand->templ->AddParam("ANY","VALUE1","REQ","NUMC");
     _f_a_logand->templ->AddParam("COMP","AND","REQ");
-    _f_a_logand->templ->AddParam("ANY","VALUE2","REQ","NUMC");
+    _f_a_logand->templ->AddParam("ANY","VALUE2","CSQ","NUMC");
     _f_a_logand->func_ref = &_A_COMP;
     reg->AddFunc(_f_a_logand);
 
@@ -134,7 +134,7 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     _f_a_logor->templ->data_type = "FUNC";
     _f_a_logor->templ->AddParam("ANY","VALUE1","REQ","NUMC");
     _f_a_logor->templ->AddParam("COMP","OR","REQ");
-    _f_a_logor->templ->AddParam("ANY","VALUE2","REQ","NUMC");
+    _f_a_logor->templ->AddParam("ANY","VALUE2","CSQ","NUMC");
     _f_a_logor->func_ref = &_A_COMP;
     reg->AddFunc(_f_a_logor);
 
@@ -142,7 +142,7 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     _f_a_lognot->name = "NOT";
     _f_a_lognot->templ->data_type = "FUNC";
     _f_a_lognot->templ->AddParam("COMP","NOT","REQ");
-    _f_a_lognot->templ->AddParam("ANY","VALUE2","REQ","NUMC");
+    _f_a_lognot->templ->AddParam("ANY","VALUE2","CSQ","NUMC");
     _f_a_lognot->func_ref = &_A_COMP;
     reg->AddFunc(_f_a_lognot);
 
@@ -301,7 +301,7 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     _f_ce->name = "CE";
     _f_ce->templ->data_type = "FUNC";
     _f_ce->templ->AddParam("COMP","CE","REQ");
-    _f_ce->templ->AddParam("VAR","VARNAME","REQ");
+    _f_ce->templ->AddParam("VAR","VARNAME","SEQ");
     _f_ce->func_ref = &_CE;
     reg->AddFunc(_f_ce);
 
@@ -454,10 +454,15 @@ MCFuncLibCore::~MCFuncLibCore()
   MCRet* _CE(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
  {
 
-     MCFParams* name = params->GetParam("VARNAME");
-     std::string error_txt = name->value->ref_var->SetValue("");
-     if(error_txt!="")
-        return engine->RetCreate(engine->_C_F_PROTECTED_VALUE,"ERROR","",error_txt  + " in line [" + engine->cur_code->data +  "]" ,0);
+      for (std::vector<MCDataNode *>::iterator it = params->children.begin() ; it != params->children.end(); ++it)
+     {
+        MCFParams* name = (MCFParams*)*it;
+        std::string error_txt = name->value->ref_var->SetValue("");
+        if(error_txt!="")
+            return engine->RetCreate(engine->_C_F_PROTECTED_VALUE,"ERROR","",error_txt  + " in line [" + engine->cur_code->data +  "]" ,0);
+
+     }
+
     MCRet* RET = engine->RetCreate(0,"","","",0);
     return RET;
  }
