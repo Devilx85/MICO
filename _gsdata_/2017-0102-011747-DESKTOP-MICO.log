@@ -1,0 +1,13 @@
+2017-01-02 01:17:48: -- Analysis Started by On File Change Incremental
+2017-01-02 01:17:48: Changes: 1, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 381
+2017-01-02 01:17:48: Left to Right: Copy File: 1 
+2017-01-02 01:17:48: == Sync Started by On File Change Incremental
+2017-01-02 01:17:48: Copy New 'H:/MyDOCS/c++/MiCo/obj/Debug/src/MCTextLine.o' -> 'H:/GIT/MICO/obj/Debug/src/MCTextLine.o'
+2017-01-02 01:17:48: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 1, Errors: 0
+2017-01-02 01:17:49: -- Analysis Started by On File Change PostSync Re-Analyze
+2017-01-02 01:17:49: Changes: 1, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 381
+2017-01-02 01:17:49: Left to Right: Copy File: 1 
+2017-01-02 01:17:49: == Sync Started by On File Change PostSync Re-Analyze
+2017-01-02 01:17:49: Copy New 'H:/MyDOCS/c++/MiCo/obj/Debug/src/MCVar.o' -> 'H:/GIT/MICO/obj/Debug/src/MCVar.o'
+2017-01-02 01:17:49: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 1, Errors: 0
+2017-01-02 01:17:49: 

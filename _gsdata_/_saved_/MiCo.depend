@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1483251751 source:h:\mydocs\c++\mico\main.cpp
+1483296520 source:h:\mydocs\c++\mico\main.cpp
 	<iostream>
 	<string>
 	<fstream>
@@ -17,7 +17,7 @@
 	<string>
 	<chrono>
 
-1483164688 source:h:\mydocs\c++\mico\src\mcvar.cpp
+1483294507 source:h:\mydocs\c++\mico\src\mcvar.cpp
 	"MCVar.h"
 	<boost/algorithm/string.hpp>
 	<boost/uuid/uuid.hpp>
@@ -26,8 +26,9 @@
 	<boost/lexical_cast.hpp>
 	<boost/assign/list_of.hpp>
 	<algorithm>
+	<map>
 
-1483164688 h:\mydocs\c++\mico\include\mcvar.h
+1483284621 h:\mydocs\c++\mico\include\mcvar.h
 	<MCDataNode.h>
 	<MCCodeLine.h>
 	<vector>
@@ -40,12 +41,13 @@
 	"MCFuncLibCore.h"
 	"MCTextLine.h"
 
-1483254997 source:h:\mydocs\c++\mico\src\mcengine.cpp
+1483298839 source:h:\mydocs\c++\mico\src\mcengine.cpp
 	"MCEngine.h"
 	<iostream>
 	<boost/algorithm/string.hpp>
 	<boost/lexical_cast.hpp>
 	<boost/algorithm/string/replace.hpp>
+	<boost/algorithm/string/predicate.hpp>
 	"MCFParams.h"
 	"MCFunc.h"
 	"MCVar.h"
@@ -3321,20 +3323,20 @@
 	<vector>
 	<string>
 
-1483164688 h:\mydocs\c++\mico\include\mcret.h
+1483283731 h:\mydocs\c++\mico\include\mcret.h
 	<string>
 	"MCVar.h"
 
 1483164688 source:h:\mydocs\c++\mico\src\mcret.cpp
 	"MCRet.h"
 
-1483250472 source:h:\mydocs\c++\mico\src\mcfunclibcore.cpp
+1483293857 source:h:\mydocs\c++\mico\src\mcfunclibcore.cpp
 	"MCFunc.h"
 	"MCFuncLibCore.h"
 	<iostream>
 	<fstream>
 
-1483164688 h:\mydocs\c++\mico\include\mcfunclibcore.h
+1483292894 h:\mydocs\c++\mico\include\mcfunclibcore.h
 	<IMCFuncLib.h>
 
 1482762813 source:h:\mydocs\c++\mico\src\mcfparams.cpp

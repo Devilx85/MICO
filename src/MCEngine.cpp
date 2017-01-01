@@ -3,6 +3,7 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string/replace.hpp>
+#include <boost/algorithm/string/predicate.hpp>
 #include "MCFParams.h"
 #include "MCFunc.h"
 #include "MCVar.h"
@@ -210,7 +211,17 @@ MCRet* MCEngine::RenderLine(MCCodeLine * line,MCVar* xvar_scope,MCVar* xtype_sco
         std::string error_txt = "";
         MCVar* f_var = NULL;
         int er_type = 0;
+
         MCCodeLine* v_param = (MCCodeLine*) line->expressions.at(0);
+
+        MCRet* RET  = SubExpressionRender(line,xvar_scope,xtype_scope);
+
+        if(RET->code < 0)
+        {
+            return RET;
+        }
+
+        v_param->data = RET->ret_data;
         if(is_number(v_param->data))
         {
             MCRet* RET = RetCreate(0,v_param->data,"VALUE","",0);
@@ -219,6 +230,12 @@ MCRet* MCEngine::RenderLine(MCCodeLine * line,MCVar* xvar_scope,MCVar* xtype_sco
         if(v_param->data == "#I")
         {
             MCRet* RET = RetCreate(0,v_param->data,"VALUE","",0);
+            return RET;
+        }
+        if(boost::starts_with(v_param->data ,"#IDX"))
+        {
+
+            MCRet* RET = RetCreate(0,v_param->data,"INDEX","",0);
             return RET;
         }
         if(v_param->data == "#C")
@@ -232,12 +249,8 @@ MCRet* MCEngine::RenderLine(MCCodeLine * line,MCVar* xvar_scope,MCVar* xtype_sco
             return RET;
         }
 
-        MCRet* RET  = SubExpressionRender(v_param,xvar_scope,xtype_scope);
-        if(RET->code < 0)
-        {
-            return RET;
-        }
-        f_var = xvar_scope->FindVar(RET->ret_data,xvar_scope,error_txt,er_type);
+
+        f_var = xvar_scope->FindVar(v_param->data,xvar_scope,error_txt,er_type);
         delete RET;
 
 
@@ -711,6 +724,7 @@ MCRet* MCEngine::RenderLine(MCCodeLine * line,MCVar* xvar_scope,MCVar* xtype_sco
                     return RET;
                 }
 
+
                 if(x_param->ref_vline->data_class == "NUMC")
                 {
 
@@ -1008,28 +1022,28 @@ int MCEngine::LineToCode(MCCodeLine * line, MCTextLine * xdata)
             sub_expr = true;
         }
 
-        if(cur=='"' && open_br == 0)
+        if(cur=='"' && open_br == 0 && sub_expr == false)
         {
             open_str = ! open_str;
             if(open_str==true)
                 continue;
             was_str = true;
         }
-        if(cur=='(' && open_str==false)
+        if(cur=='(' && open_str==false && sub_expr == false)
         {
             open_br++;
             if(open_br==1)
                 continue;
         }
 
-        if( cur==')' && open_str==false)
+        if( cur==')' && open_str==false && sub_expr == false)
         {
             open_br--;
             if(open_br==0)
                 was_expr = true;
         }
 
-        if(open_str == false && open_br == 0 && ( cur==' ' ||  line_len == ci ))
+        if(open_str == false && open_br == 0  && sub_expr == false && ( cur==' ' ||  line_len == ci ))
         {
             if( last_c == ' ' &&  cur==' ' && was_str == false && was_expr == false )
                 continue;

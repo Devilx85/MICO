@@ -1,0 +1,12 @@
+2017-01-01 17:21:12: -- Analysis Started by On File Change Incremental
+2017-01-01 17:21:12: Changes: 7, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 847
+2017-01-01 17:21:12: Right to Left: Copy File: 7 
+2017-01-01 17:21:12: == Sync Started by On File Change Incremental
+2017-01-01 17:21:12: Copy Over 'H:/GIT/MICO/.git/FETCH_HEAD' -> 'H:/MyDOCS/c++/MiCo/.git/FETCH_HEAD'
+2017-01-01 17:21:12: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 1, Errors: 0
+2017-01-01 17:21:13: -- Analysis Started by On File Change PostSync Re-Analyze
+2017-01-01 17:21:13: Changes: 6, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 847
+2017-01-01 17:21:13: Right to Left: Copy File: 6 
+2017-01-01 17:21:13: == Sync Started by On File Change PostSync Re-Analyze
+2017-01-01 17:21:13: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 0, Errors: 0
+2017-01-01 17:21:13: 

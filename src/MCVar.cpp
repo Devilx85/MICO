@@ -6,10 +6,12 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/assign/list_of.hpp>
 #include <algorithm>
+#include <map>
+
 using namespace std::placeholders;
 
 
-std::vector<std::string> MCVar::meta_types = boost::assign::list_of("VAR")("TYPE")("REF")("ARRAY")("FUNC")("OBJECT");
+std::vector<std::string> MCVar::meta_types = boost::assign::list_of("VAR")("TYPE")("REF")("ARRAY")("FUNC")("OBJECT")("TREE");
 std::string MCVar::simple_type = "VAR";
 
 
@@ -20,10 +22,27 @@ MCVar::MCVar()
 
 
 }
+void MCVar::ReindexChildren()
+{
+
+    std::map<std::string,int>  child_idx;
+    for (std::vector<MCDataNode *>::iterator it = children.begin() ; it != children.end(); ++it)
+    {
+        MCVar* var =(MCVar*) *it;
+        if ( child_idx.find(var->var_name) == child_idx.end() ) {
+        // not found
+            child_idx[var->var_name] = 0;
+        }else
+            child_idx[var->var_name]++;
+        var->num_index = child_idx[var->var_name];
+    }
+
+
+}
 
 std::string MCVar::SetValue(std::string val)
 {
-    if(data_type != MCVar::simple_type)
+    if(data_type != MCVar::simple_type && data_type != "TREE")
     {
         return "Can not assign value for type "  + data_type;
     }
@@ -122,18 +141,42 @@ MCVar* MCVar::FindVar(std::string pname,MCVar* pparent,std::string &error_text,i
 
         if(vkey!="")
         {
-            if(vkey=="#I")
-            {
-                vkey = var_f->ar_pointer;
-            }
-
-            if(var_f->data_type != "ARRAY")
+            if(var_f->data_type != "ARRAY" && var_f->data_type != "TREE")
             {
                 error_text = "can not use key for non-array object "  + pname;
                 er_type = -2;
                 return NULL;
             }
-            var_f = GetVarIndex(vkey,var_f);
+
+            if(vkey=="#I")
+            {
+                vkey = var_f->ar_pointer;
+            }
+            if(boost::starts_with(vkey, "#IDX"))
+            {
+                vkey.erase(0, 4);
+                int ix = 0;
+                try
+                {
+                    ix = boost::lexical_cast<int>(vkey);
+                }
+                catch(...)
+                {
+
+                    error_text = "can not use as integer key value "  + vkey;
+                    er_type = -2;
+                    return NULL;
+                }
+                if(pparent->data_type == "TREE" )
+                {
+                        var_f = pparent;
+                }
+                var_f = var_f->GetVarIndexInt(ix,var_f);
+
+            }
+            else
+                var_f = var_f->GetVarIndex(vkey,var_f);
+
             if(var_f==NULL)
             {
                 error_text = " array item not found " + vkey + " of " + pname;
@@ -201,7 +244,7 @@ int MCVar::CreateVar(std::string pname,std::string ptype,std::string pvalue,MCVa
 
 
     MCVar* var_f = FindSibling(pname,pparent);
-    if(var_f!=NULL)
+    if(var_f!=NULL && ptype != "TREE")
     {
         error_text = " object exists " + pname;
         return -1;
@@ -247,7 +290,15 @@ int MCVar::CreateVar(std::string pname,std::string ptype,std::string pvalue,MCVa
         newvar->data_type = ptype;
 
     newvar->var_name = pname;
+
     AddChild(newvar);
+    if(ptype=="TREE")
+    {
+        newvar->asoc_index = std::to_string(ar_index);
+        ar_index++;
+        ReindexChildren();
+
+    }
     cr_var = newvar;
     return 0;
 }
@@ -293,11 +344,12 @@ int MCVar::CreateArrayItem(std::string pindex,std::string pvalue,MCVar* type_sco
         pindex = std::to_string(ar_index);
         ar_index++;
     }
-    newvar->var_name = "["+pindex+"]";
+    newvar->var_name = var_name;
     newvar->asoc_index = pindex;
     newvar->is_arrayitem = true;
     ar_pointer = pindex;
     cr_var = newvar;
+    ReindexChildren();
     return 0;
 }
 MCVar* MCVar::GetVar(std::string pname)
@@ -315,10 +367,25 @@ MCVar* MCVar::GetVar(std::string pname)
 }
 MCVar* MCVar::GetVarIndex(std::string pindex,MCVar* pparent)
 {
+
     for (std::vector<MCDataNode *>::iterator it = pparent->children.begin() ; it != pparent->children.end(); ++it)
     {
         MCVar* var =(MCVar*) *it;
         if(var->asoc_index == pindex)
+            return var;
+    }
+
+    return NULL;
+
+
+}
+MCVar* MCVar::GetVarIndexInt(int pindex,MCVar* pparent)
+{
+
+    for (std::vector<MCDataNode *>::iterator it = pparent->children.begin() ; it != pparent->children.end(); ++it)
+    {
+        MCVar* var =(MCVar*) *it;
+        if(var->num_index == pindex)
             return var;
     }
 

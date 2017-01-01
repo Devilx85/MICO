@@ -19,6 +19,7 @@ public:
     std::string var_name;
     std::string long_name;
     std::string asoc_index;
+    int num_index;
     std::string extended_type;
     bool is_arrayitem = false;
     std::string array_type = "VAR";
@@ -31,8 +32,10 @@ public:
     bool AllowName(std::string pname);
     std::string GetKey(std::string pname,std::string &key,std::string &afterkey);
     std::string SetValue(std::string val);
+    MCVar* GetVarIndexInt(int pindex,MCVar* pparent);
     int CreateArrayItem(std::string pindex,std::string pvalue,MCVar* type_scope,std::string &error_text,MCVar* &cr_var);
     void CopyChildren(MCVar* from,MCVar* to);
+    void ReindexChildren();
     int ar_index = 0;
     bool is_ref = false;
     MCCodeLine *line_ref = NULL;

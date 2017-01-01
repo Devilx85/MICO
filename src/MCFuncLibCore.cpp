@@ -256,6 +256,20 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     _f_add_item->func_ref = &_ADD_ITEM;
     reg->AddFunc(_f_add_item);
 
+    MCFunc* _f_cr_node = new MCFunc();
+    _f_cr_node->name = "CREATE NODE";
+    _f_cr_node->templ->data_type = "FUNC";
+    _f_cr_node->templ->AddParam("COMP","CREATE","REQ");
+    _f_cr_node->templ->AddParam("COMP","NODE","REQ");
+    _f_cr_node->templ->AddParam("NAME","NODENAME","REQ");
+    _f_cr_node->templ->AddParam("COMP","IN","REQ");
+    _f_cr_node->templ->AddParam("VAR","VARNAME","REQ");
+    _f_cr_node->templ->AddParam("COMP","TYPE","REQ");
+    _f_cr_node->templ->AddParam("NAME","TYPENAME","REQ");
+    _f_cr_node->func_ref = &_CREATE_NODE;
+    reg->AddFunc(_f_cr_node);
+
+
     MCFunc* _f_def_func = new MCFunc();
     _f_def_func->name = "DEF FUNC";
     _f_def_func->templ->data_type = "FUNC";
@@ -304,6 +318,14 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     _f_ce->templ->AddParam("VAR","VARNAME","SEQ");
     _f_ce->func_ref = &_CE;
     reg->AddFunc(_f_ce);
+
+    MCFunc* _f_idx = new MCFunc();
+    _f_idx->name = "IDX";
+    _f_idx->templ->data_type = "FUNC";
+    _f_idx->templ->AddParam("COMP","IDX","REQ");
+    _f_idx->templ->AddParam("ANY","VALUE","REQ");
+    _f_idx->func_ref = &_IDX;
+    reg->AddFunc(_f_idx);
 
     MCFunc* _f_savetofile = new MCFunc();
     _f_savetofile->name = "SAVE TO FILE";
@@ -385,7 +407,7 @@ MCRet* _VAR(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFun
         var_type = vtype->ref_line->data;
         if(var_type!="ARRAY" && typeof!=NULL)
         {
-            MCRet* RET = engine->RetCreate(engine->_C_F_TYPE_NOT_FOUND,"","ERROR","You can not specify item type of non-array object " + v_name,-100);
+            MCRet* RET = engine->RetCreate(engine->_C_F_TYPE_MISMATCH,"","ERROR","You can not specify item type of non-array object " + v_name,-100);
             return RET;
         }
     }
@@ -393,7 +415,7 @@ MCRet* _VAR(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFun
     {
         if(typeof!=NULL)
         {
-            MCRet* RET = engine->RetCreate(engine->_C_F_TYPE_NOT_FOUND,"","ERROR","You can not specify item type of non-array object " + v_name,-100);
+            MCRet* RET = engine->RetCreate(engine->_C_F_TYPE_MISMATCH,"","ERROR","You can not specify item type of non-array object " + v_name,-100);
             return RET;
         }
     }
@@ -434,12 +456,50 @@ MCRet* _VAR(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFun
     }
     return RET;
 }
+MCRet* _CREATE_NODE(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
+{
+    MCRet* RET = new MCRet();
+    MCFParams* var = params->GetParam("VARNAME");
+    MCFParams* typeof = params->GetParam("TYPENAME");
+    MCFParams* name = params->GetParam("NODENAME");
+
+    if(var->value->ref_var->data_type != "TREE")
+    {
+            MCRet* RET = engine->RetCreate(engine->_C_F_TYPE_MISMATCH,"","ERROR","You can not add node to non-TREE type object " + var->value->ref_var->data_type,-100);
+            return RET;
+    }
+
+    std::string v_name = name->ref_line->data;
+    std::string error_text = "";
+    MCVar* cr_var;
+
+    MCFParams* vtype = params->GetParam("TYPENAME");
+    std::string var_type = typeof->ref_line->data;
+
+    int res = var->value->ref_var->CreateVar(v_name,var_type,"",types,error_text,cr_var);
+
+    if(res==-2)
+    {
+        MCRet* RET = engine->RetCreate(engine->_C_F_TYPE_NOT_FOUND,"","ERROR","Can not find all types for " + v_name+ " : " + error_text,-100);
+        return RET;
+
+    }
+    if(res==-3)
+    {
+        MCRet* RET = engine->RetCreate(engine->_C_F_NAME_NOT_ALLOWED,"","ERROR","Name is not allowed : " + v_name,-100);
+        return RET;
+    }
+
+
+
+    return RET;
+}
 MCRet* _SET(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
 {
 
     MCFParams* name = params->GetParam("VARNAME");
     MCFParams* var_value = params->GetParam("VARVALUE");
-    if(name->value->ref_var->data_type!=MCVar::simple_type)
+    if(name->value->ref_var->data_type!=MCVar::simple_type && name->value->ref_var->data_type!="TREE")
     {
         MCRet* RET = engine->RetCreate(engine->_C_F_PROTECTED_VALUE,"","ERROR","Can not assign value for type " + name->value->ref_var->data_type + " in line [" + engine->cur_code->data +  "]",-100);
         return RET;
@@ -449,6 +509,13 @@ MCRet* _SET(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFun
     name->value->ref_var->data = v_value;
 
     MCRet* RET = engine->RetCreate(0,"","","",0);
+    return RET;
+}
+MCRet* _IDX(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
+{
+
+    MCFParams* var_value = params->GetParam("VALUE");
+    MCRet* RET = engine->RetCreate(0,"#IDX"+var_value->value->ret_data,"INDEX","",0);
     return RET;
 }
 MCRet* _CE(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)

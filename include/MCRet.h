@@ -17,6 +17,7 @@ public:
     std::string ret_data = "";
     MCVar* ref_var = NULL;
     double ret_nr = 0;
+    int idx = 0;
 protected:
 
 private:

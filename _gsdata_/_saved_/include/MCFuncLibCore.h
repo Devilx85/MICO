@@ -12,15 +12,15 @@ class MCEngine;
 
 class MCFuncLibCore : public IMCFuncLib
 {
-    public:
-        MCFuncLibCore();
-        virtual ~MCFuncLibCore();
-        void RegFunc(MCFuncRegister * reg);
+public:
+    MCFuncLibCore();
+    virtual ~MCFuncLibCore();
+    void RegFunc(MCFuncRegister * reg);
 
 
-    protected:
+protected:
 
-    private:
+private:
 };
 
 MCRet* _IF(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params);
@@ -43,7 +43,7 @@ MCRet* _MYTYPE(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MC
 MCRet* _SAVETOFILE(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params);
 MCRet* _LOADFROMFILE(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params);
 MCRet* _CE(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params);
-//MCRet* _TYPE_OF(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params);
+MCRet* _IDX(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params);
 //MCRet* _TYPE_OF(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params);
 //MCRet* _TYPE_OF(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params);
 //MCRet* _TYPE_OF(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params);
