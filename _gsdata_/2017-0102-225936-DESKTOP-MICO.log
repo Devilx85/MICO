@@ -1,0 +1,15 @@
+2017-01-02 22:59:37: -- Analysis Started by On File Change Incremental
+2017-01-02 22:59:37: Changes: 3, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 715
+2017-01-02 22:59:37: Left to Right: Copy File: 3 
+2017-01-02 22:59:37: == Sync Started by On File Change Incremental
+2017-01-02 22:59:37: Copy Over 'H:/MyDOCS/c++/MiCo/obj/Debug/MiCo/src/MCFuncLibCore.o' -> 'H:/GIT/MICO/obj/Debug/MiCo/src/MCFuncLibCore.o'
+2017-01-02 22:59:37: Copy Over 'H:/MyDOCS/c++/MiCo/obj/Debug/MiCo/src/MCFuncRegister.o' -> 'H:/GIT/MICO/obj/Debug/MiCo/src/MCFuncRegister.o'
+2017-01-02 22:59:37: Copy Over 'H:/MyDOCS/c++/MiCo/obj/Debug/MiCo/src/MCXMLEngine.o' -> 'H:/GIT/MICO/obj/Debug/MiCo/src/MCXMLEngine.o'
+2017-01-02 22:59:37: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 3, Errors: 0
+2017-01-02 22:59:38: -- Analysis Started by On File Change PostSync Re-Analyze
+2017-01-02 22:59:38: Changes: 1, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 715
+2017-01-02 22:59:38: Left to Right: Copy File: 1 
+2017-01-02 22:59:38: == Sync Started by On File Change PostSync Re-Analyze
+2017-01-02 22:59:38: Copy Over 'H:/MyDOCS/c++/MiCo/bin/Debug/MiCo.exe' -> 'H:/GIT/MICO/bin/Debug/MiCo.exe'
+2017-01-02 22:59:38: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 1, Errors: 0
+2017-01-02 22:59:38: 

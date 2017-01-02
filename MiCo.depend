@@ -6,11 +6,11 @@
 	<streambuf>
 	"MCEngine.h"
 
-1483165285 source:h:\mydocs\c++\mico\src\mccodeline.cpp
+1483373799 source:h:\mydocs\c++\mico\src\mccodeline.cpp
 	"MCCodeLine.h"
 	<vector>
 
-1483329281 h:\mydocs\c++\mico\include\mccodeline.h
+1483376814 h:\mydocs\c++\mico\include\mccodeline.h
 	<MCDataNode.h>
 	<MCFParams.h>
 	<vector>
@@ -33,15 +33,16 @@
 	<MCCodeLine.h>
 	<vector>
 
-1483332641 h:\mydocs\c++\mico\include\mcengine.h
+1483376331 h:\mydocs\c++\mico\include\mcengine.h
 	<vector>
 	<MCCodeLine.h>
 	"MCRet.h"
 	"MCFuncRegister.h"
 	"MCFuncLibCore.h"
 	"MCTextLine.h"
+	"MCConst.h"
 
-1483340255 source:h:\mydocs\c++\mico\src\mcengine.cpp
+1483379432 source:h:\mydocs\c++\mico\src\mcengine.cpp
 	"MCEngine.h"
 	<iostream>
 	<boost/algorithm/string.hpp>
@@ -3296,16 +3297,17 @@
 	<string>
 	"MCFuncRegister.h"
 
-1482834501 source:h:\mydocs\c++\mico\src\mcftemplate.cpp
+1483376146 source:h:\mydocs\c++\mico\src\mcftemplate.cpp
 	"MCFTemplate.h"
 
-1483164688 h:\mydocs\c++\mico\include\mcftemplate.h
+1483375341 h:\mydocs\c++\mico\include\mcftemplate.h
 	<MCDataNode.h>
+	<MCConst.h>
 
-1483329242 source:h:\mydocs\c++\mico\src\mcfunc.cpp
+1483378588 source:h:\mydocs\c++\mico\src\mcfunc.cpp
 	"MCFunc.h"
 
-1483329452 h:\mydocs\c++\mico\include\mcfunc.h
+1483376235 h:\mydocs\c++\mico\include\mcfunc.h
 	<string>
 	"IMCFuncLib.h"
 	"MCFTemplate.h"
@@ -3315,7 +3317,7 @@
 	"MCCodeLine.h"
 	"MCEngine.h"
 
-1482736108 source:h:\mydocs\c++\mico\src\mcfuncregister.cpp
+1483378877 source:h:\mydocs\c++\mico\src\mcfuncregister.cpp
 	"MCFuncRegister.h"
 	"MCFunc.h"
 
@@ -3330,24 +3332,25 @@
 1483164688 source:h:\mydocs\c++\mico\src\mcret.cpp
 	"MCRet.h"
 
-1483340535 source:h:\mydocs\c++\mico\src\mcfunclibcore.cpp
+1483376372 source:h:\mydocs\c++\mico\src\mcfunclibcore.cpp
 	"MCFunc.h"
 	"MCFuncLibCore.h"
 	"MCXMLEngine.h"
+	"MCConst.h"
 	<iostream>
 	<fstream>
 
 1483340549 h:\mydocs\c++\mico\include\mcfunclibcore.h
 	<IMCFuncLib.h>
 
-1483335729 source:h:\mydocs\c++\mico\src\mcfparams.cpp
+1483379061 source:h:\mydocs\c++\mico\src\mcfparams.cpp
 	"MCFParams.h"
 
-1483330579 h:\mydocs\c++\mico\include\mcfparams.h
+1483373536 h:\mydocs\c++\mico\include\mcfparams.h
 	<MCDataNode.h>
 	<MCRet.h>
 
-1483329452 h:\mydocs\c++\mico\include\mcdatanode.h
+1483377298 h:\mydocs\c++\mico\include\mcdatanode.h
 	<vector>
 	<string>
 
@@ -5905,7 +5908,10 @@
 	"MCRet.h"
 	"MCEngine.h"
 
-1483339576 source:h:\mydocs\c++\mico\src\mcxmlengine.cpp
+1483375559 source:h:\mydocs\c++\mico\src\mcxmlengine.cpp
 	"MCXMLEngine.h"
+	<MCConst.h>
 	"../../pugixml-master/src/pugixml.hpp"
+
+1483376258 h:\mydocs\c++\mico\include\mcconst.h
 

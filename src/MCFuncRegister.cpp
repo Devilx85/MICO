@@ -16,11 +16,11 @@ int MCFuncRegister::AddFunc(MCFunc* f)
         MCDataNode * f_param = *it;
         if(in==0)
         {
-            if(f_param->formal_type=="SEQ")
+            if(f_param->f_type==_C_T_SEQ)
                 return -3;
         }
 
-        if(f_param->formal_type=="REQ")
+        if(f_param->f_type==_C_T_REQ)
             hasreq = true;
         in++;
     }
@@ -33,10 +33,17 @@ int MCFuncRegister::AddFunc(MCFunc* f)
 MCFuncRegister::~MCFuncRegister()
 {
     //dtor
-    for (std::vector<MCFunc*>::iterator it = reg_funcs.begin() ; it != reg_funcs.end(); ++it)
+
+    std::vector<MCFunc*>::iterator it;
+
+    for ( it = reg_funcs.begin(); it != reg_funcs.end(); )
     {
         MCFunc* comp = *it;
-        delete comp;
+        if(comp!=NULL)
+            delete comp;
+        it = reg_funcs.erase(it);
     }
-    reg_funcs.clear();
+
+
+
 }

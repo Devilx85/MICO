@@ -1,0 +1,10 @@
+2017-01-02 22:51:34: -- Analysis Started by On File Change Incremental
+2017-01-02 22:51:34: Changes: 1, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 715
+2017-01-02 22:51:34: Left to Right: Copy File: 1 
+2017-01-02 22:51:34: == Sync Started by On File Change Incremental
+2017-01-02 22:51:34: Copy Over 'H:/MyDOCS/c++/MiCo/MiCo.depend' -> 'H:/GIT/MICO/MiCo.depend'
+2017-01-02 22:51:34: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 1, Errors: 0
+2017-01-02 22:51:35: -- Analysis Started by On File Change PostSync Re-Analyze
+2017-01-02 22:51:35: Changes: 0, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 715
+2017-01-02 22:51:35: -- Analysis Complete. Time 00:00:01, Speed: 400 files/s
+2017-01-02 22:51:35: 

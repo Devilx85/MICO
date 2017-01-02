@@ -20,6 +20,7 @@ public:
 
     MCFParams* GetParam(std::string name);
     MCFParams* PutParam(std::string name,MCDataNode* param,MCDataNode* vparam,bool indep = false);
+    void ClearIndependents();
 protected:
 
 private:

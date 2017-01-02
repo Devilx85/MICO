@@ -1,4 +1,5 @@
 #include "MCXMLEngine.h"
+#include <MCConst.h>
 #include "../../pugixml-master/src/pugixml.hpp"
 
 MCXMLEngine::MCXMLEngine()
@@ -12,7 +13,7 @@ MCRet* MCXMLEngine::LoadString(std::string xml,MCVar* ret_var,MCEngine* Engine)
     if (!result)
     {
         std::string descr = result.description();
-        return Engine->RetCreate(Engine->_C_F_TRANSLATION_ERROR,"","ERROR","Can not parse XML:"+descr,-100);
+        return Engine->RetCreate(_C_F_TRANSLATION_ERROR,"","ERROR","Can not parse XML:"+descr,-100);
     }
     pugi::xml_node xml_node = doc.root();
     ExploreNodes(xml_node,ret_var,Engine);

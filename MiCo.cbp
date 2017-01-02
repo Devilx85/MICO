@@ -40,6 +40,7 @@
 		<Unit filename="../pugixml-master/src/pugixml.hpp" />
 		<Unit filename="include/IMCFuncLib.h" />
 		<Unit filename="include/MCCodeLine.h" />
+		<Unit filename="include/MCConst.h" />
 		<Unit filename="include/MCDataNode.h" />
 		<Unit filename="include/MCEngine.h" />
 		<Unit filename="include/MCFParams.h" />

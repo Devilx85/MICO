@@ -1,0 +1,16 @@
+2017-01-02 22:55:04: -- Analysis Started by On File Change Incremental
+2017-01-02 22:55:04: Changes: 4, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 715
+2017-01-02 22:55:04: Left to Right: Copy File: 4 
+2017-01-02 22:55:04: == Sync Started by On File Change Incremental
+2017-01-02 22:55:04: Copy Over 'H:/MyDOCS/c++/MiCo/include/MCDataNode.h' -> 'H:/GIT/MICO/include/MCDataNode.h'
+2017-01-02 22:55:04: Copy Over 'H:/MyDOCS/c++/MiCo/MiCo.depend' -> 'H:/GIT/MICO/MiCo.depend'
+2017-01-02 22:55:04: Copy Over 'H:/MyDOCS/c++/MiCo/obj/Debug/MiCo/main.o' -> 'H:/GIT/MICO/obj/Debug/MiCo/main.o'
+2017-01-02 22:55:04: Copy Over 'H:/MyDOCS/c++/MiCo/src/MCEngine.cpp' -> 'H:/GIT/MICO/src/MCEngine.cpp'
+2017-01-02 22:55:04: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 4, Errors: 0
+2017-01-02 22:55:05: -- Analysis Started by On File Change PostSync Re-Analyze
+2017-01-02 22:55:05: Changes: 1, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 715
+2017-01-02 22:55:05: Left to Right: Copy File: 1 
+2017-01-02 22:55:05: == Sync Started by On File Change PostSync Re-Analyze
+2017-01-02 22:55:05: Copy Over 'H:/MyDOCS/c++/MiCo/obj/Debug/MiCo/src/MCCodeLine.o' -> 'H:/GIT/MICO/obj/Debug/MiCo/src/MCCodeLine.o'
+2017-01-02 22:55:05: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 1, Errors: 0
+2017-01-02 22:55:05: 

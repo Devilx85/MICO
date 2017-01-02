@@ -1,7 +1,7 @@
 #include "MCFunc.h"
 #include "MCFuncLibCore.h"
 #include "MCXMLEngine.h"
-
+#include "MCConst.h"
 #include <iostream>
 #include <fstream>
 
@@ -17,9 +17,9 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     MCFunc* _f_a_plus = new MCFunc();
     _f_a_plus->name = "+";
     _f_a_plus->templ->data_type = "FUNC";
-    _f_a_plus->templ->AddParam("ANY","VALUE1","REQ","NUMC");
-    _f_a_plus->templ->AddParam("COMP","+","REQ");
-    _f_a_plus->templ->AddParam("ANY","VALUE2","CSQ","NUMC");
+    _f_a_plus->templ->AddParam(_C_T_ANY,"VALUE1",_C_T_REQ,_C_T_NUMC);
+    _f_a_plus->templ->AddParam(_C_T_COMP,"+",_C_T_REQ);
+    _f_a_plus->templ->AddParam(_C_T_ANY,"VALUE2",_C_T_CSQ,_C_T_NUMC);
     reg->pos_func = _f_a_plus;
     _f_a_plus->func_ref = &_A_ARITH;
     reg->AddFunc(_f_a_plus);
@@ -27,9 +27,9 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     MCFunc* _f_a_minus = new MCFunc();
     _f_a_minus->name = "-";
     _f_a_minus->templ->data_type = "FUNC";
-    _f_a_minus->templ->AddParam("ANY","VALUE1","REQ","NUMC");
-    _f_a_minus->templ->AddParam("COMP","-","REQ");
-    _f_a_minus->templ->AddParam("ANY","VALUE2","CSQ","NUMC");
+    _f_a_minus->templ->AddParam(_C_T_ANY,"VALUE1",_C_T_REQ,_C_T_NUMC);
+    _f_a_minus->templ->AddParam(_C_T_COMP,"-",_C_T_REQ);
+    _f_a_minus->templ->AddParam(_C_T_ANY,"VALUE2",_C_T_CSQ,_C_T_NUMC);
     _f_a_minus->func_ref = &_A_ARITH;
     reg->neg_func = _f_a_minus;
     reg->AddFunc(_f_a_minus);
@@ -37,8 +37,8 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     MCFunc* _f_a_minus_sh = new MCFunc();
     _f_a_minus_sh->name = "N";
     _f_a_minus_sh->templ->data_type = "FUNC";
-    _f_a_minus_sh->templ->AddParam("COMP","-","REQ");
-    _f_a_minus_sh->templ->AddParam("ANY","VALUE1","CSQ","NUMC");
+    _f_a_minus_sh->templ->AddParam(_C_T_COMP,"-",_C_T_REQ);
+    _f_a_minus_sh->templ->AddParam(_C_T_ANY,"VALUE1",_C_T_CSQ,_C_T_NUMC);
     _f_a_minus_sh->func_ref = &_A_ARITH;
     reg->AddFunc(_f_a_minus_sh);
 
@@ -46,9 +46,9 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     _f_a_div->name = "/";
     _f_a_div->calc_order = 0;
     _f_a_div->templ->data_type = "FUNC";
-    _f_a_div->templ->AddParam("ANY","VALUE1","REQ","NUMC");
-    _f_a_div->templ->AddParam("COMP","/","REQ");
-    _f_a_div->templ->AddParam("ANY","VALUE2","CSQ","NUMC");
+    _f_a_div->templ->AddParam(_C_T_ANY,"VALUE1",_C_T_REQ,_C_T_NUMC);
+    _f_a_div->templ->AddParam(_C_T_COMP,"/",_C_T_REQ);
+    _f_a_div->templ->AddParam(_C_T_ANY,"VALUE2",_C_T_CSQ,_C_T_NUMC);
     _f_a_div->func_ref = &_A_ARITH;
     reg->AddFunc(_f_a_div);
 
@@ -56,18 +56,18 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     _f_a_multi->name = "*";
     _f_a_multi->calc_order = 0;
     _f_a_multi->templ->data_type = "FUNC";
-    _f_a_multi->templ->AddParam("ANY","VALUE1","REQ","NUMC");
-    _f_a_multi->templ->AddParam("COMP","*","REQ");
-    _f_a_multi->templ->AddParam("ANY","VALUE2","CSQ","NUMC");
+    _f_a_multi->templ->AddParam(_C_T_ANY,"VALUE1",_C_T_REQ,_C_T_NUMC);
+    _f_a_multi->templ->AddParam(_C_T_COMP,"*",_C_T_REQ);
+    _f_a_multi->templ->AddParam(_C_T_ANY,"VALUE2",_C_T_CSQ,_C_T_NUMC);
     _f_a_multi->func_ref = &_A_ARITH;
     reg->AddFunc(_f_a_multi);
 
     MCFunc* _f_a_eq = new MCFunc();
     _f_a_eq->name = "=";
     _f_a_eq->templ->data_type = "FUNC";
-    _f_a_eq->templ->AddParam("ANY","VALUE1","REQ");
-    _f_a_eq->templ->AddParam("COMP","=","REQ");
-    _f_a_eq->templ->AddParam("ANY","VALUE2","CSQ");
+    _f_a_eq->templ->AddParam(_C_T_ANY,"VALUE1",_C_T_REQ);
+    _f_a_eq->templ->AddParam(_C_T_COMP,"=",_C_T_REQ);
+    _f_a_eq->templ->AddParam(_C_T_ANY,"VALUE2",_C_T_CSQ);
     _f_a_eq->calc_order = 0;
     _f_a_eq->func_ref = &_A_COMP;
     reg->AddFunc(_f_a_eq);
@@ -75,9 +75,9 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     MCFunc* _f_a_bg = new MCFunc();
     _f_a_bg->name = ">";
     _f_a_bg->templ->data_type = "FUNC";
-    _f_a_bg->templ->AddParam("ANY","VALUE1","REQ","NUMC");
-    _f_a_bg->templ->AddParam("COMP",">","REQ");
-    _f_a_bg->templ->AddParam("ANY","VALUE2","CSQ","NUMC");
+    _f_a_bg->templ->AddParam(_C_T_ANY,"VALUE1",_C_T_REQ,_C_T_NUMC);
+    _f_a_bg->templ->AddParam(_C_T_COMP,">",_C_T_REQ);
+    _f_a_bg->templ->AddParam(_C_T_ANY,"VALUE2",_C_T_CSQ,_C_T_NUMC);
     _f_a_bg->calc_order = 0;
     _f_a_bg->func_ref = &_A_COMP;
     reg->AddFunc(_f_a_bg);
@@ -85,9 +85,9 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     MCFunc* _f_a_sm = new MCFunc();
     _f_a_sm->name = "<";
     _f_a_sm->templ->data_type = "FUNC";
-    _f_a_sm->templ->AddParam("ANY","VALUE1","REQ","NUMC");
-    _f_a_sm->templ->AddParam("COMP","<","REQ");
-    _f_a_sm->templ->AddParam("ANY","VALUE2","CSQ","NUMC");
+    _f_a_sm->templ->AddParam(_C_T_ANY,"VALUE1",_C_T_REQ,_C_T_NUMC);
+    _f_a_sm->templ->AddParam(_C_T_COMP,"<",_C_T_REQ);
+    _f_a_sm->templ->AddParam(_C_T_ANY,"VALUE2",_C_T_CSQ,_C_T_NUMC);
     _f_a_sm->calc_order = 0;
     _f_a_sm->func_ref = &_A_COMP;
     reg->AddFunc(_f_a_sm);
@@ -95,9 +95,9 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     MCFunc* _f_a_smeq = new MCFunc();
     _f_a_smeq->name = "<=";
     _f_a_smeq->templ->data_type = "FUNC";
-    _f_a_smeq->templ->AddParam("ANY","VALUE1","REQ","NUMC");
-    _f_a_smeq->templ->AddParam("COMP","<=","REQ");
-    _f_a_smeq->templ->AddParam("ANY","VALUE2","CSQ","NUMC");
+    _f_a_smeq->templ->AddParam(_C_T_ANY,"VALUE1",_C_T_REQ,_C_T_NUMC);
+    _f_a_smeq->templ->AddParam(_C_T_COMP,"<=",_C_T_REQ);
+    _f_a_smeq->templ->AddParam(_C_T_ANY,"VALUE2",_C_T_CSQ,_C_T_NUMC);
     _f_a_smeq->calc_order = 0;
     _f_a_smeq->func_ref = &_A_COMP;
     reg->AddFunc(_f_a_smeq);
@@ -105,9 +105,9 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     MCFunc* _f_a_bgeq = new MCFunc();
     _f_a_bgeq->name = ">=";
     _f_a_bgeq->templ->data_type = "FUNC";
-    _f_a_bgeq->templ->AddParam("ANY","VALUE1","REQ","NUMC");
-    _f_a_bgeq->templ->AddParam("COMP",">=","REQ");
-    _f_a_bgeq->templ->AddParam("ANY","VALUE2","CSQ","NUMC");
+    _f_a_bgeq->templ->AddParam(_C_T_ANY,"VALUE1",_C_T_REQ,_C_T_NUMC);
+    _f_a_bgeq->templ->AddParam(_C_T_COMP,">=",_C_T_REQ);
+    _f_a_bgeq->templ->AddParam(_C_T_ANY,"VALUE2",_C_T_CSQ,_C_T_NUMC);
     _f_a_bgeq->calc_order = 0;
     _f_a_bgeq->func_ref = &_A_COMP;
     reg->AddFunc(_f_a_bgeq);
@@ -115,9 +115,9 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     MCFunc* _f_a_noneq = new MCFunc();
     _f_a_noneq->name = "<>";
     _f_a_noneq->templ->data_type = "FUNC";
-    _f_a_noneq->templ->AddParam("ANY","VALUE1","REQ");
-    _f_a_noneq->templ->AddParam("COMP","<>","REQ");
-    _f_a_noneq->templ->AddParam("ANY","VALUE2","CSQ");
+    _f_a_noneq->templ->AddParam(_C_T_ANY,"VALUE1",_C_T_REQ);
+    _f_a_noneq->templ->AddParam(_C_T_COMP,"<>",_C_T_REQ);
+    _f_a_noneq->templ->AddParam(_C_T_ANY,"VALUE2",_C_T_CSQ);
     _f_a_noneq->calc_order = 0;
     _f_a_noneq->func_ref = &_A_COMP;
     reg->AddFunc(_f_a_noneq);
@@ -125,34 +125,34 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     MCFunc* _f_a_logand = new MCFunc();
     _f_a_logand->name = "AND";
     _f_a_logand->templ->data_type = "FUNC";
-    _f_a_logand->templ->AddParam("ANY","VALUE1","REQ","NUMC");
-    _f_a_logand->templ->AddParam("COMP","AND","REQ");
-    _f_a_logand->templ->AddParam("ANY","VALUE2","CSQ","NUMC");
+    _f_a_logand->templ->AddParam(_C_T_ANY,"VALUE1",_C_T_REQ,_C_T_NUMC);
+    _f_a_logand->templ->AddParam(_C_T_COMP,"AND",_C_T_REQ);
+    _f_a_logand->templ->AddParam(_C_T_ANY,"VALUE2",_C_T_CSQ,_C_T_NUMC);
     _f_a_logand->func_ref = &_A_COMP;
     reg->AddFunc(_f_a_logand);
 
     MCFunc* _f_a_logor = new MCFunc();
     _f_a_logor->name = "OR";
     _f_a_logor->templ->data_type = "FUNC";
-    _f_a_logor->templ->AddParam("ANY","VALUE1","REQ","NUMC");
-    _f_a_logor->templ->AddParam("COMP","OR","REQ");
-    _f_a_logor->templ->AddParam("ANY","VALUE2","CSQ","NUMC");
+    _f_a_logor->templ->AddParam(_C_T_ANY,"VALUE1",_C_T_REQ,_C_T_NUMC);
+    _f_a_logor->templ->AddParam(_C_T_COMP,"OR",_C_T_REQ);
+    _f_a_logor->templ->AddParam(_C_T_ANY,"VALUE2",_C_T_CSQ,_C_T_NUMC);
     _f_a_logor->func_ref = &_A_COMP;
     reg->AddFunc(_f_a_logor);
 
     MCFunc* _f_a_lognot = new MCFunc();
     _f_a_lognot->name = "NOT";
     _f_a_lognot->templ->data_type = "FUNC";
-    _f_a_lognot->templ->AddParam("COMP","NOT","REQ");
-    _f_a_lognot->templ->AddParam("ANY","VALUE2","CSQ","NUMC");
+    _f_a_lognot->templ->AddParam(_C_T_COMP,"NOT",_C_T_REQ);
+    _f_a_lognot->templ->AddParam(_C_T_ANY,"VALUE2",_C_T_CSQ,_C_T_NUMC);
     _f_a_lognot->func_ref = &_A_COMP;
     reg->AddFunc(_f_a_lognot);
 
     MCFunc* _f_a_logempty = new MCFunc();
     _f_a_logempty->name = "EMPTY";
     _f_a_logempty->templ->data_type = "FUNC";
-    _f_a_logempty->templ->AddParam("COMP","EMPTY","REQ");
-    _f_a_logempty->templ->AddParam("ANY","VALUE2","REQ","NUMC");
+    _f_a_logempty->templ->AddParam(_C_T_COMP,"EMPTY",_C_T_REQ);
+    _f_a_logempty->templ->AddParam(_C_T_ANY,"VALUE2",_C_T_REQ,_C_T_NUMC);
     _f_a_logempty->func_ref = &_A_COMP;
     reg->AddFunc(_f_a_logempty);
 
@@ -161,63 +161,63 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     MCFunc* _f_var = new MCFunc();
     _f_var->name = MCVar::simple_type;
     _f_var->templ->data_type = "FUNC";
-    _f_var->templ->AddParam("COMP","VAR","REQ");
-    _f_var->templ->AddParam("NAME","VARNAME","REQ");
-    _f_var->templ->AddParam("COMP","VALUE","OPT");
-    _f_var->templ->AddParam("ANY","VARVALUE","OPTC");
-    _f_var->templ->AddParam("COMP","TYPE","OPT");
-    _f_var->templ->AddParam("NAME","TYPENAME","OPTC");
-    _f_var->templ->AddParam("COMP","OF","OPT");
-    _f_var->templ->AddParam("NAME","ARRAYTYPE","OPTC");
+    _f_var->templ->AddParam(_C_T_COMP,"VAR",_C_T_REQ);
+    _f_var->templ->AddParam(_C_T_NAME,"VARNAME",_C_T_REQ);
+    _f_var->templ->AddParam(_C_T_COMP,"VALUE",_C_T_OPT);
+    _f_var->templ->AddParam(_C_T_ANY,"VARVALUE",_C_T_OPTC);
+    _f_var->templ->AddParam(_C_T_COMP,"TYPE",_C_T_OPT);
+    _f_var->templ->AddParam(_C_T_NAME,"TYPENAME",_C_T_OPTC);
+    _f_var->templ->AddParam(_C_T_COMP,"OF",_C_T_OPT);
+    _f_var->templ->AddParam(_C_T_NAME,"ARRAYTYPE",_C_T_OPTC);
     _f_var->func_ref = &_VAR;
     reg->AddFunc(_f_var);
 
     MCFunc* _f_out = new MCFunc();
     _f_out->name = "OUT";
     _f_out->templ->data_type = "FUNC";
-    _f_out->templ->AddParam("COMP","OUT","REQ");
-    _f_out->templ->AddParam("COMP","SPACED","OPT","ADD");
-    _f_out->templ->AddParam("ANY","VALUE","SEQ");
+    _f_out->templ->AddParam(_C_T_COMP,"OUT",_C_T_REQ);
+    _f_out->templ->AddParam(_C_T_COMP,"SPACED",_C_T_OPT,_C_DC_ADD);
+    _f_out->templ->AddParam(_C_T_ANY,"VALUE",_C_T_SEQ);
     _f_out->func_ref = &_OUT;
     reg->AddFunc(_f_out);
 
     MCFunc* _f_concat = new MCFunc();
     _f_concat->name = "CONCAT";
     _f_concat->templ->data_type = "FUNC";
-    _f_concat->templ->AddParam("COMP","CONCAT","REQ");
-    _f_concat->templ->AddParam("COMP","SPACED","OPT","ADD");
-    _f_concat->templ->AddParam("ANY","VALUE","SEQ");
+    _f_concat->templ->AddParam(_C_T_COMP,"CONCAT",_C_T_REQ);
+    _f_concat->templ->AddParam(_C_T_COMP,"SPACED",_C_T_OPT,_C_DC_ADD);
+    _f_concat->templ->AddParam(_C_T_ANY,"VALUE",_C_T_SEQ);
     _f_concat->func_ref = &_CONCAT;
     reg->AddFunc(_f_concat);
 
     MCFunc* _f_do_times = new MCFunc();
     _f_do_times->name = "DO";
     _f_do_times->templ->data_type = "FUNC";
-    _f_do_times->templ->AddParam("COMP","DO","REQ");
-    _f_do_times->templ->AddParam("ANY","VALUE","REQ","NUMC");
-    _f_do_times->templ->AddParam("COMP","TIMES","REQ");
+    _f_do_times->templ->AddParam(_C_T_COMP,"DO",_C_T_REQ);
+    _f_do_times->templ->AddParam(_C_T_ANY,"VALUE",_C_T_REQ,_C_T_NUMC);
+    _f_do_times->templ->AddParam(_C_T_COMP,"TIMES",_C_T_REQ);
     _f_do_times->func_ref = &_DO_TIMES;
     reg->AddFunc(_f_do_times);
 
     MCFunc* _f_for = new MCFunc();
     _f_for->name = "FOR";
     _f_for->templ->data_type = "FUNC";
-    _f_for->templ->AddParam("COMP","FOR","REQ");
-    _f_for->templ->AddParam("VAR","VAR","REQ");
-    _f_for->templ->AddParam("COMP","FROM","REQ");
-    _f_for->templ->AddParam("ANY","VALUE1","REQ","NUMC");
-    _f_for->templ->AddParam("COMP","TO","REQ");
-    _f_for->templ->AddParam("ANY","VALUE2","REQ","NUMC");
+    _f_for->templ->AddParam(_C_T_COMP,"FOR",_C_T_REQ);
+    _f_for->templ->AddParam(_C_T_VAR,"VAR",_C_T_REQ);
+    _f_for->templ->AddParam(_C_T_COMP,"FROM",_C_T_REQ);
+    _f_for->templ->AddParam(_C_T_ANY,"VALUE1",_C_T_REQ,_C_T_NUMC);
+    _f_for->templ->AddParam(_C_T_COMP,"TO",_C_T_REQ);
+    _f_for->templ->AddParam(_C_T_ANY,"VALUE2",_C_T_REQ,_C_T_NUMC);
     _f_for->func_ref = &_FOR;
     reg->AddFunc(_f_for);
 
     MCFunc* _f_loop = new MCFunc();
     _f_loop->name = "LOOP";
     _f_loop->templ->data_type = "FUNC";
-    _f_loop->templ->AddParam("COMP","LOOP","REQ");
-    _f_loop->templ->AddParam("VAR","VAR","REQ");
-    _f_loop->templ->AddParam("COMP","BY","OPT");
-    _f_loop->templ->AddParam("NAME","NODENAME","OPTC");
+    _f_loop->templ->AddParam(_C_T_COMP,"LOOP",_C_T_REQ);
+    _f_loop->templ->AddParam(_C_T_VAR,"VAR",_C_T_REQ);
+    _f_loop->templ->AddParam(_C_T_COMP,"BY",_C_T_OPT);
+    _f_loop->templ->AddParam(_C_T_NAME,"NODENAME",_C_T_OPTC);
     _f_loop->func_ref = &_LOOP;
     reg->AddFunc(_f_loop);
 
@@ -225,19 +225,19 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     MCFunc* _f_if = new MCFunc();
     _f_if->name = "IF";
     _f_if->templ->data_type = "FUNC";
-    _f_if->templ->AddParam("COMP","IF","REQ");
-    _f_if->templ->AddParam("ANY","VALUE","REQ");
+    _f_if->templ->AddParam(_C_T_COMP,"IF",_C_T_REQ);
+    _f_if->templ->AddParam(_C_T_ANY,"VALUE",_C_T_REQ);
     _f_if->func_ref = &_IF;
     reg->AddFunc(_f_if);
 
     MCFunc* _f_type_def = new MCFunc();
     _f_type_def->name = "TYPE DEF";
     _f_type_def->templ->data_type = "FUNC";
-    _f_type_def->templ->AddParam("COMP","TYPE","REQ");
-    _f_type_def->templ->AddParam("COMP","DEF","REQ");
-    _f_type_def->templ->AddParam("NAME","TYPENAME","REQ");
-    _f_type_def->templ->AddParam("COMP","EXTENDS","OPT");
-    _f_type_def->templ->AddParam("NAME","EXTNAME","OPTC");
+    _f_type_def->templ->AddParam(_C_T_COMP,"TYPE",_C_T_REQ);
+    _f_type_def->templ->AddParam(_C_T_COMP,"DEF",_C_T_REQ);
+    _f_type_def->templ->AddParam(_C_T_NAME,"TYPENAME",_C_T_REQ);
+    _f_type_def->templ->AddParam(_C_T_COMP,"EXTENDS",_C_T_OPT);
+    _f_type_def->templ->AddParam(_C_T_NAME,"EXTNAME",_C_T_OPTC);
     _f_type_def->func_ref = &_TYPE_DEF;
     reg->AddFunc(_f_type_def);
 
@@ -245,40 +245,40 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     MCFunc* _f_set = new MCFunc();
     _f_set->name = "SET";
     _f_set->templ->data_type = "FUNC";
-    _f_set->templ->AddParam("COMP","SET","REQ");
-    _f_set->templ->AddParam("VAR","VARNAME","REQ");
-    _f_set->templ->AddParam("ANY","VARVALUE","REQ");
+    _f_set->templ->AddParam(_C_T_COMP,"SET",_C_T_REQ);
+    _f_set->templ->AddParam(_C_T_VAR,"VARNAME",_C_T_REQ);
+    _f_set->templ->AddParam(_C_T_ANY,"VARVALUE",_C_T_REQ);
     _f_set->func_ref = &_SET;
     reg->AddFunc(_f_set);
 
     MCFunc* _f_set2 = new MCFunc();
     _f_set2->name = ":=";
     _f_set2->templ->data_type = "FUNC";
-    _f_set2->templ->AddParam("VAR","VARNAME","REQ");
-    _f_set2->templ->AddParam("COMP",":=","REQ");
-    _f_set2->templ->AddParam("ANY","VARVALUE","REQ");
+    _f_set2->templ->AddParam(_C_T_VAR,"VARNAME",_C_T_REQ);
+    _f_set2->templ->AddParam(_C_T_COMP,":=",_C_T_REQ);
+    _f_set2->templ->AddParam(_C_T_ANY,"VARVALUE",_C_T_REQ);
     _f_set2->func_ref = &_SET;
     reg->AddFunc(_f_set2);
 
     MCFunc* _f_add_item = new MCFunc();
     _f_add_item->name = "ADD ITEM";
     _f_add_item->templ->data_type = "FUNC";
-    _f_add_item->templ->AddParam("COMP","ADD","REQ");
-    _f_add_item->templ->AddParam("COMP","ITEM","REQ");
-    _f_add_item->templ->AddParam("VAR","VARNAME","REQ");
+    _f_add_item->templ->AddParam(_C_T_COMP,"ADD",_C_T_REQ);
+    _f_add_item->templ->AddParam(_C_T_COMP,"ITEM",_C_T_REQ);
+    _f_add_item->templ->AddParam(_C_T_VAR,"VARNAME",_C_T_REQ);
     _f_add_item->func_ref = &_ADD_ITEM;
     reg->AddFunc(_f_add_item);
 
     MCFunc* _f_cr_node = new MCFunc();
     _f_cr_node->name = "CREATE NODE";
     _f_cr_node->templ->data_type = "FUNC";
-    _f_cr_node->templ->AddParam("COMP","CREATE","REQ");
-    _f_cr_node->templ->AddParam("COMP","NODE","REQ");
-    _f_cr_node->templ->AddParam("NAME","NODENAME","REQ");
-    _f_cr_node->templ->AddParam("COMP","IN","REQ");
-    _f_cr_node->templ->AddParam("VAR","VARNAME","REQ");
-    _f_cr_node->templ->AddParam("COMP","TYPE","REQ");
-    _f_cr_node->templ->AddParam("NAME","TYPENAME","REQ");
+    _f_cr_node->templ->AddParam(_C_T_COMP,"CREATE",_C_T_REQ);
+    _f_cr_node->templ->AddParam(_C_T_COMP,"NODE",_C_T_REQ);
+    _f_cr_node->templ->AddParam(_C_T_NAME,"NODENAME",_C_T_REQ);
+    _f_cr_node->templ->AddParam(_C_T_COMP,"IN",_C_T_REQ);
+    _f_cr_node->templ->AddParam(_C_T_VAR,"VARNAME",_C_T_REQ);
+    _f_cr_node->templ->AddParam(_C_T_COMP,"TYPE",_C_T_REQ);
+    _f_cr_node->templ->AddParam(_C_T_NAME,"TYPENAME",_C_T_REQ);
     _f_cr_node->func_ref = &_CREATE_NODE;
     reg->AddFunc(_f_cr_node);
 
@@ -286,10 +286,10 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     MCFunc* _f_def_func = new MCFunc();
     _f_def_func->name = "DEF FUNC";
     _f_def_func->templ->data_type = "FUNC";
-    _f_def_func->templ->AddParam("COMP","FUNC","REQ");
-    _f_def_func->templ->AddParam("COMP","DEF","REQ");
-    _f_def_func->templ->AddParam("NAME","FNAME","REQ");
-    _f_def_func->templ->AddParam("NAME","VALUE","SEQ");
+    _f_def_func->templ->AddParam(_C_T_COMP,"FUNC",_C_T_REQ);
+    _f_def_func->templ->AddParam(_C_T_COMP,"DEF",_C_T_REQ);
+    _f_def_func->templ->AddParam(_C_T_NAME,"FNAME",_C_T_REQ);
+    _f_def_func->templ->AddParam(_C_T_NAME,"VALUE",_C_T_SEQ);
     _f_def_func->func_ref = &_DEF_FUNC;
     reg->AddFunc(_f_def_func);
 
@@ -298,12 +298,12 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     MCFunc* _f_call_func = new MCFunc();
     _f_call_func->name = "CALL FUNC";
     _f_call_func->templ->data_type = "FUNC";
-    _f_call_func->templ->AddParam("COMP","CALL","REQ");
-    _f_call_func->templ->AddParam("COMP","FUNC","REQ");
-    _f_call_func->templ->AddParam("NAME","FNAME","REQ");
-    _f_call_func->templ->AddParam("ANY","VALUE","SEQ");
-    _f_call_func->templ->AddParam("COMP","OUT","OPT");
-    _f_call_func->templ->AddParam("VAR","REF","SEQ");
+    _f_call_func->templ->AddParam(_C_T_COMP,"CALL",_C_T_REQ);
+    _f_call_func->templ->AddParam(_C_T_COMP,"FUNC",_C_T_REQ);
+    _f_call_func->templ->AddParam(_C_T_NAME,"FNAME",_C_T_REQ);
+    _f_call_func->templ->AddParam(_C_T_ANY,"VALUE",_C_T_SEQ);
+    _f_call_func->templ->AddParam(_C_T_COMP,"OUT",_C_T_OPT);
+    _f_call_func->templ->AddParam(_C_T_VAR,"REF",_C_T_SEQ);
     _f_call_func->func_ref = &_CALL_FUNC;
     reg->AddFunc(_f_call_func);
     reg->call_func = _f_call_func;
@@ -311,74 +311,74 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     MCFunc* _f_len = new MCFunc();
     _f_len->name = "LEN";
     _f_len->templ->data_type = "FUNC";
-    _f_len->templ->AddParam("COMP","LEN","REQ");
-    _f_len->templ->AddParam("VAR","VARNAME","REQ");
+    _f_len->templ->AddParam(_C_T_COMP,"LEN",_C_T_REQ);
+    _f_len->templ->AddParam(_C_T_VAR,"VARNAME",_C_T_REQ);
     _f_len->func_ref = &_LEN;
     reg->AddFunc(_f_len);
 
     MCFunc* _f_mytype = new MCFunc();
     _f_mytype->name = "MYTYPE";
     _f_mytype->templ->data_type = "FUNC";
-    _f_mytype->templ->AddParam("COMP","MYTYPE","REQ");
-    _f_mytype->templ->AddParam("VAR","VARNAME","REQ");
+    _f_mytype->templ->AddParam(_C_T_COMP,"MYTYPE",_C_T_REQ);
+    _f_mytype->templ->AddParam(_C_T_VAR,"VARNAME",_C_T_REQ);
     _f_mytype->func_ref = &_MYTYPE;
     reg->AddFunc(_f_mytype);
 
     MCFunc* _f_myname = new MCFunc();
     _f_myname->name = "MYNAME";
     _f_myname->templ->data_type = "FUNC";
-    _f_myname->templ->AddParam("COMP","MYNAME","REQ");
-    _f_myname->templ->AddParam("VAR","VARNAME","REQ");
+    _f_myname->templ->AddParam(_C_T_COMP,"MYNAME",_C_T_REQ);
+    _f_myname->templ->AddParam(_C_T_VAR,"VARNAME",_C_T_REQ);
     _f_myname->func_ref = &_MYNAME;
     reg->AddFunc(_f_myname);
 
     MCFunc* _f_ce = new MCFunc();
     _f_ce->name = "CE";
     _f_ce->templ->data_type = "FUNC";
-    _f_ce->templ->AddParam("COMP","CE","REQ");
-    _f_ce->templ->AddParam("VAR","VARNAME","SEQ");
+    _f_ce->templ->AddParam(_C_T_COMP,"CE",_C_T_REQ);
+    _f_ce->templ->AddParam(_C_T_VAR,"VARNAME",_C_T_SEQ);
     _f_ce->func_ref = &_CE;
     reg->AddFunc(_f_ce);
 
     MCFunc* _f_idx = new MCFunc();
     _f_idx->name = "IDX";
     _f_idx->templ->data_type = "FUNC";
-    _f_idx->templ->AddParam("COMP","IDX","REQ");
-    _f_idx->templ->AddParam("ANY","VALUE","REQ");
+    _f_idx->templ->AddParam(_C_T_COMP,"IDX",_C_T_REQ);
+    _f_idx->templ->AddParam(_C_T_ANY,"VALUE",_C_T_REQ);
     _f_idx->func_ref = &_IDX;
     reg->AddFunc(_f_idx);
 
     MCFunc* _f_savetofile = new MCFunc();
     _f_savetofile->name = "SAVE TO FILE";
     _f_savetofile->templ->data_type = "FUNC";
-    _f_savetofile->templ->AddParam("COMP","SAVE","REQ");
-    _f_savetofile->templ->AddParam("ANY","VALUE","REQ");
-    _f_savetofile->templ->AddParam("COMP","TO","REQ");
-    _f_savetofile->templ->AddParam("COMP","FILE","REQ");
-    _f_savetofile->templ->AddParam("ANY","FILENAME","REQ");
+    _f_savetofile->templ->AddParam(_C_T_COMP,"SAVE",_C_T_REQ);
+    _f_savetofile->templ->AddParam(_C_T_ANY,"VALUE",_C_T_REQ);
+    _f_savetofile->templ->AddParam(_C_T_COMP,"TO",_C_T_REQ);
+    _f_savetofile->templ->AddParam(_C_T_COMP,"FILE",_C_T_REQ);
+    _f_savetofile->templ->AddParam(_C_T_ANY,"FILENAME",_C_T_REQ);
     _f_savetofile->func_ref = &_SAVETOFILE;
     reg->AddFunc(_f_savetofile);
 
     MCFunc* _f_loadfromfile = new MCFunc();
     _f_loadfromfile->name = "LOAD FROM FILE";
     _f_loadfromfile->templ->data_type = "FUNC";
-    _f_loadfromfile->templ->AddParam("COMP","LOAD","REQ");
-    _f_loadfromfile->templ->AddParam("VAR","VARNAME","REQ");
-    _f_loadfromfile->templ->AddParam("COMP","FROM","REQ");
-    _f_loadfromfile->templ->AddParam("COMP","FILE","REQ");
-    _f_loadfromfile->templ->AddParam("ANY","FILENAME","REQ");
+    _f_loadfromfile->templ->AddParam(_C_T_COMP,"LOAD",_C_T_REQ);
+    _f_loadfromfile->templ->AddParam(_C_T_VAR,"VARNAME",_C_T_REQ);
+    _f_loadfromfile->templ->AddParam(_C_T_COMP,"FROM",_C_T_REQ);
+    _f_loadfromfile->templ->AddParam(_C_T_COMP,"FILE",_C_T_REQ);
+    _f_loadfromfile->templ->AddParam(_C_T_ANY,"FILENAME",_C_T_REQ);
     _f_loadfromfile->func_ref = &_LOADFROMFILE;
     reg->AddFunc(_f_loadfromfile);
 
     MCFunc* _f_treeloadfromfile = new MCFunc();
     _f_treeloadfromfile->name = "TREE LOAD FROM FILE";
     _f_treeloadfromfile->templ->data_type = "FUNC";
-    _f_treeloadfromfile->templ->AddParam("COMP","TREE","REQ");
-    _f_treeloadfromfile->templ->AddParam("COMP","LOAD","REQ");
-    _f_treeloadfromfile->templ->AddParam("VAR","VARNAME","REQ");
-    _f_treeloadfromfile->templ->AddParam("COMP","FROM","REQ");
-    _f_treeloadfromfile->templ->AddParam("COMP","FILE","REQ");
-    _f_treeloadfromfile->templ->AddParam("ANY","FILENAME","REQ");
+    _f_treeloadfromfile->templ->AddParam(_C_T_COMP,"TREE",_C_T_REQ);
+    _f_treeloadfromfile->templ->AddParam(_C_T_COMP,"LOAD",_C_T_REQ);
+    _f_treeloadfromfile->templ->AddParam(_C_T_VAR,"VARNAME",_C_T_REQ);
+    _f_treeloadfromfile->templ->AddParam(_C_T_COMP,"FROM",_C_T_REQ);
+    _f_treeloadfromfile->templ->AddParam(_C_T_COMP,"FILE",_C_T_REQ);
+    _f_treeloadfromfile->templ->AddParam(_C_T_ANY,"FILENAME",_C_T_REQ);
     _f_treeloadfromfile->func_ref = &_TREELOADFROMFILE;
     reg->AddFunc(_f_treeloadfromfile);
 
@@ -388,23 +388,23 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
 
     MCFunc* _f_type_of = new MCFunc();
     _f_type_of->name = "TYPE OF";
-    _f_type_of->func_type = "TYPE";
+    _f_type_of->func_type = _C_FT_TYPE;
     _f_type_of->templ->data_type = "FUNC";
-    _f_type_of->templ->AddParam("NAME","NAME","REQ");
-    _f_type_of->templ->AddParam("COMP","TYPE","REQ");
-    _f_type_of->templ->AddParam("COMP","OF","REQ");
-    _f_type_of->templ->AddParam("NAME","TYPENAME","REQ");
+    _f_type_of->templ->AddParam(_C_T_NAME,"NAME",_C_T_REQ);
+    _f_type_of->templ->AddParam(_C_T_COMP,"TYPE",_C_T_REQ);
+    _f_type_of->templ->AddParam(_C_T_COMP,"OF",_C_T_REQ);
+    _f_type_of->templ->AddParam(_C_T_NAME,"TYPENAME",_C_T_REQ);
     _f_type_of->func_ref = &_TYPE_OF;
     reg->AddFunc(_f_type_of);
 
     MCFunc* _f_def_method = new MCFunc();
     _f_def_method->name = "DEF FUNC";
-    _f_def_method->func_type = "TYPE";
+    _f_def_method->func_type = _C_FT_TYPE;
     _f_def_method->templ->data_type = "FUNC";
-    _f_def_method->templ->AddParam("COMP","METHOD","REQ");
-    _f_def_method->templ->AddParam("COMP","DEF","REQ");
-    _f_def_method->templ->AddParam("NAME","FNAME","REQ");
-    _f_def_method->templ->AddParam("NAME","VALUE","SEQ");
+    _f_def_method->templ->AddParam(_C_T_COMP,"METHOD",_C_T_REQ);
+    _f_def_method->templ->AddParam(_C_T_COMP,"DEF",_C_T_REQ);
+    _f_def_method->templ->AddParam(_C_T_NAME,"FNAME",_C_T_REQ);
+    _f_def_method->templ->AddParam(_C_T_NAME,"VALUE",_C_T_SEQ);
     _f_def_method->func_ref = &_DEF_METHOD;
     reg->AddFunc(_f_def_method);
 
@@ -441,7 +441,7 @@ MCRet* _VAR(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFun
         var_type = vtype->ref_line->data;
         if(var_type!="ARRAY" && typeof!=NULL)
         {
-            MCRet* RET = engine->RetCreate(engine->_C_F_TYPE_MISMATCH,"","ERROR","You can not specify item type of non-array object " + v_name,-100);
+            MCRet* RET = engine->RetCreate(_C_F_TYPE_MISMATCH,"","ERROR","You can not specify item type of non-array object " + v_name,-100);
             return RET;
         }
     }
@@ -449,7 +449,7 @@ MCRet* _VAR(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFun
     {
         if(typeof!=NULL)
         {
-            MCRet* RET = engine->RetCreate(engine->_C_F_TYPE_MISMATCH,"","ERROR","You can not specify item type of non-array object " + v_name,-100);
+            MCRet* RET = engine->RetCreate(_C_F_TYPE_MISMATCH,"","ERROR","You can not specify item type of non-array object " + v_name,-100);
             return RET;
         }
     }
@@ -458,7 +458,7 @@ MCRet* _VAR(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFun
     {
         if( types->FindSibling(typeof->ref_line->data,types) == NULL)
         {
-            MCRet* RET = engine->RetCreate(engine->_C_F_TYPE_NOT_FOUND,"","ERROR","Type of item not found " + typeof->ref_line->data,-100);
+            MCRet* RET = engine->RetCreate(_C_F_TYPE_NOT_FOUND,"","ERROR","Type of item not found " + typeof->ref_line->data,-100);
             return RET;
         }
         array_type = typeof->ref_line->data;
@@ -473,19 +473,19 @@ MCRet* _VAR(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFun
 
     if(res==-1)
     {
-        MCRet* RET = engine->RetCreate(engine->_C_F_VAR_EXIST,"","ERROR","Object already exists " + v_name + " : " + error_text,-100);
+        MCRet* RET = engine->RetCreate(_C_F_VAR_EXIST,"","ERROR","Object already exists " + v_name + " : " + error_text,-100);
         return RET;
 
     }
     else if(res==-2)
     {
-        MCRet* RET = engine->RetCreate(engine->_C_F_TYPE_NOT_FOUND,"","ERROR","Can not find all types for " + v_name+ " : " + error_text,-100);
+        MCRet* RET = engine->RetCreate(_C_F_TYPE_NOT_FOUND,"","ERROR","Can not find all types for " + v_name+ " : " + error_text,-100);
         return RET;
 
     }
     if(res==-3)
     {
-        MCRet* RET = engine->RetCreate(engine->_C_F_NAME_NOT_ALLOWED,"","ERROR","Name is not allowed : " + v_name,-100);
+        MCRet* RET = engine->RetCreate(_C_F_NAME_NOT_ALLOWED,"","ERROR","Name is not allowed : " + v_name,-100);
         return RET;
     }
     return RET;
@@ -499,7 +499,7 @@ MCRet* _CREATE_NODE(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* type
 
     if(var->value->ref_var->data_type != "TREE")
     {
-        MCRet* RET = engine->RetCreate(engine->_C_F_TYPE_MISMATCH,"","ERROR","You can not add node to non-TREE type object " + var->value->ref_var->data_type,-100);
+        MCRet* RET = engine->RetCreate(_C_F_TYPE_MISMATCH,"","ERROR","You can not add node to non-TREE type object " + var->value->ref_var->data_type,-100);
         return RET;
     }
 
@@ -514,13 +514,13 @@ MCRet* _CREATE_NODE(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* type
 
     if(res==-2)
     {
-        MCRet* RET = engine->RetCreate(engine->_C_F_TYPE_NOT_FOUND,"","ERROR","Can not find all types for " + v_name+ " : " + error_text,-100);
+        MCRet* RET = engine->RetCreate(_C_F_TYPE_NOT_FOUND,"","ERROR","Can not find all types for " + v_name+ " : " + error_text,-100);
         return RET;
 
     }
     if(res==-3)
     {
-        MCRet* RET = engine->RetCreate(engine->_C_F_NAME_NOT_ALLOWED,"","ERROR","Name is not allowed : " + v_name,-100);
+        MCRet* RET = engine->RetCreate(_C_F_NAME_NOT_ALLOWED,"","ERROR","Name is not allowed : " + v_name,-100);
         return RET;
     }
 
@@ -535,7 +535,7 @@ MCRet* _SET(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFun
     MCFParams* var_value = params->GetParam("VARVALUE");
     if(name->value->ref_var->data_type!=MCVar::simple_type && name->value->ref_var->data_type!="TREE")
     {
-        MCRet* RET = engine->RetCreate(engine->_C_F_PROTECTED_VALUE,"","ERROR","Can not assign value for type " + name->value->ref_var->data_type + " in line [" + engine->cur_code->data +  "]",-100);
+        MCRet* RET = engine->RetCreate(_C_F_PROTECTED_VALUE,"","ERROR","Can not assign value for type " + name->value->ref_var->data_type + " in line [" + engine->cur_code->data +  "]",-100);
         return RET;
     }
     std::string v_value = var_value->value->ret_data;
@@ -560,7 +560,7 @@ MCRet* _CE(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc
         MCFParams* name = (MCFParams*)*it;
         std::string error_txt = name->value->ref_var->SetValue("");
         if(error_txt!="")
-            return engine->RetCreate(engine->_C_F_PROTECTED_VALUE,"ERROR","",error_txt  + " in line [" + engine->cur_code->data +  "]",0);
+            return engine->RetCreate(_C_F_PROTECTED_VALUE,"ERROR","",error_txt  + " in line [" + engine->cur_code->data +  "]",0);
 
     }
 
@@ -648,7 +648,7 @@ MCRet* _LOADFROMFILE(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* typ
                          (std::istreambuf_iterator<char>()    ) );
     std::string error_txt = toload->value->ref_var->SetValue(content);
     if(error_txt!="")
-        return engine->RetCreate(engine->_C_F_PROTECTED_VALUE,"ERROR","",error_txt  + " in line [" + engine->cur_code->data +  "]",0);
+        return engine->RetCreate(_C_F_PROTECTED_VALUE,"ERROR","",error_txt  + " in line [" + engine->cur_code->data +  "]",0);
 
     MCRet* RET = engine->RetCreate(0,content,"","",0);
     return RET;
@@ -661,7 +661,7 @@ MCRet* _TREELOADFROMFILE(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar*
     MCFParams* fname = params->GetParam("FILENAME");
     if(toload->value->ref_var->data_type!="TREE")
     {
-        MCRet* RET = engine->RetCreate(engine->_C_F_TYPE_MISMATCH,"","ERROR","You can not load XML to non-TREE type object " + toload->value->ref_var->data_type,-100);
+        MCRet* RET = engine->RetCreate(_C_F_TYPE_MISMATCH,"","ERROR","You can not load XML to non-TREE type object " + toload->value->ref_var->data_type,-100);
         return RET;
     }
     std::string filename = fname->value->ret_data;
@@ -796,7 +796,7 @@ MCRet* _FOR(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFun
     MCVar* var_counter = var_value->value->ref_var;
     if(var_counter->data_type!=MCVar::simple_type)
     {
-        MCRet* RET = engine->RetCreate(engine->_C_F_PROTECTED_VALUE,"","ERROR","Can not assign value for type " + var_counter->data_type + " in line [" + engine->cur_code->data +  "]",-100);
+        MCRet* RET = engine->RetCreate(_C_F_PROTECTED_VALUE,"","ERROR","Can not assign value for type " + var_counter->data_type + " in line [" + engine->cur_code->data +  "]",-100);
         return RET;
     }
     if(from<to)
@@ -1031,23 +1031,23 @@ MCRet* _TYPE_DEF(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, 
     int res = types->CreateVar(v_name,type_cr,"",types,error_text,cr_var,extends_type);
     if(res==-1)
     {
-        MCRet* RET = engine->RetCreate(engine->_C_F_TYPE_EXIST,"","ERROR","Type already exists " + v_name+ " : " + error_text,-100);
+        MCRet* RET = engine->RetCreate(_C_F_TYPE_EXIST,"","ERROR","Type already exists " + v_name+ " : " + error_text,-100);
         return RET;
 
     }
     else if(res==-2)
     {
-        MCRet* RET = engine->RetCreate(engine->_C_F_TYPE_NOT_FOUND,"","ERROR","Can not find all types for " + v_name+ " : " + error_text,-100);
+        MCRet* RET = engine->RetCreate(_C_F_TYPE_NOT_FOUND,"","ERROR","Can not find all types for " + v_name+ " : " + error_text,-100);
         return RET;
 
     }
     if(res==-3)
     {
-        MCRet* RET = engine->RetCreate(engine->_C_F_NAME_NOT_ALLOWED,"","ERROR","Name is not allowed " + v_name+ " : " + error_text,-100);
+        MCRet* RET = engine->RetCreate(_C_F_NAME_NOT_ALLOWED,"","ERROR","Name is not allowed " + v_name+ " : " + error_text,-100);
         return RET;
 
     }
-    MCRet* RES = engine->EvaluateLine(line,vars,cr_var,"TYPE");
+    MCRet* RES = engine->EvaluateLine(line,vars,cr_var,_C_FT_TYPE);
     if(RES != NULL)
         if(RES->code < 0 || RES->stop_code != 0)
         {
@@ -1063,7 +1063,7 @@ MCRet* _TYPE_OF(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, M
 {
     if(types->data=="[GLOBAL]")
     {
-        MCRet* RET = engine->RetCreate(engine->_C_F_GLOBAL_TYPE,"","ERROR","Components could be defined only in types",-100);
+        MCRet* RET = engine->RetCreate(_C_F_GLOBAL_TYPE,"","ERROR","Components could be defined only in types",-100);
         return RET;
     }
 
@@ -1076,13 +1076,13 @@ MCRet* _TYPE_OF(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, M
     int res = types->CreateVar(v_name,t_name,"",engine->type_scope,error_text,cr_var);
     if(res==-1)
     {
-        MCRet* RET = engine->RetCreate(engine->_C_F_TYPE_EXIST,"","ERROR","Type already exists " + v_name+ " : " + error_text,-100);
+        MCRet* RET = engine->RetCreate(_C_F_TYPE_EXIST,"","ERROR","Type already exists " + v_name+ " : " + error_text,-100);
         return RET;
 
     }
     else if(res==-2)
     {
-        MCRet* RET = engine->RetCreate(engine->_C_F_TYPE_NOT_FOUND,"","ERROR","Can not find all types for " + v_name+ " : " + error_text,-100);
+        MCRet* RET = engine->RetCreate(_C_F_TYPE_NOT_FOUND,"","ERROR","Can not find all types for " + v_name+ " : " + error_text,-100);
         return RET;
 
     }
@@ -1096,7 +1096,7 @@ MCRet* _ADD_ITEM(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, 
     MCFParams* vname = params->GetParam("VARNAME");
     if(vname->value->ref_var->data_type !="ARRAY")
     {
-        MCRet* RET = engine->RetCreate(engine->_C_F_NON_ARRAY,"","ERROR","You can not use as array object " + vname->value->ref_var->var_name,-100);
+        MCRet* RET = engine->RetCreate(_C_F_NON_ARRAY,"","ERROR","You can not use as array object " + vname->value->ref_var->var_name,-100);
         return RET;
     }
 
@@ -1106,13 +1106,13 @@ MCRet* _ADD_ITEM(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, 
 
     if(res==-1)
     {
-        MCRet* RET = engine->RetCreate(engine->_C_F_TYPE_EXIST,"","ERROR","index already exists " + index+ " : " + error_text,-100);
+        MCRet* RET = engine->RetCreate(_C_F_TYPE_EXIST,"","ERROR","index already exists " + index+ " : " + error_text,-100);
         return RET;
 
     }
     else if(res==-2)
     {
-        MCRet* RET = engine->RetCreate(engine->_C_F_TYPE_NOT_FOUND,"","ERROR","Can not find all types for " + vname->value->ref_var->var_name+ " : " + error_text,-100);
+        MCRet* RET = engine->RetCreate(_C_F_TYPE_NOT_FOUND,"","ERROR","Can not find all types for " + vname->value->ref_var->var_name+ " : " + error_text,-100);
         return RET;
 
     }
@@ -1126,7 +1126,7 @@ MCRet* _DEF_FUNC(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, 
 
     if(engine->func_scope->FindSibling(fname->ref_line->data,engine->func_scope)!=NULL)
     {
-        MCRet* RET = engine->RetCreate(engine->_C_F_FUNC_EXIST,"","ERROR","Function already exists " + fname->ref_line->data,-100);
+        MCRet* RET = engine->RetCreate(_C_F_FUNC_EXIST,"","ERROR","Function already exists " + fname->ref_line->data,-100);
         return RET;
     }
 
@@ -1136,7 +1136,7 @@ MCRet* _DEF_FUNC(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, 
 
     if(res!=0)
     {
-        MCRet* RET = engine->RetCreate(engine->_C_F_NAME_NOT_ALLOWED,"","ERROR","Can not create object : " + fname->ref_line->data,-100);
+        MCRet* RET = engine->RetCreate(_C_F_NAME_NOT_ALLOWED,"","ERROR","Can not create object : " + fname->ref_line->data,-100);
         return RET;
     }
 
@@ -1158,14 +1158,14 @@ MCRet* _DEF_FUNC(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, 
                 ++it;
                 if(it == params->children.end())
                 {
-                    MCRet* RET = engine->RetCreate(engine->_C_F_INCOMPLETE_DEF,"","ERROR","Incomplete definition of parameter " + pfunc->var_name + " : " + error_txt,-100);
+                    MCRet* RET = engine->RetCreate(_C_F_INCOMPLETE_DEF,"","ERROR","Incomplete definition of parameter " + pfunc->var_name + " : " + error_txt,-100);
                     return RET;
                 }
                 MCFParams* next_param =(MCFParams*) *it;
 
                 if(!pfunc->is_ref &&  next_param->ref_line->data!=MCVar::simple_type )
                 {
-                    MCRet* RET = engine->RetCreate(engine->_C_F_INCOMPLETE_DEF,"","ERROR","Non-VAR types allowed only as references, use OUT keyword " + pfunc->var_name + " : " + error_txt,-100);
+                    MCRet* RET = engine->RetCreate(_C_F_INCOMPLETE_DEF,"","ERROR","Non-VAR types allowed only as references, use OUT keyword " + pfunc->var_name + " : " + error_txt,-100);
                     //delete Func;
                     return RET;
                 }
@@ -1186,7 +1186,7 @@ MCRet* _DEF_FUNC(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, 
         int res = Func->CreateVar(param->ref_line->data,MCVar::simple_type,"",types,error_txt,pfunc);
         if(res==-1)
         {
-            MCRet* RET = engine->RetCreate(engine->_C_F_VAR_EXIST,"","ERROR","Parameter already exist " + param->ref_line->data + " : " + error_txt,-100);
+            MCRet* RET = engine->RetCreate(_C_F_VAR_EXIST,"","ERROR","Parameter already exist " + param->ref_line->data + " : " + error_txt,-100);
             return RET;
         }
 
@@ -1202,7 +1202,7 @@ MCRet* _DEF_METHOD(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types
 {
     if(types->data=="[GLOBAL]")
     {
-        MCRet* RET = engine->RetCreate(engine->_C_F_GLOBAL_TYPE,"","ERROR","Components could be defined only in types",-100);
+        MCRet* RET = engine->RetCreate(_C_F_GLOBAL_TYPE,"","ERROR","Components could be defined only in types",-100);
         return RET;
     }
 
@@ -1210,7 +1210,7 @@ MCRet* _DEF_METHOD(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types
 
     if(types->FindSibling(fname->ref_line->data,types)!=NULL)
     {
-        MCRet* RET = engine->RetCreate(engine->_C_F_FUNC_EXIST,"","ERROR","Function already exists " + fname->ref_line->data,-100);
+        MCRet* RET = engine->RetCreate(_C_F_FUNC_EXIST,"","ERROR","Function already exists " + fname->ref_line->data,-100);
         return RET;
     }
 
@@ -1220,7 +1220,7 @@ MCRet* _DEF_METHOD(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types
 
     if(res!=0)
     {
-        MCRet* RET = engine->RetCreate(engine->_C_F_NAME_NOT_ALLOWED,"","ERROR","Can not create object : " + fname->ref_line->data,-100);
+        MCRet* RET = engine->RetCreate(_C_F_NAME_NOT_ALLOWED,"","ERROR","Can not create object : " + fname->ref_line->data,-100);
         return RET;
     }
 
@@ -1241,14 +1241,14 @@ MCRet* _DEF_METHOD(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types
                 ++it;
                 if(it == params->children.end())
                 {
-                    MCRet* RET = engine->RetCreate(engine->_C_F_INCOMPLETE_DEF,"","ERROR","Incomplete definition of parameter " + pfunc->var_name + " : " + error_txt,-100);
+                    MCRet* RET = engine->RetCreate(_C_F_INCOMPLETE_DEF,"","ERROR","Incomplete definition of parameter " + pfunc->var_name + " : " + error_txt,-100);
                     //delete Func;
                     return RET;
                 }
                 MCFParams* next_param =(MCFParams*) *it;
                 if(!pfunc->is_ref &&  next_param->ref_line->data!=MCVar::simple_type )
                 {
-                    MCRet* RET = engine->RetCreate(engine->_C_F_INCOMPLETE_DEF,"","ERROR","Non-VAR types allowed only as references, use OUT keyword " + pfunc->var_name + " : " + error_txt,-100);
+                    MCRet* RET = engine->RetCreate(_C_F_INCOMPLETE_DEF,"","ERROR","Non-VAR types allowed only as references, use OUT keyword " + pfunc->var_name + " : " + error_txt,-100);
                     //delete Func;
                     return RET;
                 }
@@ -1268,7 +1268,7 @@ MCRet* _DEF_METHOD(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types
         int res = Func->CreateVar(param->ref_line->data,MCVar::simple_type,"",types,error_txt,pfunc);
         if(res==-1)
         {
-            MCRet* RET = engine->RetCreate(engine->_C_F_VAR_EXIST,"","ERROR","Parameter already exist " + param->ref_line->data + " : " + error_txt,-100);
+            MCRet* RET = engine->RetCreate(_C_F_VAR_EXIST,"","ERROR","Parameter already exist " + param->ref_line->data + " : " + error_txt,-100);
             return RET;
         }
 
@@ -1302,7 +1302,7 @@ MCRet* _CALL_FUNC(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types,
 
     if(Func==NULL)
     {
-        MCRet* RET = engine->RetCreate(engine->_C_F_FUNC_EXIST,"","ERROR","Function does not exists " + fname,-100);
+        MCRet* RET = engine->RetCreate(_C_F_FUNC_EXIST,"","ERROR","Function does not exists " + fname,-100);
         return RET;
     }
 
@@ -1324,24 +1324,24 @@ MCRet* _CALL_FUNC(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types,
 
         if(var_cc>var_c)
         {
-            MCRet* RET = engine->RetCreate(engine->_C_F_FUNC_PARAM_ERROR,"","ERROR","Unknown parameter " + param->ref_line->data + " in " + fname,-100);
+            MCRet* RET = engine->RetCreate(_C_F_FUNC_PARAM_ERROR,"","ERROR","Unknown parameter " + param->ref_line->data + " in " + fname,-100);
             return RET;
         }
 
         MCVar* pfunc = (MCVar*) Func->children.at(var_cc-1);
         if( pfunc->is_ref && param->value->ref_var == NULL)
         {
-            MCRet* RET = engine->RetCreate(engine->_C_F_FUNC_PARAM_ERROR,"","ERROR","OUT parameter needs LVALUE " + param->ref_line->data + " in " + fname,-100);
+            MCRet* RET = engine->RetCreate(_C_F_FUNC_PARAM_ERROR,"","ERROR","OUT parameter needs LVALUE " + param->ref_line->data + " in " + fname,-100);
             return RET;
         }
         if(pfunc->data_class!=MCVar::simple_type && param->value->ref_var == NULL )
         {
-            MCRet* RET = engine->RetCreate(engine->_C_F_TYPE_MISMATCH,"","ERROR","Parameter has incorrect type VALUE/VAR when " + pfunc->data_class + " needed in  " + fname,-100);
+            MCRet* RET = engine->RetCreate(_C_F_TYPE_MISMATCH,"","ERROR","Parameter has incorrect type VALUE/VAR when " + pfunc->data_class + " needed in  " + fname,-100);
             return RET;
         }
         if(param->value->ref_var !=NULL  && pfunc->data_class != param->value->ref_var->data_type )
         {
-            MCRet* RET = engine->RetCreate(engine->_C_F_TYPE_MISMATCH,"","ERROR","Parameter has incorrect type " + param->value->ref_var->data_type + " when " + pfunc->data_class + " needed in  " + fname,-100);
+            MCRet* RET = engine->RetCreate(_C_F_TYPE_MISMATCH,"","ERROR","Parameter has incorrect type " + param->value->ref_var->data_type + " when " + pfunc->data_class + " needed in  " + fname,-100);
             return RET;
         }
 
@@ -1349,7 +1349,7 @@ MCRet* _CALL_FUNC(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types,
 
     if(var_cc != var_c)
     {
-        MCRet* RET = engine->RetCreate(engine->_C_F_FUNC_PARAM_ERROR,"","ERROR","Not all parameters are provided (" + std::to_string(var_cc)  + ") to " + fname,-100);
+        MCRet* RET = engine->RetCreate(_C_F_FUNC_PARAM_ERROR,"","ERROR","Not all parameters are provided (" + std::to_string(var_cc)  + ") to " + fname,-100);
         return RET;
     }
 

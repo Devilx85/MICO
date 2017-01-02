@@ -1,0 +1,16 @@
+2017-01-02 22:41:52: -- Analysis Started by On File Change Incremental
+2017-01-02 22:41:52: Changes: 1, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 715
+2017-01-02 22:41:52: Left to Right: Copy File: 1 
+2017-01-02 22:41:52: == Sync Started by On File Change Incremental
+2017-01-02 22:41:52: Copy Over 'H:/MyDOCS/c++/MiCo/MiCo.depend' -> 'H:/GIT/MICO/MiCo.depend'
+2017-01-02 22:41:52: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 1, Errors: 0
+2017-01-02 22:41:53: -- Analysis Started by On File Change PostSync Re-Analyze
+2017-01-02 22:41:53: Changes: 3, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 715
+2017-01-02 22:41:53: Left to Right: Copy File: 3 
+2017-01-02 22:41:53: == Sync Started by On File Change PostSync Re-Analyze
+2017-01-02 22:41:53: Copy Over 'H:/MyDOCS/c++/MiCo/obj/Debug/MiCo/main.o' -> 'H:/GIT/MICO/obj/Debug/MiCo/main.o'
+2017-01-02 22:41:53: Copy Over 'H:/MyDOCS/c++/MiCo/obj/Debug/MiCo/src/MCCodeLine.o' -> 'H:/GIT/MICO/obj/Debug/MiCo/src/MCCodeLine.o'
+2017-01-02 22:41:53: H:/MyDOCS/c++/MiCo/obj/Debug/MiCo/src/MCDataNode.o: Source file has changed between Analyze and Sync from '[file] size=0 accu-time=2017-01-02 22:41:53 attr=Archive' to 'size=131 918 time=2017-01-02 22:41:53', noted in source file state
+2017-01-02 22:41:53: Copy Over 'H:/MyDOCS/c++/MiCo/obj/Debug/MiCo/src/MCDataNode.o' -> 'H:/GIT/MICO/obj/Debug/MiCo/src/MCDataNode.o'
+2017-01-02 22:41:53: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 3, Errors: 0
+2017-01-02 22:41:53: 

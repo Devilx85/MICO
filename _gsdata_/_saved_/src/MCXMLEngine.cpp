@@ -12,7 +12,7 @@ MCRet* MCXMLEngine::LoadString(std::string xml,MCVar* ret_var,MCEngine* Engine)
     if (!result)
     {
         std::string descr = result.description();
-        return Engine->RetCreate(Engine->_C_F_TRANSLATION_ERROR,"","ERROR","Can not parse XML:"+descr,-100);
+        return Engine->RetCreate(_C_F_TRANSLATION_ERROR,"","ERROR","Can not parse XML:"+descr,-100);
     }
     pugi::xml_node xml_node = doc.root();
     ExploreNodes(xml_node,ret_var,Engine);
@@ -32,7 +32,7 @@ MCRet* MCXMLEngine::ExploreNodes(pugi::xml_node node,MCVar* ret_var,MCEngine* En
 
     for (pugi::xml_node child: node.children())
     {
-        ret_var->CreateVar(child.name(),"TREE",child.value(),Engine->type_scope,er_text,cr_p);
+        ret_var->CreateVar(child.name(),"TREE",child.child_value(),Engine->type_scope,er_text,cr_p);
         ExploreNodes(child,cr_p,Engine);
     }
 

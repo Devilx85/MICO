@@ -4,6 +4,7 @@
 MCCodeLine::MCCodeLine()
 {
     //ctor
+    data_type = "LINE";
 
 }
 

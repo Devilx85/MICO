@@ -21,6 +21,12 @@ public:
 
     int line_id = 0;
 
+    int e_type = 0;
+    int f_type = 0;
+    int dc_type = 0;
+
+    double num_value = 0;
+
     void AddChild(MCDataNode *child);
     void AddAutoExpression();
     void Free();

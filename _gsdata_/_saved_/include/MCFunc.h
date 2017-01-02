@@ -17,8 +17,9 @@ public:
     virtual ~MCFunc();
     std::string name = "";
     std::string description = "";
-    std::string func_type = "FUNC";
+    int func_type = "FUNC";
     int calc_order = 1;
+
     MCFTemplate * templ = NULL;
     MCRet* (*func_ref)(MCEngine*,MCCodeLine*, MCVar*, MCVar*, MCFunc*,MCFParams*) = NULL;
 protected:

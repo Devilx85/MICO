@@ -30,12 +30,12 @@ void MCFParams::ClearIndependents()
     for (std::vector<MCDataNode *>::iterator it = children.begin() ; it != children.end(); ++it)
     {
         MCFParams * line=(MCFParams*) *it;
-        if(line->is_independent)
-            {
-                delete line->ref_line;
-                delete line->ref_vline;
+       /* if(line->is_independent)
+        {
+            delete line->ref_line;
+            delete line->ref_vline;
 
-            }
+        }*/
     }
 
 }

@@ -4,16 +4,19 @@
 #include <MCDataNode.h>
 
 
+
 class MCFTemplate : public MCDataNode
 {
-    public:
-        MCFTemplate();
-        virtual ~MCFTemplate();
-        int req_count = 0;
-        void AddParam(std::string ptype,std::string pvalue,std::string pformal,std::string pclass = "ANY");
-    protected:
+public:
+    MCFTemplate();
+    virtual ~MCFTemplate();
+    int req_count = 0;
 
-    private:
+
+    void AddParam(int ptype,std::string pvalue,int pformal,int pclass = _C_CF_ANY);
+protected:
+
+private:
 };
 
 #endif // MCFTEMPLATE_H
