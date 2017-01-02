@@ -29,6 +29,10 @@ MCEngine::MCEngine()
     type_scope->data_type = "[GLOBAL]";
     type_scope->data_namespace = "TYPES";
     type_scope->data = "[GLOBAL]";
+    MCVar *ptr = NULL;
+    std::string er_txt = "";
+    var_scope->CreateVar("PTR","REF","",type_scope,er_txt,ptr);
+    ptr->var_name = "#PTR";
 
 }
 MCRet* MCEngine::CastNumc(std::string value)
@@ -55,10 +59,14 @@ MCRet* MCEngine::Run()
     std::chrono::high_resolution_clock::time_point end_time;
 
     start_time = std::chrono::high_resolution_clock::now();
+
     MCRet* RET = EvaluateLine(code,var_scope,type_scope);
+
     end_time = std::chrono::high_resolution_clock::now();
     auto elapsed = end_time - start_time;
     exec_time =  std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
+    last_return = RET;
+
     return RET;
 }
 
@@ -88,7 +96,7 @@ MCRet* MCEngine::EvaluateLine(MCCodeLine * line, MCVar* xvar_scope, MCVar* xtype
 
         if(ret!= NULL)
         {
-            if(ret->bufout.length()!=0)
+            if(ret->bufout!="")
             {
                 out_buffer = out_buffer + ret->bufout;
                 ret->bufout = "";
@@ -155,9 +163,11 @@ MCRet* MCEngine::RetCreate(int pcode,std::string pdata,std::string ptype,std::st
 MCRet* MCEngine::SubExpressionRender(MCCodeLine * line,MCVar* xvar_scope,MCVar* xtype_scope)
 {
     std::string in_data = line->data;
+
     for (std::vector<MCDataNode *>::iterator it = line->children.begin() ; it != line->children.end(); ++it)
     {
         MCCodeLine * subexpr=(MCCodeLine*) *it;
+
         if(subexpr->data_type=="SUBEXPR")
         {
             MCRet* new_ret = RenderLine(subexpr,xvar_scope,xtype_scope);
@@ -186,7 +196,8 @@ MCRet* MCEngine::RenderLine(MCCodeLine * line,MCVar* xvar_scope,MCVar* xtype_sco
     bool detected = false;
     bool optc_params_ommit = false;
     int optc_params_was = 0;
-    MCCodeLine * after_code = NULL;
+
+    MCCodeLine * after_code = NULL; //contains only refs
 
     if(in_params == 0)
     {
@@ -214,7 +225,7 @@ MCRet* MCEngine::RenderLine(MCCodeLine * line,MCVar* xvar_scope,MCVar* xtype_sco
 
         MCCodeLine* v_param = (MCCodeLine*) line->expressions.at(0);
 
-        MCRet* RET  = SubExpressionRender(v_param,xvar_scope,xtype_scope);
+        MCRet* RET  = SubExpressionRender(line,xvar_scope,xtype_scope);
 
         if(RET->code < 0)
         {
@@ -222,6 +233,8 @@ MCRet* MCEngine::RenderLine(MCCodeLine * line,MCVar* xvar_scope,MCVar* xtype_sco
         }
 
         v_param->data = RET->ret_data;
+        delete RET;
+
         if(is_number(v_param->data))
         {
             MCRet* RET = RetCreate(0,v_param->data,"VALUE","",0);
@@ -251,7 +264,7 @@ MCRet* MCEngine::RenderLine(MCCodeLine * line,MCVar* xvar_scope,MCVar* xtype_sco
 
 
         f_var = xvar_scope->FindVar(v_param->data,xvar_scope,error_txt,er_type);
-        delete RET;
+
 
 
         if(f_var!=NULL)
@@ -271,6 +284,16 @@ MCRet* MCEngine::RenderLine(MCCodeLine * line,MCVar* xvar_scope,MCVar* xtype_sco
             else if (er_type==-3)
             {
                 MCRet* RET = RetCreate(_C_F_INVALID_INDEX,"","ERROR","Invalid index/var  : " +  error_txt,-100);
+                return RET;
+            }
+            else if (er_type==-4)
+            {
+                MCRet* RET = RetCreate(_C_F_INVALID_INDEX,"","ERROR","Invalid node   : " +  error_txt,-100);
+                return RET;
+            }
+            else if (er_type==-5)
+            {
+                MCRet* RET = RetCreate(_C_F_INVALID_INDEX,"","ERROR","Invalid ref   : " +  error_txt,-100);
                 return RET;
             }
         }
@@ -325,7 +348,7 @@ MCRet* MCEngine::RenderLine(MCCodeLine * line,MCVar* xvar_scope,MCVar* xtype_sco
 
                     MCDataNode* newparam = new MCFParams();
 
-                    MCFParams* cr_param = data_params->PutParam("VALUE",newparam,newparam);
+                    MCFParams* cr_param = data_params->PutParam("VALUE",newparam,newparam,true);
 
                     if(callparam->data_type=="STR")
                     {
@@ -349,6 +372,7 @@ MCRet* MCEngine::RenderLine(MCCodeLine * line,MCVar* xvar_scope,MCVar* xtype_sco
                 }
 
             MCRet* RET = fregister->call_func->func_ref(this,line,xvar_scope,xtype_scope,NULL,data_params);
+
             delete data_params;
             return RET;
         }
@@ -505,7 +529,7 @@ MCRet* MCEngine::RenderLine(MCCodeLine * line,MCVar* xvar_scope,MCVar* xtype_sco
 
                     break;
                 }
-                bool wasneg = false;
+                bool ind = false;
                 MCCodeLine * v_param = (MCCodeLine *) line->expressions.at(cy_params-1);
 
                 if(cy_params+1<=in_params && func->calc_order == 1 && func->name != "N")
@@ -514,13 +538,14 @@ MCRet* MCEngine::RenderLine(MCCodeLine * line,MCVar* xvar_scope,MCVar* xtype_sco
 
 
                     MCCodeLine * next_expres = new MCCodeLine();
+                    MCCodeLine * independent_nodes = new MCCodeLine();
                     std::string expr_data = "";
                     int iccter = 0;
 
                     while(cy_params <= in_params)
                     {
                         MCCodeLine * x_param = (MCCodeLine *) line->expressions.at(cy_params-1);
-                        expr_data = expr_data + " " + x_param->data;
+
                         if(func->name == "-")
                         {
                             MCCodeLine * x_param1 = new MCCodeLine();
@@ -528,6 +553,7 @@ MCRet* MCEngine::RenderLine(MCCodeLine * line,MCVar* xvar_scope,MCVar* xtype_sco
                             x_param1->data = "-";
                             next_expres->expressions.push_back(x_param1);
                             func = fregister->pos_func;
+                            independent_nodes->children.push_back(x_param1);
                         }
                         next_expres->expressions.push_back(x_param);
                         cy_params++;
@@ -535,24 +561,19 @@ MCRet* MCEngine::RenderLine(MCCodeLine * line,MCVar* xvar_scope,MCVar* xtype_sco
                     }
 
                     MCRet* new_ret = RenderLine(next_expres,xvar_scope,xtype_scope);
-
+                    delete independent_nodes;
                     if(new_ret->code < 0)
                         return new_ret;
 
                     v_param = new MCCodeLine();
-
-                    /* if( wasneg )
-                    {
-
-                        wasneg = false;
-                    }*/
                     v_param->data = new_ret->ret_data;
                     v_param->data_type = "COMP";
+                    ind = true;
 
                 }
 
 
-                data_params->PutParam(f_param->data,v_param,f_param);
+                data_params->PutParam(f_param->data,v_param,f_param,ind);
 
                 cy_params++;
                 last_detected++;
@@ -703,14 +724,14 @@ MCRet* MCEngine::RenderLine(MCCodeLine * line,MCVar* xvar_scope,MCVar* xtype_sco
                 if(x_param->ref_line->data_type == "EXPR" || x_param->ref_line->data_type == "COMP")
                 {
 
-                    x_param->value = RenderLine((MCCodeLine*)x_param->ref_line,xvar_scope,xtype_scope);
+                    MCRet* RET = RenderLine((MCCodeLine*)x_param->ref_line,xvar_scope,xtype_scope);
 
-                    if(x_param->value->code < 0)
+                    if(RET->code < 0)
                     {
                         delete data_params;
-                        return x_param->value;
+                        return RET;
                     }
-
+                    x_param->value = RET;
 
                 }
                 else if(x_param->ref_line->data_type == "STR" )
@@ -768,9 +789,7 @@ MCRet* MCEngine::RenderLine(MCCodeLine * line,MCVar* xvar_scope,MCVar* xtype_sco
     }
 
 
-    MCRet* RET = RetCreate(_C_F_NOTFOUND,"","ERROR","Unknown statement  "+line->data + " in [" + cur_code->data + "]",-100);
-    return RET;
-
+    return RetCreate(_C_F_NOTFOUND,"","ERROR","Unknown statement  "+line->data + " in [" + cur_code->data + "]",-100);
 
 }
 bool MCEngine::ends_with(std::string const & value, std::string const & ending)
@@ -1159,6 +1178,12 @@ MCEngine::~MCEngine()
     func_scope->Free();
     code->Free();
 
+    delete fregister;
+
+    if(last_return!=NULL)
+        delete last_return;
+
+    //Deleting lines
     std::vector<MCTextLine*>::iterator it;
     for ( it = loaded_lines.begin(); it != loaded_lines.end(); )
     {

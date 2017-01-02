@@ -1,0 +1,10 @@
+2017-01-02 10:49:26: -- Analysis Started by On File Change Incremental
+2017-01-02 10:49:26: Changes: 1, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 385
+2017-01-02 10:49:26: Left to Right: Copy File: 1 
+2017-01-02 10:49:26: == Sync Started by On File Change Incremental
+2017-01-02 10:49:26: Copy Over 'H:/MyDOCS/c++/MiCo/src/MCXMLEngine.cpp' -> 'H:/GIT/MICO/src/MCXMLEngine.cpp'
+2017-01-02 10:49:26: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 1, Errors: 0
+2017-01-02 10:49:27: -- Analysis Started by On File Change PostSync Re-Analyze
+2017-01-02 10:49:27: Changes: 0, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 385
+2017-01-02 10:49:27: -- Analysis Complete. Time 00:00:01, Speed: 66 files/s
+2017-01-02 10:49:28: 

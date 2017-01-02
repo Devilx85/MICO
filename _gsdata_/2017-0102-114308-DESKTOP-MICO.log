@@ -1,0 +1,17 @@
+2017-01-02 11:43:09: -- Analysis Started by On File Change Incremental
+2017-01-02 11:43:09: Changes: 5, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 395
+2017-01-02 11:43:09: Left to Right: Copy File: 5 
+2017-01-02 11:43:09: == Sync Started by On File Change Incremental
+2017-01-02 11:43:09: Copy Over 'H:/MyDOCS/c++/MiCo/MiCo.depend' -> 'H:/GIT/MICO/MiCo.depend'
+2017-01-02 11:43:09: Copy New 'H:/MyDOCS/c++/MiCo/obj/Debug/MiCo/main.o' -> 'H:/GIT/MICO/obj/Debug/MiCo/main.o'
+2017-01-02 11:43:09: Copy New 'H:/MyDOCS/c++/MiCo/obj/Debug/MiCo/src/IMCFuncLib.o' -> 'H:/GIT/MICO/obj/Debug/MiCo/src/IMCFuncLib.o'
+2017-01-02 11:43:09: Copy New 'H:/MyDOCS/c++/MiCo/obj/Debug/MiCo/src/MCCodeLine.o' -> 'H:/GIT/MICO/obj/Debug/MiCo/src/MCCodeLine.o'
+2017-01-02 11:43:09: Copy New 'H:/MyDOCS/c++/MiCo/obj/Debug/MiCo/src/MCDataNode.o' -> 'H:/GIT/MICO/obj/Debug/MiCo/src/MCDataNode.o'
+2017-01-02 11:43:09: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 5, Errors: 0
+2017-01-02 11:43:10: -- Analysis Started by On File Change PostSync Re-Analyze
+2017-01-02 11:43:10: Changes: 1, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 396
+2017-01-02 11:43:10: Left to Right: Copy File: 1 
+2017-01-02 11:43:10: == Sync Started by On File Change PostSync Re-Analyze
+2017-01-02 11:43:10: Copy New 'H:/MyDOCS/c++/MiCo/obj/Debug/MiCo/src/MCEngine.o' -> 'H:/GIT/MICO/obj/Debug/MiCo/src/MCEngine.o'
+2017-01-02 11:43:10: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 1, Errors: 0
+2017-01-02 11:43:10: 

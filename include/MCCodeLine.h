@@ -17,13 +17,15 @@ public:
     int time_data = 0;
     std::chrono::high_resolution_clock::time_point start_m;
     std::chrono::high_resolution_clock::time_point end_m;
+
     int fselect_tries;
     int executed_count = 0;
     long long exec_time=0;
     bool has_subexr = false;
     bool commented = false;
     int cached_f = -1;
-    MCFParams* cached_data_params = NULL;
+
+    MCFParams* cached_data_params = NULL; //ONLY REFERENCE
 protected:
 
 private:

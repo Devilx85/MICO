@@ -1,0 +1,46 @@
+2017-01-02 11:42:33: -- Analysis Started by On File Change Incremental
+2017-01-02 11:42:33: L: State File has changed, so re-read it: H:/MyDOCS/c++/MiCo/_gsdata_/_file_state_v4._gs
+2017-01-02 11:42:33: /bin/Debug/MiCo.exe: Conflict: File Modified on Both Sides
+2017-01-02 11:42:33: /obj/Debug/main.o: Conflict: File Modified on Both Sides
+2017-01-02 11:42:33: /obj/Debug/MiCo/src/MCXMLEngine.o: Conflict: File Modified on Both Sides
+2017-01-02 11:42:33: /obj/Debug/pugixml-master/src/pugixml.o: Conflict: File Modified on Both Sides
+2017-01-02 11:42:33: /obj/Debug/src/IMCFuncLib.o: Conflict: File Modified on Both Sides
+2017-01-02 11:42:33: /obj/Debug/src/MCCodeLine.o: Conflict: File Modified on Both Sides
+2017-01-02 11:42:33: /obj/Debug/src/MCDataNode.o: Conflict: File Modified on Both Sides
+2017-01-02 11:42:33: /obj/Debug/src/MCEngine.o: Conflict: File Modified on Both Sides
+2017-01-02 11:42:33: /obj/Debug/src/MCFParams.o: Conflict: File Modified on Both Sides
+2017-01-02 11:42:33: /obj/Debug/src/MCFTemplate.o: Conflict: File Modified on Both Sides
+2017-01-02 11:42:33: /obj/Debug/src/MCFunc.o: Conflict: File Modified on Both Sides
+2017-01-02 11:42:33: /obj/Debug/src/MCFuncLibCore.o: Conflict: File Modified on Both Sides
+2017-01-02 11:42:33: /obj/Debug/src/MCFuncRegister.o: Conflict: File Modified on Both Sides
+2017-01-02 11:42:33: /obj/Debug/src/MCRet.o: Conflict: File Modified on Both Sides
+2017-01-02 11:42:33: /obj/Debug/src/MCTextLine.o: Conflict: File Modified on Both Sides
+2017-01-02 11:42:33: /obj/Debug/src/MCVar.o: Conflict: File Modified on Both Sides
+2017-01-02 11:42:33: Changes: 16, Conflicts: 0, CopyTime: 0, CopyState: 0/20, Errors: 0, All: 391
+2017-01-02 11:42:33: Left to Right: Copy File: 10 Delete File: 6 
+2017-01-02 11:42:33: == Sync Started by On File Change Incremental
+2017-01-02 11:42:33: Delete File 'H:/GIT/MICO/bin/Debug/MiCo.exe'
+2017-01-02 11:42:33: Delete File 'H:/GIT/MICO/obj/Debug/MiCo/src/MCXMLEngine.o'
+2017-01-02 11:42:33: Delete File 'H:/GIT/MICO/obj/Debug/src/MCFuncRegister.o'
+2017-01-02 11:42:33: Delete File 'H:/GIT/MICO/obj/Debug/src/MCRet.o'
+2017-01-02 11:42:33: Delete File 'H:/GIT/MICO/obj/Debug/src/MCTextLine.o'
+2017-01-02 11:42:33: Delete File 'H:/GIT/MICO/obj/Debug/src/MCVar.o'
+2017-01-02 11:42:33: Copy Over 'H:/MyDOCS/c++/MiCo/obj/Debug/main.o' -> 'H:/GIT/MICO/obj/Debug/main.o'
+2017-01-02 11:42:33: Copy Over 'H:/MyDOCS/c++/MiCo/obj/Debug/pugixml-master/src/pugixml.o' -> 'H:/GIT/MICO/obj/Debug/pugixml-master/src/pugixml.o'
+2017-01-02 11:42:33: Copy Over 'H:/MyDOCS/c++/MiCo/obj/Debug/src/IMCFuncLib.o' -> 'H:/GIT/MICO/obj/Debug/src/IMCFuncLib.o'
+2017-01-02 11:42:33: Copy Over 'H:/MyDOCS/c++/MiCo/obj/Debug/src/MCCodeLine.o' -> 'H:/GIT/MICO/obj/Debug/src/MCCodeLine.o'
+2017-01-02 11:42:33: Copy Over 'H:/MyDOCS/c++/MiCo/obj/Debug/src/MCDataNode.o' -> 'H:/GIT/MICO/obj/Debug/src/MCDataNode.o'
+2017-01-02 11:42:33: Copy Over 'H:/MyDOCS/c++/MiCo/obj/Debug/src/MCEngine.o' -> 'H:/GIT/MICO/obj/Debug/src/MCEngine.o'
+2017-01-02 11:42:33: Copy Over 'H:/MyDOCS/c++/MiCo/obj/Debug/src/MCFParams.o' -> 'H:/GIT/MICO/obj/Debug/src/MCFParams.o'
+2017-01-02 11:42:33: Copy Over 'H:/MyDOCS/c++/MiCo/obj/Debug/src/MCFTemplate.o' -> 'H:/GIT/MICO/obj/Debug/src/MCFTemplate.o'
+2017-01-02 11:42:33: Copy Over 'H:/MyDOCS/c++/MiCo/obj/Debug/src/MCFunc.o' -> 'H:/GIT/MICO/obj/Debug/src/MCFunc.o'
+2017-01-02 11:42:33: Copy Over 'H:/MyDOCS/c++/MiCo/obj/Debug/src/MCFuncLibCore.o' -> 'H:/GIT/MICO/obj/Debug/src/MCFuncLibCore.o'
+2017-01-02 11:42:33: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 36, Errors: 0
+2017-01-02 11:42:34: -- Analysis Started by On File Change PostSync Re-Analyze
+2017-01-02 11:42:34: Changes: 2, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 391
+2017-01-02 11:42:34: Left to Right: Copy File: 2 
+2017-01-02 11:42:34: == Sync Started by On File Change PostSync Re-Analyze
+2017-01-02 11:42:34: Copy New 'H:/MyDOCS/c++/MiCo/obj/Debug/src/MCFuncRegister.o' -> 'H:/GIT/MICO/obj/Debug/src/MCFuncRegister.o'
+2017-01-02 11:42:34: Copy New 'H:/MyDOCS/c++/MiCo/obj/Debug/src/MCRet.o' -> 'H:/GIT/MICO/obj/Debug/src/MCRet.o'
+2017-01-02 11:42:34: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 2, Errors: 0
+2017-01-02 11:42:34: 

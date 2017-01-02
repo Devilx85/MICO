@@ -1,0 +1,13 @@
+2017-01-02 09:57:35: -- Analysis Started by On File Change Incremental
+2017-01-02 09:57:35: Changes: 4, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 382
+2017-01-02 09:57:35: Left to Right: Copy File: 4 
+2017-01-02 09:57:35: == Sync Started by On File Change Incremental
+2017-01-02 09:57:35: Copy Over 'H:/MyDOCS/c++/MiCo/include/MCDataNode.h' -> 'H:/GIT/MICO/include/MCDataNode.h'
+2017-01-02 09:57:35: Copy Over 'H:/MyDOCS/c++/MiCo/include/MCFParams.h' -> 'H:/GIT/MICO/include/MCFParams.h'
+2017-01-02 09:57:35: Copy Over 'H:/MyDOCS/c++/MiCo/include/MCFunc.h' -> 'H:/GIT/MICO/include/MCFunc.h'
+2017-01-02 09:57:35: Copy Over 'H:/MyDOCS/c++/MiCo/MiCo.depend' -> 'H:/GIT/MICO/MiCo.depend'
+2017-01-02 09:57:35: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 4, Errors: 0
+2017-01-02 09:57:36: -- Analysis Started by On File Change PostSync Re-Analyze
+2017-01-02 09:57:36: Changes: 0, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 382
+2017-01-02 09:57:36: -- Analysis Complete. Time 00:00:01, Speed: 63 files/s
+2017-01-02 09:57:36: 

@@ -35,6 +35,9 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="../pugixml-master/src/pugiconfig.hpp" />
+		<Unit filename="../pugixml-master/src/pugixml.cpp" />
+		<Unit filename="../pugixml-master/src/pugixml.hpp" />
 		<Unit filename="include/IMCFuncLib.h" />
 		<Unit filename="include/MCCodeLine.h" />
 		<Unit filename="include/MCDataNode.h" />
@@ -47,6 +50,7 @@
 		<Unit filename="include/MCRet.h" />
 		<Unit filename="include/MCTextLine.h" />
 		<Unit filename="include/MCVar.h" />
+		<Unit filename="include/MCXMLEngine.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/IMCFuncLib.cpp" />
 		<Unit filename="src/MCCodeLine.cpp" />
@@ -60,6 +64,7 @@
 		<Unit filename="src/MCRet.cpp" />
 		<Unit filename="src/MCTextLine.cpp" />
 		<Unit filename="src/MCVar.cpp" />
+		<Unit filename="src/MCXMLEngine.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

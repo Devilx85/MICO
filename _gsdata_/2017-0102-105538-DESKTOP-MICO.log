@@ -1,0 +1,12 @@
+2017-01-02 10:55:39: -- Analysis Started by On File Change Incremental
+2017-01-02 10:55:39: L: State File has changed, so re-read it: H:/MyDOCS/c++/MiCo/_gsdata_/_file_state_v4._gs
+2017-01-02 10:55:39: /src/MCXMLEngine.cpp: Conflict: File Modified on Both Sides
+2017-01-02 10:55:39: Changes: 1, Conflicts: 0, CopyTime: 0, CopyState: 0/24, Errors: 0, All: 385
+2017-01-02 10:55:39: Left to Right: Copy File: 1 
+2017-01-02 10:55:39: == Sync Started by On File Change Incremental
+2017-01-02 10:55:39: Copy Over 'H:/MyDOCS/c++/MiCo/src/MCXMLEngine.cpp' -> 'H:/GIT/MICO/src/MCXMLEngine.cpp'
+2017-01-02 10:55:39: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 25, Errors: 0
+2017-01-02 10:55:40: -- Analysis Started by On File Change PostSync Re-Analyze
+2017-01-02 10:55:40: Changes: 0, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 385
+2017-01-02 10:55:40: -- Analysis Complete. Time 00:00:01, Speed: 66 files/s
+2017-01-02 10:55:40: 

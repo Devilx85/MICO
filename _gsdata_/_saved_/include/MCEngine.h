@@ -13,7 +13,7 @@ public:
     MCEngine();
     virtual ~MCEngine();
     MCCodeLine *code;
-    MCCodeLine *cur_code;
+    MCCodeLine *cur_code; //REF TO CURRENCT NODE
     std::string out_buffer = "";
     int LoadString(std::string data);
     void PrintCode(MCCodeLine * xcode, int lev = 0 );
@@ -31,7 +31,7 @@ public:
     std::vector<MCTextLine *> loaded_lines;
     bool check_exec_time = true;
     long long exec_time=0;
-
+    MCRet* last_return = NULL;
     int const _C_NO_REQ_PARAM = -1000;
     int const _C_F_NOTFOUND = -1001;
     int const _C_F_UNKNOWN_ELEM = -1002;
@@ -55,9 +55,10 @@ public:
     int const _C_F_INCOMPLETE_DEF = -1017;
     int const _C_F_TYPE_MISMATCH = -1018;
 
+
     MCRet* EvaluateLine(MCCodeLine * line, MCVar* xvar_scope, MCVar* xtype_scope,std::string func_type = "FUNC");
     MCTextLine* FindLine(int line_id);
-    std::string FindLineContent(int line_id)
+    std::string FindLineContent(int line_id);
 protected:
     bool ends_with(std::string const & value, std::string const & ending);
     MCRet* SubExpressionRender(MCCodeLine * line,MCVar* xvar_scope,MCVar* xtype_scope);

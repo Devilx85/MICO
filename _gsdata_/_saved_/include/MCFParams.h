@@ -7,19 +7,22 @@ class MCRet;
 
 class MCFParams: public MCDataNode
 {
-    public:
-        MCFParams();
-        virtual ~MCFParams();
-        std::string param_name;
-        bool is_unvalued = false;
-        MCDataNode *ref_line = NULL;
-        MCDataNode *ref_vline = NULL;
-        MCRet * value;
-        MCFParams* GetParam(std::string name);
-        MCFParams* PutParam(std::string name,MCDataNode* param,MCDataNode* vparam);
-    protected:
+public:
+    MCFParams();
+    virtual ~MCFParams();
 
-    private:
+    std::string param_name;
+    bool is_unvalued = false;
+    bool is_independent = false;
+    MCDataNode *ref_line = NULL;
+    MCDataNode *ref_vline = NULL;
+    MCRet * value = NULL;
+
+    MCFParams* GetParam(std::string name);
+    MCFParams* PutParam(std::string name,MCDataNode* param,MCDataNode* vparam,bool indep = false);
+protected:
+
+private:
 };
 
 #endif // MCFPARAMS_H

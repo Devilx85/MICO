@@ -1,5 +1,7 @@
 #include "MCFunc.h"
 #include "MCFuncLibCore.h"
+#include "MCXMLEngine.h"
+
 #include <iostream>
 #include <fstream>
 
@@ -209,6 +211,17 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     _f_for->func_ref = &_FOR;
     reg->AddFunc(_f_for);
 
+    MCFunc* _f_loop = new MCFunc();
+    _f_loop->name = "LOOP";
+    _f_loop->templ->data_type = "FUNC";
+    _f_loop->templ->AddParam("COMP","LOOP","REQ");
+    _f_loop->templ->AddParam("VAR","VAR","REQ");
+    _f_loop->templ->AddParam("COMP","BY","OPT");
+    _f_loop->templ->AddParam("NAME","NODENAME","OPTC");
+    _f_loop->func_ref = &_LOOP;
+    reg->AddFunc(_f_loop);
+
+
     MCFunc* _f_if = new MCFunc();
     _f_if->name = "IF";
     _f_if->templ->data_type = "FUNC";
@@ -311,6 +324,14 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     _f_mytype->func_ref = &_MYTYPE;
     reg->AddFunc(_f_mytype);
 
+    MCFunc* _f_myname = new MCFunc();
+    _f_myname->name = "MYNAME";
+    _f_myname->templ->data_type = "FUNC";
+    _f_myname->templ->AddParam("COMP","MYNAME","REQ");
+    _f_myname->templ->AddParam("VAR","VARNAME","REQ");
+    _f_myname->func_ref = &_MYNAME;
+    reg->AddFunc(_f_myname);
+
     MCFunc* _f_ce = new MCFunc();
     _f_ce->name = "CE";
     _f_ce->templ->data_type = "FUNC";
@@ -348,6 +369,19 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     _f_loadfromfile->templ->AddParam("ANY","FILENAME","REQ");
     _f_loadfromfile->func_ref = &_LOADFROMFILE;
     reg->AddFunc(_f_loadfromfile);
+
+    MCFunc* _f_treeloadfromfile = new MCFunc();
+    _f_treeloadfromfile->name = "TREE LOAD FROM FILE";
+    _f_treeloadfromfile->templ->data_type = "FUNC";
+    _f_treeloadfromfile->templ->AddParam("COMP","TREE","REQ");
+    _f_treeloadfromfile->templ->AddParam("COMP","LOAD","REQ");
+    _f_treeloadfromfile->templ->AddParam("VAR","VARNAME","REQ");
+    _f_treeloadfromfile->templ->AddParam("COMP","FROM","REQ");
+    _f_treeloadfromfile->templ->AddParam("COMP","FILE","REQ");
+    _f_treeloadfromfile->templ->AddParam("ANY","FILENAME","REQ");
+    _f_treeloadfromfile->func_ref = &_TREELOADFROMFILE;
+    reg->AddFunc(_f_treeloadfromfile);
+
 
     /* TYPE FUNCTIONS ********************************************************************************
     *************************************************************************************************/
@@ -465,8 +499,8 @@ MCRet* _CREATE_NODE(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* type
 
     if(var->value->ref_var->data_type != "TREE")
     {
-            MCRet* RET = engine->RetCreate(engine->_C_F_TYPE_MISMATCH,"","ERROR","You can not add node to non-TREE type object " + var->value->ref_var->data_type,-100);
-            return RET;
+        MCRet* RET = engine->RetCreate(engine->_C_F_TYPE_MISMATCH,"","ERROR","You can not add node to non-TREE type object " + var->value->ref_var->data_type,-100);
+        return RET;
     }
 
     std::string v_name = name->ref_line->data;
@@ -489,6 +523,9 @@ MCRet* _CREATE_NODE(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* type
         MCRet* RET = engine->RetCreate(engine->_C_F_NAME_NOT_ALLOWED,"","ERROR","Name is not allowed : " + v_name,-100);
         return RET;
     }
+
+
+
     return RET;
 }
 MCRet* _SET(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
@@ -565,11 +602,13 @@ MCRet* _OUT(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFun
     bool is_spaced = false;
     if(spaced!=NULL)
         is_spaced = true;
+    RET->bufout = "";
     for (std::vector<MCDataNode *>::iterator it = params->children.begin() ; it != params->children.end(); ++it)
     {
         MCFParams* param =(MCFParams*) *it;
         if(is_spaced)
             RET->bufout  =  RET->bufout  + " ";
+
         RET->bufout = RET->bufout + param->value->ret_data;
     }
     RET->ret_type = "OUT";
@@ -608,7 +647,30 @@ MCRet* _LOADFROMFILE(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* typ
     return RET;
 
 }
+MCRet* _TREELOADFROMFILE(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
+{
 
+    MCFParams* toload = params->GetParam("VARNAME");
+    MCFParams* fname = params->GetParam("FILENAME");
+    if(toload->value->ref_var->data_type!="TREE")
+    {
+        MCRet* RET = engine->RetCreate(engine->_C_F_TYPE_MISMATCH,"","ERROR","You can not load XML to non-TREE type object " + toload->value->ref_var->data_type,-100);
+        return RET;
+    }
+    std::string filename = fname->value->ret_data;
+    std::ifstream ifs(filename);
+    std::string content( (std::istreambuf_iterator<char>(ifs) ),
+                         (std::istreambuf_iterator<char>()    ) );
+
+    toload->value->ref_var->SetValue("ROOT");
+    MCXMLEngine *eng = new MCXMLEngine();
+    MCRet* RET = eng->LoadString(content,toload->value->ref_var,engine);
+
+    delete eng;
+    return RET;
+
+
+}
 MCRet* _CONCAT(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
 {
     MCRet* RET = new MCRet();
@@ -672,6 +734,46 @@ MCRet* _DO_TIMES(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, 
     }
     RET->ret_type = "VALUE";
     return RET;
+}
+MCRet* _LOOP(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
+{
+
+    MCFParams* var_value = params->GetParam("VAR");
+    MCVar* obj = var_value->value->ref_var;
+    std::string onlyname = "";
+    MCFParams* node_n = params->GetParam("NODENAME");
+    if(node_n!=NULL)
+        onlyname = node_n->ref_line->data;
+
+    engine->inner_cycle_counter = 0;
+    for (std::vector<MCDataNode *>::iterator it = obj->children.begin() ; it != obj->children.end(); ++it)
+    {
+
+        MCVar* param =(MCVar*) *it;
+
+        if(onlyname!="" && onlyname!=param->var_name)
+            continue;
+        engine->var_scope->FindSibling("#PTR",engine->var_scope)->refvar = param;
+        engine->inner_cycle_counter ++;
+        obj->ar_pointer = param->asoc_index;
+        MCRet* RES = engine->EvaluateLine(line,vars,types);
+        engine->var_scope->FindSibling("#PTR",engine->var_scope)->refvar = NULL;
+        if(RES == NULL)
+            continue;
+
+        if(RES->code < 0 || RES->stop_code != 0)
+            return RES;
+
+        delete RES;
+
+
+
+    }
+
+    MCRet* RET = new MCRet();
+    RET->ret_type = "VALUE";
+    return RET;
+
 }
 MCRet* _FOR(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
 {

@@ -1,0 +1,28 @@
+2017-01-02 11:41:06: -- Analysis Started by On File Change Incremental
+2017-01-02 11:41:06: Changes: 16, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 391
+2017-01-02 11:41:06: Left to Right: Copy File: 4 Delete File: 12 
+2017-01-02 11:41:06: == Sync Started by On File Change Incremental
+2017-01-02 11:41:06: Delete File 'H:/GIT/MICO/bin/Debug/MiCo.exe'
+2017-01-02 11:41:06: Delete File 'H:/GIT/MICO/obj/Debug/MiCo/src/MCXMLEngine.o'
+2017-01-02 11:41:06: Delete File 'H:/GIT/MICO/obj/Debug/src/MCDataNode.o'
+2017-01-02 11:41:06: Delete File 'H:/GIT/MICO/obj/Debug/src/MCEngine.o'
+2017-01-02 11:41:06: Delete File 'H:/GIT/MICO/obj/Debug/src/MCFParams.o'
+2017-01-02 11:41:06: Delete File 'H:/GIT/MICO/obj/Debug/src/MCFTemplate.o'
+2017-01-02 11:41:06: Delete File 'H:/GIT/MICO/obj/Debug/src/MCFunc.o'
+2017-01-02 11:41:06: Delete File 'H:/GIT/MICO/obj/Debug/src/MCFuncLibCore.o'
+2017-01-02 11:41:06: Delete File 'H:/GIT/MICO/obj/Debug/src/MCFuncRegister.o'
+2017-01-02 11:41:06: Delete File 'H:/GIT/MICO/obj/Debug/src/MCRet.o'
+2017-01-02 11:41:06: Delete File 'H:/GIT/MICO/obj/Debug/src/MCTextLine.o'
+2017-01-02 11:41:06: Delete File 'H:/GIT/MICO/obj/Debug/src/MCVar.o'
+2017-01-02 11:41:06: Copy Over 'H:/MyDOCS/c++/MiCo/obj/Debug/main.o' -> 'H:/GIT/MICO/obj/Debug/main.o'
+2017-01-02 11:41:06: Copy Over 'H:/MyDOCS/c++/MiCo/obj/Debug/pugixml-master/src/pugixml.o' -> 'H:/GIT/MICO/obj/Debug/pugixml-master/src/pugixml.o'
+2017-01-02 11:41:06: Copy Over 'H:/MyDOCS/c++/MiCo/obj/Debug/src/IMCFuncLib.o' -> 'H:/GIT/MICO/obj/Debug/src/IMCFuncLib.o'
+2017-01-02 11:41:06: Copy Over 'H:/MyDOCS/c++/MiCo/obj/Debug/src/MCCodeLine.o' -> 'H:/GIT/MICO/obj/Debug/src/MCCodeLine.o'
+2017-01-02 11:41:06: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 16, Errors: 0
+2017-01-02 11:41:07: -- Analysis Started by On File Change PostSync Re-Analyze
+2017-01-02 11:41:07: Changes: 1, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 391
+2017-01-02 11:41:07: Left to Right: Copy File: 1 
+2017-01-02 11:41:07: == Sync Started by On File Change PostSync Re-Analyze
+2017-01-02 11:41:07: Copy New 'H:/MyDOCS/c++/MiCo/obj/Debug/src/MCDataNode.o' -> 'H:/GIT/MICO/obj/Debug/src/MCDataNode.o'
+2017-01-02 11:41:07: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 1, Errors: 0
+2017-01-02 11:41:07: 

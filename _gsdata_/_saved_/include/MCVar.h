@@ -32,7 +32,7 @@ public:
     bool AllowName(std::string pname);
     std::string GetKey(std::string pname,std::string &key,std::string &afterkey);
     std::string SetValue(std::string val);
-    MCVar* GetVarIndexInt(int pindex,MCVar* pparent)
+    MCVar* GetVarIndexInt(int pindex,MCVar* pparent);
     int CreateArrayItem(std::string pindex,std::string pvalue,MCVar* type_scope,std::string &error_text,MCVar* &cr_var);
     void CopyChildren(MCVar* from,MCVar* to);
     void ReindexChildren();

@@ -19,7 +19,7 @@ MCVar::MCVar()
 {
     //ctor
     data_type = simple_type;
-
+    data = "";
 
 }
 void MCVar::ReindexChildren()
@@ -29,10 +29,12 @@ void MCVar::ReindexChildren()
     for (std::vector<MCDataNode *>::iterator it = children.begin() ; it != children.end(); ++it)
     {
         MCVar* var =(MCVar*) *it;
-        if ( child_idx.find(var->var_name) == child_idx.end() ) {
-        // not found
+        if ( child_idx.find(var->var_name) == child_idx.end() )
+        {
+            // not found
             child_idx[var->var_name] = 0;
-        }else
+        }
+        else
             child_idx[var->var_name]++;
         var->num_index = child_idx[var->var_name];
     }
@@ -120,7 +122,7 @@ MCVar* MCVar::FindVar(std::string pname,MCVar* pparent,std::string &error_text,i
     std::vector<std::string> strs;
     boost::split(strs,pname,boost::is_any_of("."));
     er_type = 0;
-
+    int cyc = 0;
     for (std::vector<std::string>::iterator it = strs.begin() ; it != strs.end(); ++it)
     {
         std::string comp =*it;
@@ -131,14 +133,29 @@ MCVar* MCVar::FindVar(std::string pname,MCVar* pparent,std::string &error_text,i
         MCVar* var_f = FindSibling(vname,pparent);
         if(var_f==NULL)
         {
-            error_text = " component not found " + comp + " of " + pname;
-            er_type = -1;
-            return NULL;
+            if(cyc==0)
+            {
+                error_text = " object not found " + comp;
+                er_type = -1;
+                return NULL;
+            }else
+            {
+                error_text = " component not found " + comp + " of " + pname;
+                er_type = -4;
+                return NULL;
+            }
         }
-
+        cyc++;
         if(var_f->data_type == "REF")
-            var_f = var_f->refvar;
-
+            {
+                if(var_f->refvar==NULL)
+                {
+                    error_text = "can not use key for non-array object "  + pname;
+                    er_type = -2;
+                    return NULL;
+                }
+                var_f = var_f->refvar;
+            }
         if(vkey!="")
         {
             if(var_f->data_type != "ARRAY" && var_f->data_type != "TREE")
@@ -150,8 +167,13 @@ MCVar* MCVar::FindVar(std::string pname,MCVar* pparent,std::string &error_text,i
 
             if(vkey=="#I")
             {
-                vkey = var_f->ar_pointer;
+                if(pparent->data_type == "TREE" )
+                {
+                    vkey= pparent->ar_pointer;
+                }else
+                    vkey = var_f->ar_pointer;
             }
+
             if(boost::starts_with(vkey, "#IDX"))
             {
                 vkey.erase(0, 4);
@@ -169,17 +191,25 @@ MCVar* MCVar::FindVar(std::string pname,MCVar* pparent,std::string &error_text,i
                 }
                 if(pparent->data_type == "TREE" )
                 {
-                        var_f = pparent;
+                    var_f = pparent;
                 }
-                var_f = pparent->GetVarIndexInt(ix,var_f);
+                var_f = var_f->GetVarIndexInt(ix,var_f);
 
             }
             else
-                var_f = pparent->GetVarIndex(vkey,var_f);
+            {
+                if(pparent->data_type == "TREE" )
+                {
+                    var_f = pparent;
+                }
+
+                var_f = var_f->GetVarIndex(vkey,var_f);
+
+            }
 
             if(var_f==NULL)
             {
-                error_text = " array item not found " + vkey + " of " + pname;
+                error_text = " array item not found [" + vkey + "] of " + pname;
                 er_type = -3;
                 return NULL;
             }

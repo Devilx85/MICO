@@ -20,6 +20,7 @@ public:
     std::string long_name;
     std::string asoc_index;
     int num_index;
+    bool is_system = false;
     std::string extended_type;
     bool is_arrayitem = false;
     std::string array_type = "VAR";

@@ -9,4 +9,5 @@ MCFunc::MCFunc()
 MCFunc::~MCFunc()
 {
     //dtor
+    templ->Free();
 }

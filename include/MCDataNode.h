@@ -10,6 +10,7 @@ public:
     virtual ~MCDataNode();
     std::vector<MCDataNode*> children;
     std::vector<MCDataNode*> expressions;
+
     MCDataNode *parent = NULL;
 
     std::string data_namespace = "UNKNOWN";
@@ -17,7 +18,9 @@ public:
     std::string data_type = "UNKNOWN";
     std::string formal_type = "UNKNOWN";
     std::string data_class = "UNKNOWN";
+
     int line_id = 0;
+
     void AddChild(MCDataNode *child);
     void AddAutoExpression();
     void Free();

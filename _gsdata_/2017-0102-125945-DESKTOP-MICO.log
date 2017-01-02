@@ -1,0 +1,15 @@
+2017-01-02 12:59:46: -- Analysis Started by On File Change Incremental
+2017-01-02 12:59:46: Changes: 6, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 404
+2017-01-02 12:59:46: Left to Right: Copy File: 6 
+2017-01-02 12:59:46: == Sync Started by On File Change Incremental
+2017-01-02 12:59:46: Copy Over 'H:/MyDOCS/c++/MiCo/obj/Debug/MiCo/src/MCEngine.o' -> 'H:/GIT/MICO/obj/Debug/MiCo/src/MCEngine.o'
+2017-01-02 12:59:46: Copy Over 'H:/MyDOCS/c++/MiCo/obj/Debug/MiCo/src/MCFParams.o' -> 'H:/GIT/MICO/obj/Debug/MiCo/src/MCFParams.o'
+2017-01-02 12:59:46: Copy Over 'H:/MyDOCS/c++/MiCo/obj/Debug/MiCo/src/MCFunc.o' -> 'H:/GIT/MICO/obj/Debug/MiCo/src/MCFunc.o'
+2017-01-02 12:59:46: Copy Over 'H:/MyDOCS/c++/MiCo/obj/Debug/MiCo/src/MCFuncLibCore.o' -> 'H:/GIT/MICO/obj/Debug/MiCo/src/MCFuncLibCore.o'
+2017-01-02 12:59:46: Copy Over 'H:/MyDOCS/c++/MiCo/obj/Debug/MiCo/src/MCFuncRegister.o' -> 'H:/GIT/MICO/obj/Debug/MiCo/src/MCFuncRegister.o'
+2017-01-02 12:59:46: Copy Over 'H:/MyDOCS/c++/MiCo/obj/Debug/MiCo/src/MCRet.o' -> 'H:/GIT/MICO/obj/Debug/MiCo/src/MCRet.o'
+2017-01-02 12:59:46: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 6, Errors: 0
+2017-01-02 12:59:47: -- Analysis Started by On File Change PostSync Re-Analyze
+2017-01-02 12:59:47: Changes: 0, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 404
+2017-01-02 12:59:47: -- Analysis Complete. Time 00:00:01, Speed: 85 files/s
+2017-01-02 12:59:47: 
