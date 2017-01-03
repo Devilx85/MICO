@@ -1,0 +1,12 @@
+2017-01-03 12:44:38: -- Analysis Started by On File Change Incremental
+2017-01-03 12:44:38: L: State File has changed, so re-read it: H:/MyDOCS/c++/MiCo/_gsdata_/_file_state_v4._gs
+2017-01-03 12:44:38: /src/MCFuncLibCore.cpp: Conflict: File Modified on Both Sides
+2017-01-03 12:44:38: Changes: 1, Conflicts: 0, CopyTime: 0, CopyState: 0/11, Errors: 0, All: 974
+2017-01-03 12:44:38: Left to Right: Copy File: 1 
+2017-01-03 12:44:38: == Sync Started by On File Change Incremental
+2017-01-03 12:44:38: Copy Over 'H:/MyDOCS/c++/MiCo/src/MCFuncLibCore.cpp' -> 'H:/GIT/MICO/src/MCFuncLibCore.cpp'
+2017-01-03 12:44:38: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 12, Errors: 0
+2017-01-03 12:44:39: -- Analysis Started by On File Change PostSync Re-Analyze
+2017-01-03 12:44:39: Changes: 0, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 974
+2017-01-03 12:44:39: -- Analysis Complete. Time 00:00:01, Speed: 659 files/s
+2017-01-03 12:44:39: 

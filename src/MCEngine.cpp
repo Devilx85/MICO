@@ -111,6 +111,11 @@ MCRet* MCEngine::EvaluateLine(MCCodeLine * line, MCVar* xvar_scope, MCVar* xtype
                     auto elapsed = end_time - start_time;
                     line->exec_time = line->exec_time + std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
                 }
+                if(ret->stop_code==1)
+                {
+                    --it;
+                    continue;
+                }
                 return ret;
             }
 
@@ -127,6 +132,15 @@ MCRet* MCEngine::EvaluateLine(MCCodeLine * line, MCVar* xvar_scope, MCVar* xtype
 
     }
     return RetCreate(0,"","","",0);
+}
+
+std::string MCEngine::FormatDouble(std::string dvalue)
+{
+     dvalue.erase ( dvalue.find_last_not_of('0') + 1, std::string::npos );
+
+    if(dvalue[dvalue.length()-1]=='.')
+        dvalue = dvalue.erase(dvalue.length()-1,1);
+    return dvalue;
 }
 
 bool MCEngine::is_number(const std::string& s)

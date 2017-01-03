@@ -12,6 +12,7 @@ using namespace std::placeholders;
 
 
 std::vector<std::string> MCVar::meta_types = boost::assign::list_of("VAR")("TYPE")("REF")("ARRAY")("FUNC")("OBJECT")("TREE");
+std::vector<std::string> MCVar::dyn_types = boost::assign::list_of("ARRAY")("TREE");
 std::string MCVar::simple_type = "VAR";
 
 
@@ -26,9 +27,13 @@ void MCVar::ReindexChildren()
 {
 
     std::map<std::string,int>  child_idx;
+    ch_asoc_array.clear();
     for (std::vector<MCDataNode *>::iterator it = children.begin() ; it != children.end(); ++it)
     {
         MCVar* var =(MCVar*) *it;
+
+        ch_asoc_array[var->asoc_index] = var;
+
         if ( child_idx.find(var->var_name) == child_idx.end() )
         {
             // not found
@@ -41,6 +46,7 @@ void MCVar::ReindexChildren()
 
 
 }
+
 
 std::string MCVar::SetValue(std::string val)
 {
@@ -116,6 +122,78 @@ std::string MCVar::GetKey(std::string pname,std::string &key,std::string &afterk
     }
     return name;
 }
+bool MCVar::IsDynamic()
+{
+    if(std::find(MCVar::dyn_types.begin(), MCVar::dyn_types.end(), data_type) != MCVar::dyn_types.end())
+        return true;
+    return false;
+}
+bool MCVar::IsLast()
+{
+    if(children.size()==0)
+        return false;
+
+    if(ar_pointer == ch_asoc_array.end()->first)
+        return true;
+
+    return false;
+}
+bool MCVar::IsFirst()
+{
+    if(children.size()==0)
+        return false;
+    if(ar_pointer == ch_asoc_array.begin()->first)
+        return true;
+    return false;
+}
+bool MCVar::SetIndex(int i)
+{
+    if(i<0 || i >= children.size())
+        return false;
+    ar_pointer = ((MCVar*)children.at(i))->asoc_index;
+        return true;
+}
+
+bool MCVar::SetFirst()
+{
+    if(children.size()==0)
+        return false;
+    ar_pointer = ((MCVar*)children.at(0))->asoc_index;
+        return true;
+}
+bool MCVar::SetLast()
+{
+    if(children.size()==0)
+        return false;
+    ar_pointer = ((MCVar*)children.at(children.size()-1))->asoc_index;
+        return true;
+}
+bool MCVar::MoveNext()
+{
+    if(ar_pointer=="")
+        return SetFirst();
+
+    if(children.size()==0)
+        return false;
+
+    MCVar* next = GetVarIndexMove(ar_pointer,this,1);
+    if(next==NULL)
+        return false;
+    ar_pointer = next->asoc_index;
+    return true;
+}
+bool MCVar::MovePrev()
+{
+    if(children.size()==0)
+        return false;
+    MCVar* prev = GetVarIndexMove(ar_pointer,this,-1);
+    if(prev==NULL)
+        return false;
+    ar_pointer = prev->asoc_index;
+    return true;
+}
+
+
 MCVar* MCVar::FindVar(std::string pname,MCVar* pparent,std::string &error_text,int &er_type)
 {
     MCVar* cur_parent = pparent;
@@ -138,7 +216,8 @@ MCVar* MCVar::FindVar(std::string pname,MCVar* pparent,std::string &error_text,i
                 error_text = " object not found " + comp;
                 er_type = -1;
                 return NULL;
-            }else
+            }
+            else
             {
                 error_text = " component not found " + comp + " of " + pname;
                 er_type = -4;
@@ -147,15 +226,15 @@ MCVar* MCVar::FindVar(std::string pname,MCVar* pparent,std::string &error_text,i
         }
         cyc++;
         if(var_f->data_type == "REF")
+        {
+            if(var_f->refvar==NULL)
             {
-                if(var_f->refvar==NULL)
-                {
-                    error_text = "can not use key for non-array object "  + pname;
-                    er_type = -2;
-                    return NULL;
-                }
-                var_f = var_f->refvar;
+                error_text = "can not use NULL pointer reference "  + pname;
+                er_type = -5;
+                return NULL;
             }
+            var_f = var_f->refvar;
+        }
         if(vkey!="")
         {
             if(var_f->data_type != "ARRAY" && var_f->data_type != "TREE")
@@ -170,7 +249,8 @@ MCVar* MCVar::FindVar(std::string pname,MCVar* pparent,std::string &error_text,i
                 if(pparent->data_type == "TREE" )
                 {
                     vkey= pparent->ar_pointer;
-                }else
+                }
+                else
                     vkey = var_f->ar_pointer;
             }
 
@@ -326,9 +406,9 @@ int MCVar::CreateVar(std::string pname,std::string ptype,std::string pvalue,MCVa
     {
         newvar->asoc_index = std::to_string(ar_index);
         ar_index++;
-        ReindexChildren();
-
     }
+    ReindexChildren();
+
     cr_var = newvar;
     return 0;
 }
@@ -409,6 +489,37 @@ MCVar* MCVar::GetVarIndex(std::string pindex,MCVar* pparent)
 
 
 }
+MCVar* MCVar::GetVarIndexMove(std::string pindex,MCVar* pparent,int moveIdx)
+{
+
+
+    for(std::map<std::string,MCVar*>::iterator it = ch_asoc_array.begin(); it != ch_asoc_array.end(); ++it)
+    {
+
+        if(it->first == pindex)
+        {
+            if(moveIdx<0)
+            {
+                if(it==ch_asoc_array.begin())
+                    return NULL;
+                --it;
+                return (MCVar*)it->second;
+            }
+            else
+            {
+                if ((it != ch_asoc_array.end()) && (next(it) == ch_asoc_array.end())
+                    return NULL;
+                ++it;
+                return (MCVar*)it->second;
+            }
+
+        }
+    }
+
+    return NULL;
+
+
+}
 MCVar* MCVar::GetVarIndexInt(int pindex,MCVar* pparent)
 {
 
@@ -423,6 +534,7 @@ MCVar* MCVar::GetVarIndexInt(int pindex,MCVar* pparent)
 
 
 }
+
 MCVar::~MCVar()
 {
     //dtor

@@ -17,7 +17,7 @@
 	<string>
 	<chrono>
 
-1483340180 source:h:\mydocs\c++\mico\src\mcvar.cpp
+1483429256 source:h:\mydocs\c++\mico\src\mcvar.cpp
 	"MCVar.h"
 	<boost/algorithm/string.hpp>
 	<boost/uuid/uuid.hpp>
@@ -28,12 +28,13 @@
 	<algorithm>
 	<map>
 
-1483340236 h:\mydocs\c++\mico\include\mcvar.h
+1483426406 h:\mydocs\c++\mico\include\mcvar.h
 	<MCDataNode.h>
 	<MCCodeLine.h>
 	<vector>
+	<map>
 
-1483376331 h:\mydocs\c++\mico\include\mcengine.h
+1483427661 h:\mydocs\c++\mico\include\mcengine.h
 	<vector>
 	<MCCodeLine.h>
 	"MCRet.h"
@@ -42,7 +43,7 @@
 	"MCTextLine.h"
 	"MCConst.h"
 
-1483379432 source:h:\mydocs\c++\mico\src\mcengine.cpp
+1483427799 source:h:\mydocs\c++\mico\src\mcengine.cpp
 	"MCEngine.h"
 	<iostream>
 	<boost/algorithm/string.hpp>
@@ -3332,7 +3333,7 @@
 1483164688 source:h:\mydocs\c++\mico\src\mcret.cpp
 	"MCRet.h"
 
-1483376372 source:h:\mydocs\c++\mico\src\mcfunclibcore.cpp
+1483428869 source:h:\mydocs\c++\mico\src\mcfunclibcore.cpp
 	"MCFunc.h"
 	"MCFuncLibCore.h"
 	"MCXMLEngine.h"
@@ -3340,10 +3341,10 @@
 	<iostream>
 	<fstream>
 
-1483340549 h:\mydocs\c++\mico\include\mcfunclibcore.h
+1483428738 h:\mydocs\c++\mico\include\mcfunclibcore.h
 	<IMCFuncLib.h>
 
-1483379061 source:h:\mydocs\c++\mico\src\mcfparams.cpp
+1483427984 source:h:\mydocs\c++\mico\src\mcfparams.cpp
 	"MCFParams.h"
 
 1483373536 h:\mydocs\c++\mico\include\mcfparams.h
@@ -5913,5 +5914,5 @@
 	<MCConst.h>
 	"../../pugixml-master/src/pugixml.hpp"
 
-1483376258 h:\mydocs\c++\mico\include\mcconst.h
+1483427984 h:\mydocs\c++\mico\include\mcconst.h
 

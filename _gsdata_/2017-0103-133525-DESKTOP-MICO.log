@@ -1,0 +1,25 @@
+2017-01-03 13:35:26: -- Analysis Started by On File Change Incremental
+2017-01-03 13:35:26: Changes: 16, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 974
+2017-01-03 13:35:26: Left to Right: Copy File: 5 Delete File: 11 
+2017-01-03 13:35:26: == Sync Started by On File Change Incremental
+2017-01-03 13:35:26: Delete File 'H:/GIT/MICO/bin/Debug/MiCo.exe'
+2017-01-03 13:35:26: Delete File 'H:/GIT/MICO/obj/Debug/MiCo/src/MCEngine.o'
+2017-01-03 13:35:26: Delete File 'H:/GIT/MICO/obj/Debug/MiCo/src/MCFParams.o'
+2017-01-03 13:35:26: Delete File 'H:/GIT/MICO/obj/Debug/MiCo/src/MCFTemplate.o'
+2017-01-03 13:35:26: Delete File 'H:/GIT/MICO/obj/Debug/MiCo/src/MCFunc.o'
+2017-01-03 13:35:26: Delete File 'H:/GIT/MICO/obj/Debug/MiCo/src/MCFuncLibCore.o'
+2017-01-03 13:35:26: Delete File 'H:/GIT/MICO/obj/Debug/MiCo/src/MCFuncRegister.o'
+2017-01-03 13:35:26: Delete File 'H:/GIT/MICO/obj/Debug/MiCo/src/MCRet.o'
+2017-01-03 13:35:26: Delete File 'H:/GIT/MICO/obj/Debug/MiCo/src/MCTextLine.o'
+2017-01-03 13:35:26: Delete File 'H:/GIT/MICO/obj/Debug/MiCo/src/MCVar.o'
+2017-01-03 13:35:26: Delete File 'H:/GIT/MICO/obj/Debug/MiCo/src/MCXMLEngine.o'
+2017-01-03 13:35:26: Copy Over 'H:/MyDOCS/c++/MiCo/obj/Debug/MiCo/main.o' -> 'H:/GIT/MICO/obj/Debug/MiCo/main.o'
+2017-01-03 13:35:26: Copy Over 'H:/MyDOCS/c++/MiCo/obj/Debug/MiCo/src/IMCFuncLib.o' -> 'H:/GIT/MICO/obj/Debug/MiCo/src/IMCFuncLib.o'
+2017-01-03 13:35:26: Copy Over 'H:/MyDOCS/c++/MiCo/obj/Debug/MiCo/src/MCCodeLine.o' -> 'H:/GIT/MICO/obj/Debug/MiCo/src/MCCodeLine.o'
+2017-01-03 13:35:26: Copy Over 'H:/MyDOCS/c++/MiCo/obj/Debug/MiCo/src/MCDataNode.o' -> 'H:/GIT/MICO/obj/Debug/MiCo/src/MCDataNode.o'
+2017-01-03 13:35:26: Copy Over 'H:/MyDOCS/c++/MiCo/obj/Debug/pugixml-master/src/pugixml.o' -> 'H:/GIT/MICO/obj/Debug/pugixml-master/src/pugixml.o'
+2017-01-03 13:35:26: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 16, Errors: 0
+2017-01-03 13:35:27: -- Analysis Started by On File Change PostSync Re-Analyze
+2017-01-03 13:35:27: Changes: 0, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 974
+2017-01-03 13:35:27: -- Analysis Complete. Time 00:00:01, Speed: 648 files/s
+2017-01-03 13:35:27: 

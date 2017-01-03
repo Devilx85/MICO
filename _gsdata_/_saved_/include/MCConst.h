@@ -25,6 +25,7 @@
     int const _C_F_TYPE_MISMATCH = -1018;
     int const _C_F_TRANSLATION_ERROR = -1019;
 
+
     int const _C_T_COMP = 100;
     int const _C_T_STR = 101;
     int const _C_T_EXPR = 102;
@@ -45,5 +46,9 @@
 
     int const _C_DC_ADD = 300;
     int const _C_DC_NUMC = 301;
+
+    int const _C_FT_FUNC = 400;
+    int const _C_FT_TYPE = 401;
+
 
 #endif // MCCONST_H_INCLUDED

@@ -6,6 +6,7 @@
 #include "MCFuncRegister.h"
 #include "MCFuncLibCore.h"
 #include "MCTextLine.h"
+#include "MCConst.h"
 
 class MCEngine
 {

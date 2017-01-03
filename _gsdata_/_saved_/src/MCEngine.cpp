@@ -111,6 +111,11 @@ MCRet* MCEngine::EvaluateLine(MCCodeLine * line, MCVar* xvar_scope, MCVar* xtype
                     auto elapsed = end_time - start_time;
                     line->exec_time = line->exec_time + std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count();
                 }
+                if(ret->stop_code==1)
+                {
+                    --it;
+                    continue;
+                }
                 return ret;
             }
 
@@ -127,6 +132,11 @@ MCRet* MCEngine::EvaluateLine(MCCodeLine * line, MCVar* xvar_scope, MCVar* xtype
 
     }
     return RetCreate(0,"","","",0);
+}
+
+std::string MCEngine::FormatDouble(std::string dvalue)
+{
+
 }
 
 bool MCEngine::is_number(const std::string& s)
@@ -765,8 +775,8 @@ MCRet* MCEngine::RenderLine(MCCodeLine * line,MCVar* xvar_scope,MCVar* xtype_sco
                         }
                         x_param->value->ret_nr = RET_INT->ret_nr;
                         delete RET_INT;
-                    }
-
+                    }else
+                        x_param->value->ret_nr = x_param->ref_line->num_value;
 
 
 
@@ -1105,7 +1115,7 @@ int MCEngine::LineToCode(MCCodeLine * line, MCTextLine * xdata)
             }
             else
             {
-                /*if(is_number(cur_line))
+                if(is_number(cur_line))
                 {
                     child->e_type = _C_T_NUMC;
                     MCRet* RET = CastNumc(cur_line);
@@ -1115,7 +1125,7 @@ int MCEngine::LineToCode(MCCodeLine * line, MCTextLine * xdata)
 
                     delete RET;
 
-                }else*/
+                }else
                 child->e_type = _C_T_COMP;
             }
 

@@ -230,6 +230,69 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     _f_if->func_ref = &_IF;
     reg->AddFunc(_f_if);
 
+    MCFunc* _f_while = new MCFunc();
+    _f_while->name = "WHILE";
+    _f_while->templ->data_type = "FUNC";
+    _f_while->templ->AddParam(_C_T_COMP,"WHILE",_C_T_REQ);
+    _f_while->templ->AddParam(_C_T_ANY,"VALUE",_C_T_REQ);
+    _f_while->func_ref = &_WHILE;
+    reg->AddFunc(_f_while);
+
+    MCFunc* _f_islast = new MCFunc();
+    _f_islast->name = "IS LAST";
+    _f_islast->templ->data_type = "FUNC";
+    _f_islast->templ->AddParam(_C_T_COMP,"IS",_C_T_REQ);
+    _f_islast->templ->AddParam(_C_T_COMP,"LAST",_C_T_OPT,_C_DC_ADD);
+    _f_islast->templ->AddParam(_C_T_VAR,"VARNAME",_C_T_REQ);
+    _f_islast->func_ref = &_ISLASTF;
+    reg->AddFunc(_f_islast);
+
+    MCFunc* _f_isfirst = new MCFunc();
+    _f_isfirst->name = "IS FIRST";
+    _f_isfirst->templ->data_type = "FUNC";
+    _f_isfirst->templ->AddParam(_C_T_COMP,"IS",_C_T_REQ);
+    _f_isfirst->templ->AddParam(_C_T_COMP,"FIRST",_C_T_OPT,_C_DC_ADD);
+    _f_isfirst->templ->AddParam(_C_T_VAR,"VARNAME",_C_T_REQ);
+    _f_isfirst->func_ref = &_ISLASTF;
+    reg->AddFunc(_f_isfirst);
+
+    MCFunc* _f_setf = new MCFunc();
+    _f_setf->name = "SET FIRST";
+    _f_setf->templ->data_type = "FUNC";
+    _f_setf->templ->AddParam(_C_T_COMP,"SET",_C_T_REQ);
+    _f_setf->templ->AddParam(_C_T_COMP,"FIRST",_C_T_OPT,_C_DC_ADD);
+    _f_setf->templ->AddParam(_C_T_VAR,"VARNAME",_C_T_REQ);
+    _f_setf->func_ref = &_SETFL;
+    reg->AddFunc(_f_setf);
+
+    MCFunc* _f_setl = new MCFunc();
+    _f_setl->name = "SET LAST";
+    _f_setl->templ->data_type = "FUNC";
+    _f_setl->templ->AddParam(_C_T_COMP,"SET",_C_T_REQ);
+    _f_setl->templ->AddParam(_C_T_COMP,"LAST",_C_T_OPT,_C_DC_ADD);
+    _f_setl->templ->AddParam(_C_T_VAR,"VARNAME",_C_T_REQ);
+    _f_setl->func_ref = &_SETFL;
+    reg->AddFunc(_f_setl);
+
+    MCFunc* _f_moven = new MCFunc();
+    _f_moven->name = "MOVE NEXT";
+    _f_moven->templ->data_type = "FUNC";
+    _f_moven->templ->AddParam(_C_T_COMP,"MOVE",_C_T_REQ);
+    _f_moven->templ->AddParam(_C_T_COMP,"NEXT",_C_T_OPT,_C_DC_ADD);
+    _f_moven->templ->AddParam(_C_T_VAR,"VARNAME",_C_T_REQ);
+    _f_moven->func_ref = &_MOVENP;
+    reg->AddFunc(_f_moven);
+
+    MCFunc* _f_movep = new MCFunc();
+    _f_movep->name = "MOVE PREV";
+    _f_movep->templ->data_type = "FUNC";
+    _f_movep->templ->AddParam(_C_T_COMP,"MOVE",_C_T_REQ);
+    _f_movep->templ->AddParam(_C_T_COMP,"PREV",_C_T_OPT,_C_DC_ADD);
+    _f_movep->templ->AddParam(_C_T_VAR,"VARNAME",_C_T_REQ);
+    _f_movep->func_ref = &_MOVENP;
+    reg->AddFunc(_f_movep);
+
+
     MCFunc* _f_type_def = new MCFunc();
     _f_type_def->name = "TYPE DEF";
     _f_type_def->templ->data_type = "FUNC";
@@ -250,6 +313,14 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     _f_set->templ->AddParam(_C_T_ANY,"VARVALUE",_C_T_REQ);
     _f_set->func_ref = &_SET;
     reg->AddFunc(_f_set);
+
+    MCFunc* _f_inc = new MCFunc();
+    _f_inc->name = "INC";
+    _f_inc->templ->data_type = "FUNC";
+    _f_inc->templ->AddParam(_C_T_COMP,"INC",_C_T_REQ);
+    _f_inc->templ->AddParam(_C_T_VAR,"VARNAME",_C_T_REQ);
+    _f_inc->func_ref = &_INC;
+    reg->AddFunc(_f_inc);
 
     MCFunc* _f_set2 = new MCFunc();
     _f_set2->name = ":=";
@@ -339,6 +410,14 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     _f_ce->templ->AddParam(_C_T_VAR,"VARNAME",_C_T_SEQ);
     _f_ce->func_ref = &_CE;
     reg->AddFunc(_f_ce);
+
+    MCFunc* _f_ci = new MCFunc();
+    _f_ci->name = "CI";
+    _f_ci->templ->data_type = "FUNC";
+    _f_ci->templ->AddParam(_C_T_COMP,"CI",_C_T_REQ);
+    _f_ci->templ->AddParam(_C_T_VAR,"VARNAME",_C_T_REQ);
+    _f_ci->func_ref = &_CI;
+    reg->AddFunc(_f_ci);
 
     MCFunc* _f_idx = new MCFunc();
     _f_idx->name = "IDX";
@@ -545,6 +624,30 @@ MCRet* _SET(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFun
     MCRet* RET = engine->RetCreate(0,"","","",0);
     return RET;
 }
+MCRet* _INC(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
+{
+
+    MCFParams* name = params->GetParam("VARNAME");
+    MCVar* obj = name->value->ref_var;
+
+    if(obj->data_type!=MCVar::simple_type && obj->data_type!="TREE")
+    {
+        MCRet* RET = engine->RetCreate(_C_F_PROTECTED_VALUE,"","ERROR","Can not assign value for type " + name->value->ref_var->data_type + " in line [" + engine->cur_code->data +  "]",-100);
+        return RET;
+    }
+    std::string v_value = obj->data;
+
+    MCRet* RET_INT = engine->CastNumc(v_value);
+    if(RET_INT->code<0)
+    {
+        return RET_INT;
+    }
+    obj->data = std::to_string(RET_INT->ret_nr+1);
+    obj->data  = engine->FormatDouble(obj->data);
+    delete RET_INT;
+    MCRet* RET = engine->RetCreate(0,"","","",0);
+    return RET;
+}
 MCRet* _IDX(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
 {
 
@@ -564,6 +667,14 @@ MCRet* _CE(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc
 
     }
 
+    MCRet* RET = engine->RetCreate(0,"","","",0);
+    return RET;
+}
+MCRet* _CI(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
+{
+
+    MCFParams* name = params->GetParam("VARNAME");
+    name->value->ref_var->ar_pointer = "";
     MCRet* RET = engine->RetCreate(0,"","","",0);
     return RET;
 }
@@ -720,6 +831,33 @@ MCRet* _IF(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc
     RET->ret_type = "VALUE";
     return RET;
 }
+
+MCRet* _WHILE(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
+{
+    MCRet* RET = new MCRet();
+    MCFParams* var_value = params->GetParam("VALUE");
+    std::string v_value = "";
+    v_value = var_value->value->ret_data;
+    MCRet* RET_INT = engine->CastNumc(v_value);
+    if(RET_INT->code<0)
+        return RET_INT;
+    double res = RET_INT->ret_nr;
+    delete RET_INT;
+    if(res==1)
+    {
+        MCRet* RES = engine->EvaluateLine(line,vars,types);
+
+        if(RES != NULL)
+            if(RES->code < 0 || RES->stop_code != 0)
+                return RES;
+        delete RES;
+        RET->stop_code =  1;
+    }
+
+    RET->ret_type = "VALUE";
+    return RET;
+}
+
 MCRet* _DO_TIMES(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
 {
     MCRet* RET = new MCRet();
@@ -742,6 +880,105 @@ MCRet* _DO_TIMES(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, 
     RET->ret_type = "VALUE";
     return RET;
 }
+
+MCRet* _SETFL(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
+{
+
+    MCFParams* var_value = params->GetParam("VARNAME");
+    MCVar* obj = var_value->value->ref_var;
+    if(!obj->IsDynamic())
+    {
+        MCRet* RET = engine->RetCreate(_C_F_TYPE_MISMATCH,"","ERROR","You can not move index on non-array/tree object " + obj->data_type,-100);
+        return RET;
+    }
+    bool res = true;
+    int xmove = 0;
+    if(params->GetParam("LAST")!=NULL)
+        xmove = 1;
+
+    if(xmove==0)
+       res = obj->SetFirst();
+    else
+      res =obj->SetLast();
+
+    if(!res)
+    {
+        MCRet* RET = engine->RetCreate(_C_F_EMPTY_ELEM,"","ERROR","Can not set index on empty/invalid element?" + obj->data_type,-100);
+        return RET;
+    }
+
+    MCRet* RET = new MCRet();
+    RET->ret_type = "VALUE";
+    return RET;
+
+}
+MCRet* _ISLASTF(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
+{
+
+    MCFParams* var_value = params->GetParam("VARNAME");
+    MCVar* obj = var_value->value->ref_var;
+    if(!obj->IsDynamic())
+    {
+        MCRet* RET = engine->RetCreate(_C_F_TYPE_MISMATCH,"","ERROR","You can not move index on non-array/tree object " + obj->data_type,-100);
+        return RET;
+    }
+    bool res = true;
+    int xmove = 0;
+    if(params->GetParam("LAST")!=NULL)
+        xmove = 1;
+
+    if(xmove==0)
+       res = obj->IsLast();
+    else
+       res = obj->IsFirst();
+
+    MCRet* RET = new MCRet();
+
+    if(res)
+    {
+        RET->ret_data = "1";
+    }else
+        RET->ret_data = "0";
+
+
+    RET->ret_type = "VALUE";
+    return RET;
+
+}
+MCRet* _MOVENP(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
+{
+
+    MCFParams* var_value = params->GetParam("VARNAME");
+    MCVar* obj = var_value->value->ref_var;
+    if(!obj->IsDynamic())
+    {
+        MCRet* RET = engine->RetCreate(_C_F_TYPE_MISMATCH,"","ERROR","You can not move index on non-array/tree object " + obj->data_type,-100);
+        return RET;
+    }
+    bool res = true;
+    int xmove = 0;
+    if(params->GetParam("PREV")!=NULL)
+        xmove = 1;
+
+    if(xmove==0)
+       res = obj->MoveNext();
+    else
+      res =obj->MovePrev();
+
+    MCRet* RET = new MCRet();
+
+    if(res)
+    {
+        RET->ret_data = "1";
+    }else
+        RET->ret_data = "0";
+
+
+    RET->ret_type = "VALUE";
+    return RET;
+
+}
+
 MCRet* _LOOP(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
 {
 
@@ -853,9 +1090,7 @@ MCRet* _A_ARITH(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, M
         val1 = -val1;
         RET->ret_data = std::to_string(val1);
 
-        RET->ret_data.erase ( RET->ret_data.find_last_not_of('0') + 1, std::string::npos );
-        if(RET->ret_data[RET->ret_data.length()-1]=='.')
-            RET->ret_data = RET->ret_data.erase(RET->ret_data.length()-1,1);
+        RET->ret_data  = engine->FormatDouble(RET->ret_data);
 
         RET->ret_type = "VALUE";
         return RET;
@@ -883,11 +1118,7 @@ MCRet* _A_ARITH(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, M
         RET->ret_data = std::to_string(val1*val2);
     }
 
-    RET->ret_data.erase ( RET->ret_data.find_last_not_of('0') + 1, std::string::npos );
-
-    if(RET->ret_data[RET->ret_data.length()-1]=='.')
-        RET->ret_data = RET->ret_data.erase(RET->ret_data.length()-1,1);
-
+    RET->ret_data  = engine->FormatDouble(RET->ret_data);
     RET->ret_type = "VALUE";
     return RET;
 

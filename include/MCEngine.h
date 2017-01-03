@@ -33,7 +33,7 @@ public:
     bool check_exec_time = true;
     long long exec_time=0;
     MCRet* last_return = NULL;
-
+    std::string FormatDouble(std::string dvalue);
     MCRet* EvaluateLine(MCCodeLine * line, MCVar* xvar_scope, MCVar* xtype_scope,int func_type = _C_FT_FUNC);
     MCTextLine* FindLine(int line_id);
     std::string FindLineContent(int line_id);
