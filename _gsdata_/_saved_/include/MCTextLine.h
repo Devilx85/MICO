@@ -8,6 +8,7 @@ public:
     MCTextLine();
     virtual ~MCTextLine();
     std::string text;
+    std::string full_line;
     int line_nr = 0;
 
 protected:

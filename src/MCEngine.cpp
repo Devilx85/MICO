@@ -92,7 +92,14 @@ MCRet* MCEngine::EvaluateLine(MCCodeLine * line, MCVar* xvar_scope, MCVar* xtype
 
         cur_code = line;
 
-        MCRet* ret = RenderLine(line,xvar_scope,xtype_scope,func_type);
+        MCRet* ret = NULL;
+
+        try{
+        ret = RenderLine(line,xvar_scope,xtype_scope,func_type);
+        }catch(...)
+        {
+            return  RetCreate(_C_UNKNOWN_EXCEPTION,"ERROR","","Fatal unknown exception was caught in the line ["+line->data+"]",-100);
+        }
 
         if(ret!= NULL)
         {
@@ -145,6 +152,10 @@ std::string MCEngine::FormatDouble(std::string dvalue)
 
 bool MCEngine::is_number(const std::string& s)
 {
+
+    if(!isdigit(s[0]))
+        return false;
+
     try
     {
         double x = boost::lexical_cast<double>(s); // double could be anything with >> operator.
@@ -165,9 +176,9 @@ MCRet* MCEngine::RetCreate(int pcode,std::string pdata,std::string ptype,std::st
     ret->stop_code = pstop_code;
     if(pcode<0)
     {
-        std::string ref_cont = FindLineContent(cur_code->line_id );
-        if(ref_cont!="")
-            ret->bufout = "\n\r [ERROR!]" + ret->bufout + " refer to line " + std::to_string(cur_code->line_id) + " /" + ref_cont +"/" ;
+        MCTextLine* ref_cont = FindLine(cur_code->line_id );
+        if(ref_cont!=NULL)
+            ret->bufout = "\n\r [ERROR!]" + ret->bufout + " refer to line " + std::to_string(cur_code->line_id) + " /" + ref_cont->full_line +"/  source " + ref_cont->source;
         else
             ret->bufout = "\n\r [ERROR!]" + ret->bufout + " refer to unknown line " ;
     }
@@ -824,28 +835,50 @@ bool MCEngine::ends_with(std::string const & value, std::string const & ending)
     return std::equal(ending.rbegin(), ending.rend(), value.rbegin());
 }
 
-int MCEngine::LoadString(std::string data)
+void MCEngine::ExtractLines(std::string str,std::string source,std::vector<MCTextLine *> &xlines)
 {
-    char cur;
-    std::string line = "";
-    std::vector<std::string> lines;
-
     int li = 0;
-    boost::split(lines,data,boost::is_any_of("\n"));
-    //std::string  cline= "";
+
+    std::vector<std::string> lines;
+    boost::split(lines,str,boost::is_any_of("\n"));
 
     for (std::vector<std::string>::iterator it = lines.begin() ; it != lines.end(); ++it)
     {
         li = (it - lines.begin()) + 1;
 
         std::string data = *it;
-        //std::cout << std::endl << "Line: " << li << ")" << data;
         boost::trim(data);
-        while(ends_with(data,"/&") && it != lines.end())
+        MCTextLine * mtline = new MCTextLine();
+        mtline->text = data;
+        mtline->line_nr = li;
+        mtline->full_line = data;
+        mtline->source = source;
+        xlines.push_back(mtline);
+    }
+
+}
+int MCEngine::LoadString(std::string data,std::string source)
+{
+    char cur;
+    std::string line = "";
+
+    std::vector<MCTextLine *> to_load;
+    ExtractLines(data,source,to_load);
+
+    //std::string  cline= "";
+
+    for (std::vector<MCTextLine *>::iterator it = to_load.begin() ; it != to_load.end(); ++it)
+    {
+
+
+        MCTextLine * xdata = *it;
+        std::string data = xdata->full_line;
+        //std::cout << std::endl << "Line: " << li << ")" << data;
+
+        while(ends_with(data,"/&") && it != to_load.end())
         {
             ++it;
-            li++;
-            std::string next_data = *it;
+            std::string next_data = (*it)->full_line;
             data = data.substr(0, data.size()-2) + next_data;
 
         }
@@ -861,11 +894,13 @@ int MCEngine::LoadString(std::string data)
                     boost::trim(line);
                     if(line.length()!=0)
                     {
-                        MCTextLine * mtline = new MCTextLine();
-                        mtline->text = line;
-                        mtline->line_nr = li;
-                        mtline->full_line = data;
-                        loaded_lines.push_back(mtline);
+
+                        MCTextLine * nline = new MCTextLine();
+                        nline->full_line = xdata->full_line;
+                        nline->line_nr = xdata->line_nr;
+                        nline->source = xdata->source;
+                        nline->text = line;
+                        loaded_lines.push_back(nline);
                         //std::cout << std::endl << li << "Line: " << data;
                     }
                     line = "";
@@ -876,18 +911,22 @@ int MCEngine::LoadString(std::string data)
                     boost::trim(line);
                     if(line.length()!=0)
                     {
-                        MCTextLine * mtline = new MCTextLine();
-                        mtline->text = line;
-                        mtline->line_nr = li;
-                        mtline->full_line = data;
-                        loaded_lines.push_back(mtline);
+                        MCTextLine * nline = new MCTextLine();
+                        nline->full_line = xdata->full_line;
+                        nline->line_nr = xdata->line_nr;
+                        nline->source = xdata->source;
+                        nline->text = line;
+                        loaded_lines.push_back(nline);
                         //std::cout << std::endl << li << "Line: " << data;
                     }
-                    MCTextLine * mtline = new MCTextLine();
-                    mtline->text = "BEGIN";
-                    mtline->line_nr = li;
-                    mtline->full_line = data;
-                    loaded_lines.push_back(mtline);
+
+                    MCTextLine * nline = new MCTextLine();
+                    nline->full_line = xdata->full_line;
+                    nline->line_nr = xdata->line_nr;
+                    nline->source = xdata->source;
+                    nline->text = "BEGIN";
+                    loaded_lines.push_back(nline);
+
                     //std::cout << std::endl << li << "Line: {" << data;
                     line = "";
                     continue;
@@ -897,18 +936,20 @@ int MCEngine::LoadString(std::string data)
                     boost::trim(line);
                     if(line.length()!=0)
                     {
-                        MCTextLine * mtline = new MCTextLine();
-                        mtline->text = line;
-                        mtline->line_nr = li;
-                        mtline->full_line = data;
-                        loaded_lines.push_back(mtline);
+                        MCTextLine * nline = new MCTextLine();
+                        nline->full_line = xdata->full_line;
+                        nline->line_nr = xdata->line_nr;
+                        nline->source = xdata->source;
+                        nline->text = line;
+                        loaded_lines.push_back(nline);
                         //std::cout << std::endl << li << "Line: }" << data;
                     }
-                    MCTextLine * mtline = new MCTextLine();
-                    mtline->text = "END";
-                    mtline->line_nr = li;
-                    mtline->full_line = data;
-                    loaded_lines.push_back(mtline);
+                    MCTextLine * nline = new MCTextLine();
+                    nline->full_line = xdata->full_line;
+                    nline->line_nr = xdata->line_nr;
+                    nline->source = xdata->source;
+                    nline->text = "END";
+                    loaded_lines.push_back(nline);
                     //std::cout << std::endl << li << "Line: " << data;
                     line = "";
                     continue;
@@ -924,7 +965,15 @@ int MCEngine::LoadString(std::string data)
         return -6;
     }
 
-
+    //to_load.clear();
+    std::vector<MCTextLine*>::iterator it;
+    for ( it = to_load.begin(); it != to_load.end(); )
+    {
+        MCTextLine* comp = *it;
+        if(comp!=NULL)
+            delete comp;
+        it = to_load.erase(it);
+    }
 
     line = "";
     MCCodeLine *cursor = code;

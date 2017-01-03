@@ -1,6 +1,8 @@
 #ifndef MCCONST_H_INCLUDED
 #define MCCONST_H_INCLUDED
 
+int const _C_UNKNOWN_EXCEPTION = -1999;
+
 int const _C_NO_REQ_PARAM = -1000;
 int const _C_F_NOTFOUND = -1001;
 int const _C_F_UNKNOWN_ELEM = -1002;

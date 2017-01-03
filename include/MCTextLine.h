@@ -7,8 +7,9 @@ class MCTextLine
 public:
     MCTextLine();
     virtual ~MCTextLine();
-    std::string text;
-    std::string full_line;
+    std::string text="";
+    std::string full_line="";
+    std::string source="unknown";
     int line_nr = 0;
 
 protected:

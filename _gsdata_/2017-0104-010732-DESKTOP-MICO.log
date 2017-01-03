@@ -1,0 +1,11 @@
+2017-01-04 01:07:33: -- Analysis Started by On File Change Incremental
+2017-01-04 01:07:33: Changes: 2, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 1168
+2017-01-04 01:07:33: Left to Right: Copy File: 2 
+2017-01-04 01:07:33: == Sync Started by On File Change Incremental
+2017-01-04 01:07:33: Copy Over 'H:/MyDOCS/c++/MiCo/bin/Debug/MiCo.exe' -> 'H:/GIT/MICO/bin/Debug/MiCo.exe'
+2017-01-04 01:07:33: Copy Over 'H:/MyDOCS/c++/MiCo/obj/Debug/MiCo/src/MCEngine.o' -> 'H:/GIT/MICO/obj/Debug/MiCo/src/MCEngine.o'
+2017-01-04 01:07:34: == Sync Complete. Time: 00:00:01, Speed: 0 байт/s, OK: 2, Errors: 0
+2017-01-04 01:07:35: -- Analysis Started by On File Change PostSync Re-Analyze
+2017-01-04 01:07:35: Changes: 0, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 1168
+2017-01-04 01:07:35: -- Analysis Complete. Time 00:00:02, Speed: 426 files/s
+2017-01-04 01:07:35: 
