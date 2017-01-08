@@ -26,7 +26,7 @@ int const _C_F_NAME_NOT_ALLOWED = -1016;
 int const _C_F_INCOMPLETE_DEF = -1017;
 int const _C_F_TYPE_MISMATCH = -1018;
 int const _C_F_TRANSLATION_ERROR = -1019;
-
+int const _C_F_INDEX_NOT_FOUND = - 1020;
 
 int const _C_T_COMP = 100;
 int const _C_T_STR = 101;

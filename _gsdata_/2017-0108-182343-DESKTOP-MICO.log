@@ -1,0 +1,10 @@
+2017-01-08 18:23:44: -- Analysis Started by On File Change Incremental
+2017-01-08 18:23:44: Changes: 1, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 404
+2017-01-08 18:23:44: Left to Right: Copy File: 1 
+2017-01-08 18:23:44: == Sync Started by On File Change Incremental
+2017-01-08 18:23:44: Copy Over 'H:/MyDOCS/c++/MiCo/obj/Debug/MiCo/src/MCRet.o' -> 'H:/GIT/MICO/obj/Debug/MiCo/src/MCRet.o'
+2017-01-08 18:23:44: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 1, Errors: 0
+2017-01-08 18:23:45: -- Analysis Started by On File Change PostSync Re-Analyze
+2017-01-08 18:23:45: Changes: 0, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 404
+2017-01-08 18:23:45: -- Analysis Complete. Time 00:00:01, Speed: 84 files/s
+2017-01-08 18:23:45: 

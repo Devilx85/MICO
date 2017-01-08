@@ -966,6 +966,7 @@ int MCEngine::LoadString(std::string data,std::string source)
     }
 
     //to_load.clear();
+    std::vector<MCTextLine*>::iterator it;
     for ( it = to_load.begin(); it != to_load.end(); )
     {
         MCTextLine* comp = *it;

@@ -94,9 +94,11 @@ MCRet* MCEngine::EvaluateLine(MCCodeLine * line, MCVar* xvar_scope, MCVar* xtype
 
         MCRet* ret = NULL;
 
-        try{
-        ret = RenderLine(line,xvar_scope,xtype_scope,func_type);
-        }catch(...)
+        try
+        {
+            ret = RenderLine(line,xvar_scope,xtype_scope,func_type);
+        }
+        catch(...)
         {
             return  RetCreate(_C_UNKNOWN_EXCEPTION,"ERROR","","Fatal unknown exception was caught in the line ["+line->data+"]",-100);
         }
@@ -143,7 +145,7 @@ MCRet* MCEngine::EvaluateLine(MCCodeLine * line, MCVar* xvar_scope, MCVar* xtype
 
 std::string MCEngine::FormatDouble(std::string dvalue)
 {
-     dvalue.erase ( dvalue.find_last_not_of('0') + 1, std::string::npos );
+    dvalue.erase ( dvalue.find_last_not_of('0') + 1, std::string::npos );
 
     if(dvalue[dvalue.length()-1]=='.')
         dvalue = dvalue.erase(dvalue.length()-1,1);
@@ -249,7 +251,7 @@ MCRet* MCEngine::RenderLine(MCCodeLine * line,MCVar* xvar_scope,MCVar* xtype_sco
         MCVar* f_var = NULL;
         int er_type = 0;
 
-         MCCodeLine* v_param = (MCCodeLine*) line->expressions.at(0);
+        MCCodeLine* v_param = (MCCodeLine*) line->expressions.at(0);
 
         if(line->e_type == _C_T_NUMC || line->e_type == _C_T_STR)
             return RetCreate(0,v_param->data,"VALUE","",0);
@@ -275,7 +277,7 @@ MCRet* MCEngine::RenderLine(MCCodeLine * line,MCVar* xvar_scope,MCVar* xtype_sco
             MCRet* RET = RetCreate(0,v_param->data,"VALUE","",0);
             return RET;
         }
-        if(boost::starts_with(v_param->data ,"#IDX"))
+        if(boost::starts_with(v_param->data,"#IDX"))
         {
 
             MCRet* RET = RetCreate(0,v_param->data,"INDEX","",0);
@@ -790,7 +792,8 @@ MCRet* MCEngine::RenderLine(MCCodeLine * line,MCVar* xvar_scope,MCVar* xtype_sco
                         }
                         x_param->value->ret_nr = RET_INT->ret_nr;
                         delete RET_INT;
-                    }else
+                    }
+                    else
                         x_param->value->ret_nr = x_param->ref_line->num_value;
 
 
@@ -1161,8 +1164,7 @@ int MCEngine::LineToCode(MCCodeLine * line, MCTextLine * xdata)
                 if(res_code!=0)
                     return res_code;
             }
-            else
-            if(was_str)
+            else if(was_str)
             {
                 child->e_type = _C_T_STR;
             }
@@ -1178,8 +1180,9 @@ int MCEngine::LineToCode(MCCodeLine * line, MCTextLine * xdata)
 
                     delete RET;
 
-                }else
-                child->e_type = _C_T_COMP;
+                }
+                else
+                    child->e_type = _C_T_COMP;
             }
 
             //Analyze subexpr

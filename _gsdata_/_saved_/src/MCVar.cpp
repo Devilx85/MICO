@@ -23,6 +23,24 @@ MCVar::MCVar()
     data = "";
 
 }
+
+void MCVar::SetAsocVar(std::string pinex,MCVar* var)
+{
+    bool was = false;
+    for(std::vector< std::pair<std::string,MCVar*> >::iterator it = ch_asoc_array.begin(); it!=ch_asoc_array.end(); it++ )
+    {
+        if(it->first == pinex)
+        {
+            it->second = var;
+            was = true;
+            break;
+        }
+    }
+    if(!was)
+    {
+        ch_asoc_array.push_back(std::make_pair(pinex,var) );
+    }
+}
 void MCVar::ReindexChildren()
 {
 
@@ -32,7 +50,7 @@ void MCVar::ReindexChildren()
     {
         MCVar* var =(MCVar*) *it;
 
-        ch_asoc_array[var->asoc_index] = var;
+        SetAsocVar(var->asoc_index,var);
 
         if ( child_idx.find(var->var_name) == child_idx.end() )
         {
@@ -151,7 +169,7 @@ bool MCVar::SetIndex(int i)
     if(i<0 || i >= children.size())
         return false;
     ar_pointer = ((MCVar*)children.at(i))->asoc_index;
-        return true;
+    return true;
 }
 
 bool MCVar::SetFirst()
@@ -159,14 +177,14 @@ bool MCVar::SetFirst()
     if(children.size()==0)
         return false;
     ar_pointer = ((MCVar*)children.at(0))->asoc_index;
-        return true;
+    return true;
 }
 bool MCVar::SetLast()
 {
     if(children.size()==0)
         return false;
     ar_pointer = ((MCVar*)children.at(children.size()-1))->asoc_index;
-        return true;
+    return true;
 }
 bool MCVar::MoveNext()
 {
@@ -489,6 +507,57 @@ MCVar* MCVar::GetVarIndex(std::string pindex,MCVar* pparent)
 
 
 }
+bool MCVar::DeleteChildIndex(int pindex)
+{
+    int idx = -1;
+    for (std::vector<MCDataNode *>::iterator it = children.begin() ; it != children.end(); ++it)
+    {
+        size_t index = std::distance(children.begin(), it);
+        MCVar* var =(MCVar*) *it;
+        if(var->num_index == pindex)
+        {
+
+            idx = index;
+            delete var;
+            break;
+        }
+    }
+    if(idx != -1)
+    {
+        children.erase(children.begin() + idx);
+        ReindexChildren();
+        return true;
+    }
+
+
+    return false;
+
+}
+bool MCVar::DeleteChildPIndex(std::string pindex)
+{
+    int idx = -1;
+    for (std::vector<MCDataNode *>::iterator it = children.begin() ; it != children.end(); ++it)
+    {
+        size_t index = std::distance(children.begin(), it);
+        MCVar* var =(MCVar*) *it;
+        if(var->asoc_index == pindex)
+        {
+            idx = index;
+            delete var;
+            break;
+        }
+    }
+    if(idx != -1)
+    {
+        children.erase(children.begin() + idx);
+        ReindexChildren();
+        return true;
+    }
+
+
+    return false;
+
+}
 MCVar* MCVar::GetVarIndexMove(std::string pindex,MCVar* pparent,int moveIdx)
 {
 
@@ -507,7 +576,7 @@ MCVar* MCVar::GetVarIndexMove(std::string pindex,MCVar* pparent,int moveIdx)
             }
             else
             {
-                if ((it != ch_asoc_array.end()) && (next(it) == ch_asoc_array.end())
+                if ((it != ch_asoc_array.end()) && (next(it) == ch_asoc_array.end()))
                     return NULL;
                 ++it;
                 return (MCVar*)it->second;

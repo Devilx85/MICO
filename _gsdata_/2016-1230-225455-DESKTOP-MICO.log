@@ -1,7 +1,0 @@
-2016-12-30 22:54:56: -- Analysis Started by On File Change Incremental
-2016-12-30 22:54:56: Analyze has finished with Conflicts. Resolve Conflicts by selecting the correct sync direction, then click Sync
-2016-12-30 22:54:56: Changes: 1, Conflicts: 1, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 159
-2016-12-30 22:54:56: == Sync Started by On File Change Incremental
-2016-12-30 22:54:56: /src/MCEngine.cpp: unresolved conflict results in No Copy
-2016-12-30 22:54:56: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 0, Errors: 0, Conflicts: 1
-2016-12-30 22:54:56: 

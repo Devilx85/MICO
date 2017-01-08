@@ -1,8 +1,0 @@
-2016-12-30 22:55:37: -- Analysis Started by On File Change First Full Analyze Upon File Monitoring Start
-2016-12-30 22:55:37: /src/MCEngine.cpp: Conflict: File Modified on Both Sides
-2016-12-30 22:55:37: Changes: 1, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 159
-2016-12-30 22:55:37: Left to Right: Copy File: 1 
-2016-12-30 22:55:37: == Sync Started by On File Change First Full Analyze Upon File Monitoring Start
-2016-12-30 22:55:37: Copy Over 'H:/MyDOCS/c++/MiCo/src/MCEngine.cpp' -> 'H:/GIT/MICO/src/MCEngine.cpp'
-2016-12-30 22:55:37: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 1, Errors: 0
-2016-12-30 22:55:37: 

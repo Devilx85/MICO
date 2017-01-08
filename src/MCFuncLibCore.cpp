@@ -337,6 +337,7 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     _f_add_item->templ->AddParam(_C_T_COMP,"ADD",_C_T_REQ);
     _f_add_item->templ->AddParam(_C_T_COMP,"ITEM",_C_T_REQ);
     _f_add_item->templ->AddParam(_C_T_VAR,"VARNAME",_C_T_REQ);
+    _f_add_item->templ->AddParam(_C_T_ANY,"ASINDEX",_C_T_OPT);
     _f_add_item->func_ref = &_ADD_ITEM;
     reg->AddFunc(_f_add_item);
 
@@ -352,6 +353,20 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     _f_cr_node->templ->AddParam(_C_T_NAME,"TYPENAME",_C_T_REQ);
     _f_cr_node->func_ref = &_CREATE_NODE;
     reg->AddFunc(_f_cr_node);
+
+    MCFunc* _f_del_node = new MCFunc();
+    _f_del_node->name = "DELETE INDEX";
+    _f_del_node->templ->data_type = "FUNC";
+    _f_del_node->templ->AddParam(_C_T_COMP,"DELETE",_C_T_REQ);
+    _f_del_node->templ->AddParam(_C_T_COMP,"INDEX",_C_T_OPT,_C_DC_ADD);
+    _f_del_node->templ->AddParam(_C_T_ANY,"INDEXNR",_C_T_OPTC,_C_T_NUMC);
+    _f_del_node->templ->AddParam(_C_T_COMP,"NAME",_C_T_OPT,_C_DC_ADD);
+    _f_del_node->templ->AddParam(_C_T_ANY,"ASNAME",_C_T_OPTC);
+    _f_del_node->templ->AddParam(_C_T_COMP,"IN",_C_T_REQ);
+    _f_del_node->templ->AddParam(_C_T_VAR,"VARNAME",_C_T_REQ);
+    _f_del_node->func_ref = &_DELETE_NODE;
+    reg->AddFunc(_f_del_node);
+
 
 
     MCFunc* _f_def_func = new MCFunc();
@@ -402,6 +417,22 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     _f_myname->templ->AddParam(_C_T_VAR,"VARNAME",_C_T_REQ);
     _f_myname->func_ref = &_MYNAME;
     reg->AddFunc(_f_myname);
+
+    MCFunc* _f_myindex = new MCFunc();
+    _f_myindex->name = "MYINDEX";
+    _f_myindex->templ->data_type = "FUNC";
+    _f_myindex->templ->AddParam(_C_T_COMP,"MYINDEX",_C_T_REQ);
+    _f_myindex->templ->AddParam(_C_T_VAR,"VARNAME",_C_T_REQ);
+    _f_myindex->func_ref = &_MYINDEX;
+    reg->AddFunc(_f_myindex);
+
+    MCFunc* _f_myaindex = new MCFunc();
+    _f_myaindex->name = "MYASINDEX";
+    _f_myaindex->templ->data_type = "FUNC";
+    _f_myaindex->templ->AddParam(_C_T_COMP,"MYASINDEX",_C_T_REQ);
+    _f_myaindex->templ->AddParam(_C_T_VAR,"VARNAME",_C_T_REQ);
+    _f_myaindex->func_ref = &_MYASINDEX;
+    reg->AddFunc(_f_myaindex);
 
     MCFunc* _f_ce = new MCFunc();
     _f_ce->name = "CE";
@@ -607,6 +638,66 @@ MCRet* _CREATE_NODE(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* type
 
     return RET;
 }
+MCRet* _DELETE_NODE(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
+{
+    MCRet* RET = new MCRet();
+    MCFParams* var = params->GetParam("VARNAME");
+
+    if(var->value->ref_var->data_type != "TREE" && var->value->ref_var->data_type != "ARRAY")
+    {
+        MCRet* RET = engine->RetCreate(_C_F_TYPE_MISMATCH,"","ERROR","You can not add/delete node/element in non-TREE/ARRAY type object " + var->value->ref_var->data_type,-100);
+        return RET;
+    }
+
+    MCFParams* C_index = params->GetParam("INDEX");
+    MCFParams* C_asindex = params->GetParam("NAME");
+
+    if(C_index!=NULL && C_asindex!=NULL)
+    {
+        MCRet* RET = engine->RetCreate(_C_F_FUNC_PARAM_ERROR,"","ERROR","You can not delete both name and index!",-100);
+        return RET;
+    }
+
+    if(C_index==NULL && C_asindex==NULL)
+    {
+        MCRet* RET = engine->RetCreate(_C_F_FUNC_PARAM_ERROR,"","ERROR","You must complete statement with name or index!",-100);
+        return RET;
+    }
+
+    MCFParams* index = params->GetParam("INDEXNR");
+    bool res = false;
+
+    if(index != NULL)
+    {
+        int v_index = index->value->ret_nr;
+        res = var->value->ref_var->DeleteChildIndex(v_index);
+        if(!res)
+        {
+            MCRet* RET = engine->RetCreate(_C_F_INDEX_NOT_FOUND,"","ERROR","Can not find element or delete element index " + v_index,-100);
+            return RET;
+
+        }
+    }
+    else
+    {
+        index = params->GetParam("ASNAME");
+        std::string v_index = index->value->ret_data;
+        res = var->value->ref_var->DeleteChildPIndex(v_index);
+        if(!res)
+        {
+            MCRet* RET = engine->RetCreate(_C_F_INDEX_NOT_FOUND,"","ERROR","Can not find element or delete element index " + v_index,-100);
+            return RET;
+
+        }
+    }
+
+
+
+
+
+
+    return RET;
+}
 MCRet* _SET(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
 {
 
@@ -690,6 +781,21 @@ MCRet* _MYNAME(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MC
 
     MCFParams* name = params->GetParam("VARNAME");
     MCRet* RET = engine->RetCreate(0,name->value->ref_var->var_name,"","",0);
+    return RET;
+}
+
+MCRet* _MYINDEX(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
+{
+
+    MCFParams* name = params->GetParam("VARNAME");
+    MCRet* RET = engine->RetCreate(0,std::to_string(name->value->ref_var->num_index),"","",0);
+    return RET;
+}
+MCRet* _MYASINDEX(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
+{
+
+    MCFParams* name = params->GetParam("VARNAME");
+    MCRet* RET = engine->RetCreate(0,name->value->ref_var->asoc_index,"","",0);
     return RET;
 }
 MCRet* _LEN(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
@@ -897,9 +1003,9 @@ MCRet* _SETFL(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCF
         xmove = 1;
 
     if(xmove==0)
-       res = obj->SetFirst();
+        res = obj->SetFirst();
     else
-      res =obj->SetLast();
+        res =obj->SetLast();
 
     if(!res)
     {
@@ -928,16 +1034,17 @@ MCRet* _ISLASTF(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, M
         xmove = 1;
 
     if(xmove==0)
-       res = obj->IsLast();
+        res = obj->IsLast();
     else
-       res = obj->IsFirst();
+        res = obj->IsFirst();
 
     MCRet* RET = new MCRet();
 
     if(res)
     {
         RET->ret_data = "1";
-    }else
+    }
+    else
         RET->ret_data = "0";
 
 
@@ -961,16 +1068,17 @@ MCRet* _MOVENP(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MC
         xmove = 1;
 
     if(xmove==0)
-       res = obj->MoveNext();
+        res = obj->MoveNext();
     else
-      res =obj->MovePrev();
+        res =obj->MovePrev();
 
     MCRet* RET = new MCRet();
 
     if(res)
     {
         RET->ret_data = "1";
-    }else
+    }
+    else
         RET->ret_data = "0";
 
 

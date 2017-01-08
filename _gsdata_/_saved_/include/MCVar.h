@@ -41,6 +41,8 @@ public:
     int CreateArrayItem(std::string pindex,std::string pvalue,MCVar* type_scope,std::string &error_text,MCVar* &cr_var);
     MCVar* GetVarIndexMove(std::string pindex,MCVar* pparent,int moveIdx);
     void CopyChildren(MCVar* from,MCVar* to);
+    bool DeleteChildIndex(int pindex);
+    bool DeleteChildPIndex(std::string pindex);
     void ReindexChildren();
     bool IsDynamic();
     bool MoveNext();
@@ -48,8 +50,10 @@ public:
     bool SetIndex(int i);
     bool SetFirst();
     bool SetLast();
-    std::map<std::string,MCVar*> ch_asoc_array;
-
+    bool IsLast();
+    bool IsFirst();
+    //std::map<std::string,MCVar*> ch_asoc_array;
+    std::vector<std::pair<std::string,MCVar*>> ch_asoc_array;
     int ar_index = 0;
     bool is_ref = false;
     MCCodeLine *line_ref = NULL;

@@ -1,0 +1,11 @@
+2017-01-08 18:13:44: -- Analysis Started by On File Change Incremental
+2017-01-08 18:13:44: L: State File has changed, so re-read it: H:/MyDOCS/c++/MiCo/_gsdata_/_file_state_v4._gs
+2017-01-08 18:13:44: Changes: 1, Conflicts: 0, CopyTime: 0, CopyState: 0/18, Errors: 0, All: 404
+2017-01-08 18:13:44: Left to Right: Copy File: 1 
+2017-01-08 18:13:44: == Sync Started by On File Change Incremental
+2017-01-08 18:13:44: Copy Over 'H:/MyDOCS/c++/MiCo/src/MCVar.cpp' -> 'H:/GIT/MICO/src/MCVar.cpp'
+2017-01-08 18:13:44: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 19, Errors: 0
+2017-01-08 18:13:45: -- Analysis Started by On File Change PostSync Re-Analyze
+2017-01-08 18:13:45: Changes: 0, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 404
+2017-01-08 18:13:45: -- Analysis Complete. Time 00:00:01, Speed: 84 files/s
+2017-01-08 18:13:45: 
