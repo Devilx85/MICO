@@ -33,16 +33,18 @@ public:
     std::vector<MCTextLine *> loaded_lines;
     bool check_exec_time = true;
     long long exec_time=0;
+    int last_code = 0;
     MCRet* last_return = NULL;
     std::string FormatDouble(std::string dvalue);
     MCRet* EvaluateLine(MCCodeLine * line, MCVar* xvar_scope, MCVar* xtype_scope,int func_type = _C_FT_FUNC);
+    MCRet* RenderLine(MCCodeLine * line,MCVar* xvar_scope,MCVar* xtype_scope,int func_type  = _C_FT_FUNC);
     MCTextLine* FindLine(int line_id);
     std::string FindLineContent(int line_id);
 protected:
     bool ends_with(std::string const & value, std::string const & ending);
     MCRet* SubExpressionRender(MCCodeLine * line,MCVar* xvar_scope,MCVar* xtype_scope);
     int LineToCode(MCCodeLine * line, MCTextLine * xdata);
-    MCRet* RenderLine(MCCodeLine * line,MCVar* xvar_scope,MCVar* xtype_scope,int func_type  = _C_FT_FUNC);
+
 private:
 };
 

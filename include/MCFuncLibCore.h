@@ -57,6 +57,8 @@ MCRet* _INC(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFun
 MCRet* _CI(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params);
 MCRet* _MYINDEX(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params);
 MCRet* _MYASINDEX(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params);
+MCRet* _FIND(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params);
+MCRet* _ELSE(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params);
 //MCRet* _TYPE_OF(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params);
 //MCRet* _TYPE_OF(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params);
 //MCRet* _TYPE_OF(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params);

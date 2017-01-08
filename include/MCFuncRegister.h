@@ -17,6 +17,7 @@ public:
     MCFunc* call_func = NULL;
     MCFunc* neg_func = NULL;
     MCFunc* pos_func = NULL;
+    MCFunc* if_func = NULL;
     int AddFunc(MCFunc* f);
 protected:
 

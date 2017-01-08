@@ -228,7 +228,15 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     _f_if->templ->AddParam(_C_T_COMP,"IF",_C_T_REQ);
     _f_if->templ->AddParam(_C_T_ANY,"VALUE",_C_T_REQ);
     _f_if->func_ref = &_IF;
+    reg->if_func = _f_if;
     reg->AddFunc(_f_if);
+
+    MCFunc* _f_else = new MCFunc();
+    _f_else->name = "ELSE";
+    _f_else->templ->data_type = "FUNC";
+    _f_else->templ->AddParam(_C_T_COMP,"ELSE",_C_T_REQ);
+    _f_else->func_ref = &_ELSE;
+    reg->AddFunc(_f_else);
 
     MCFunc* _f_while = new MCFunc();
     _f_while->name = "WHILE";
@@ -424,7 +432,7 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     _f_myindex->templ->AddParam(_C_T_COMP,"MYINDEX",_C_T_REQ);
     _f_myindex->templ->AddParam(_C_T_VAR,"VARNAME",_C_T_REQ);
     _f_myindex->func_ref = &_MYINDEX;
-    reg->AddFunc(_f_myaindex);
+    reg->AddFunc(_f_myindex);
 
     MCFunc* _f_myaindex = new MCFunc();
     _f_myaindex->name = "MYASINDEX";
@@ -492,6 +500,16 @@ void MCFuncLibCore::RegFunc(MCFuncRegister * reg)
     _f_treeloadfromfile->func_ref = &_TREELOADFROMFILE;
     reg->AddFunc(_f_treeloadfromfile);
 
+    MCFunc* _f_find = new MCFunc();
+    _f_find->name = "FIND";
+    _f_find->templ->data_type = "FUNC";
+    _f_find->templ->AddParam(_C_T_COMP,"FIND",_C_T_REQ);
+    _f_find->templ->AddParam(_C_T_COMP,"IN",_C_T_REQ);
+    _f_find->templ->AddParam(_C_T_VAR,"VARNAME",_C_T_REQ);
+    _f_find->templ->AddParam(_C_T_COMP,"WHERE",_C_T_REQ);
+    _f_find->templ->AddParam(_C_T_EXPR,"VALUE",_C_T_REQ);
+    _f_find->func_ref = &_FIND;
+    reg->AddFunc(_f_find);
 
     /* TYPE FUNCTIONS ********************************************************************************
     *************************************************************************************************/
@@ -932,12 +950,27 @@ MCRet* _IF(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc
             if(RES->code < 0 || RES->stop_code != 0)
                 return RES;
         delete RES;
-    }
-
+    }else
+    RET->stop_code = 2;
     RET->ret_type = "VALUE";
     return RET;
 }
+MCRet* _ELSE(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
+{
+    if(engine->last_code == 2)
+    {
 
+     MCRet* RES = engine->EvaluateLine(line,vars,types);
+
+    if(RES != NULL)
+        if(RES->code < 0 || RES->stop_code != 0)
+                return RES;
+    delete RES;
+    }
+    MCRet* RET = new MCRet();
+    RET->ret_type = "VALUE";
+    return RET;
+}
 MCRet* _WHILE(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
 {
     MCRet* RET = new MCRet();
@@ -1087,6 +1120,54 @@ MCRet* _MOVENP(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MC
 
 }
 
+MCRet* _FIND(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
+{
+
+    MCFParams* var_value = params->GetParam("VARNAME");
+    MCVar* obj = var_value->value->ref_var;
+    MCFParams* node_n = params->GetParam("VALUE");
+
+    bool was = false;
+    engine->inner_cycle_counter = 0;
+    for (std::vector<MCDataNode *>::iterator it = obj->children.begin() ; it != obj->children.end(); ++it)
+    {
+
+
+        MCVar* param =(MCVar*) *it;
+        MCCodeLine * r_line = (MCCodeLine *)node_n->ref_line;
+        MCRet* where = engine->RenderLine(r_line,param,types);
+
+        if(where->code < 0 || where->stop_code != 0)
+            return where;
+
+        if(where->ret_data=="1")
+        {
+            engine->var_scope->FindSibling("#PTR",engine->var_scope)->refvar = param;
+            engine->inner_cycle_counter ++;
+            obj->ar_pointer = param->asoc_index;
+            MCRet* RES = engine->EvaluateLine(line,vars,types);
+            engine->var_scope->FindSibling("#PTR",engine->var_scope)->refvar = NULL;
+            if(RES == NULL)
+                continue;
+
+            if(RES->code < 0 || RES->stop_code != 0)
+                return RES;
+
+            delete RES;
+
+        }
+
+
+
+    }
+
+    MCRet* RET = new MCRet();
+    if(!was)
+        RET->stop_code = 2;
+    RET->ret_type = "VALUE";
+    return RET;
+
+}
 MCRet* _LOOP(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params)
 {
 

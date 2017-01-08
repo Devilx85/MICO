@@ -17,7 +17,7 @@ public:
     MCCodeLine *cur_code; //REF TO CURRENCT NODE
     std::string out_buffer = "";
     int LoadString(std::string data,std::string source);
-    void ExtractLines(std::string str,std::string source,std::vector<MCTextLine *> xlines);
+    void ExtractLines(std::string str,std::string source,std::vector<MCTextLine *> &xlines);
     void PrintCode(MCCodeLine * xcode, int lev = 0 );
     void PrintLines(MCCodeLine * xcode, int lev = 0 );
     MCFuncRegister* fregister;
@@ -36,13 +36,14 @@ public:
     MCRet* last_return = NULL;
     std::string FormatDouble(std::string dvalue);
     MCRet* EvaluateLine(MCCodeLine * line, MCVar* xvar_scope, MCVar* xtype_scope,int func_type = _C_FT_FUNC);
+    MCRet* RenderLine(MCCodeLine * line,MCVar* xvar_scope,MCVar* xtype_scope,int func_type  = _C_FT_FUNC);
     MCTextLine* FindLine(int line_id);
     std::string FindLineContent(int line_id);
 protected:
     bool ends_with(std::string const & value, std::string const & ending);
     MCRet* SubExpressionRender(MCCodeLine * line,MCVar* xvar_scope,MCVar* xtype_scope);
     int LineToCode(MCCodeLine * line, MCTextLine * xdata);
-    MCRet* RenderLine(MCCodeLine * line,MCVar* xvar_scope,MCVar* xtype_scope,int func_type  = _C_FT_FUNC);
+
 private:
 };
 

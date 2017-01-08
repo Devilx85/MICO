@@ -55,6 +55,9 @@ MCRet* _MOVENP(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MC
 MCRet* _ISLASTF(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params);
 MCRet* _INC(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params);
 MCRet* _CI(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params);
+MCRet* _MYINDEX(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params);
+MCRet* _MYASINDEX(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params);
+MCRet* _FIND(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params);
 //MCRet* _TYPE_OF(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params);
 //MCRet* _TYPE_OF(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params);
 //MCRet* _TYPE_OF(MCEngine* engine, MCCodeLine* line, MCVar* vars, MCVar* types, MCFunc* func,MCFParams* params);

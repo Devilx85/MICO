@@ -1,0 +1,14 @@
+2017-01-08 20:12:35: -- Analysis Started by On File Change Incremental
+2017-01-08 20:12:35: Changes: 1, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 541
+2017-01-08 20:12:35: Left to Right: Copy File: 1 
+2017-01-08 20:12:35: == Sync Started by On File Change Incremental
+2017-01-08 20:12:35: Copy Over 'H:/MyDOCS/c++/MiCo/main.cpp' -> 'H:/GIT/MICO/main.cpp'
+2017-01-08 20:12:35: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 1, Errors: 0
+2017-01-08 20:12:36: -- Analysis Started by On File Change PostSync Re-Analyze
+2017-01-08 20:12:36: Changes: 2, Conflicts: 0, CopyTime: 0, CopyState: 0/0, Errors: 0, All: 541
+2017-01-08 20:12:36: Left to Right: Copy File: 2 
+2017-01-08 20:12:36: == Sync Started by On File Change PostSync Re-Analyze
+2017-01-08 20:12:36: Copy Over 'H:/MyDOCS/c++/MiCo/bin/Debug/MiCo.exe' -> 'H:/GIT/MICO/bin/Debug/MiCo.exe'
+2017-01-08 20:12:36: Copy Over 'H:/MyDOCS/c++/MiCo/obj/Debug/MiCo/main.o' -> 'H:/GIT/MICO/obj/Debug/MiCo/main.o'
+2017-01-08 20:12:36: == Sync Complete. Time: 00:00:00, Speed: 0 байт/s, OK: 2, Errors: 0
+2017-01-08 20:12:36: 

@@ -16,8 +16,8 @@ int main()
     int res = 0;
     //std::cout << content;
     res = Engine->LoadString(content,"C:\\sc\\run.mico");
-    Engine->Run();
-    std::cout << Engine->out_buffer;
+    //Engine->Run();
+    //std::cout << Engine->out_buffer;
     //Engine->PrintLines(Engine->code);
     Engine->PrintCode(Engine->code);
     std::cout << std::endl << Engine->exec_time << " ms";

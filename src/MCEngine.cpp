@@ -74,7 +74,7 @@ MCRet* MCEngine::EvaluateLine(MCCodeLine * line, MCVar* xvar_scope, MCVar* xtype
 {
     std::chrono::high_resolution_clock::time_point start_time;
     std::chrono::high_resolution_clock::time_point end_time;
-
+    last_code = 0;
     for (std::vector<MCDataNode *>::iterator it = line->children.begin() ; it != line->children.end(); ++it)
     {
 
@@ -96,7 +96,9 @@ MCRet* MCEngine::EvaluateLine(MCCodeLine * line, MCVar* xvar_scope, MCVar* xtype
 
         try
         {
+
             ret = RenderLine(line,xvar_scope,xtype_scope,func_type);
+            last_code = 0;
         }
         catch(...)
         {
@@ -122,7 +124,14 @@ MCRet* MCEngine::EvaluateLine(MCCodeLine * line, MCVar* xvar_scope, MCVar* xtype
                 }
                 if(ret->stop_code==1)
                 {
+                    delete ret;
                     --it;
+                    continue;
+                }
+                if(ret->stop_code==2)
+                {
+                    delete ret;
+                    last_code = ret->stop_code;
                     continue;
                 }
                 return ret;
@@ -618,6 +627,7 @@ MCRet* MCEngine::RenderLine(MCCodeLine * line,MCVar* xvar_scope,MCVar* xtype_sco
 
                     MCCodeLine * x_param = (MCCodeLine *) line->expressions.at(cy_params-1);
                     after_code->expressions.push_back(x_param);
+                    after_code->data = after_code->data + " " + x_param->data;
                     cy_params++;
                     last_detected++;
 
@@ -657,7 +667,7 @@ MCRet* MCEngine::RenderLine(MCCodeLine * line,MCVar* xvar_scope,MCVar* xtype_sco
 
 
             if(f_param->e_type == v_param->e_type || f_param->e_type == _C_T_ANY ||
-                    f_param->e_type == _C_T_VAR || f_param->e_type == _C_T_NAME)
+                    f_param->e_type == _C_T_VAR || f_param->e_type == _C_T_NAME || f_param->e_type == _C_T_EXPR)
             {
                 /*NAME*******************************************************************/
 
@@ -704,7 +714,12 @@ MCRet* MCEngine::RenderLine(MCCodeLine * line,MCVar* xvar_scope,MCVar* xtype_sco
                     continue;
                 }
 
+                if(f_param->e_type == _C_T_EXPR)
+                {
+                    data_params->PutParam(f_param->data,v_param,f_param);
 
+                }
+                else
                 data_params->PutParam(f_param->data,v_param,f_param);
                 continue;
 
@@ -750,7 +765,8 @@ MCRet* MCEngine::RenderLine(MCCodeLine * line,MCVar* xvar_scope,MCVar* xtype_sco
             for (std::vector<MCDataNode*>::iterator it = data_params->children.begin() ; it != data_params->children.end(); ++it)
             {
                 MCFParams* x_param =(MCFParams*) *it;
-                if(x_param->ref_vline->e_type == _C_T_NAME || x_param->ref_vline->dc_type == _C_DC_ADD  || x_param->is_unvalued == true)
+                if(x_param->ref_vline->e_type == _C_T_NAME || x_param->ref_vline->dc_type == _C_DC_ADD  || x_param->is_unvalued == true ||
+                        x_param->ref_vline->e_type == _C_T_EXPR)
                     continue;
 
                 if(x_param->ref_line->e_type == _C_T_EXPR || x_param->ref_line->e_type == _C_T_COMP)
@@ -814,7 +830,7 @@ MCRet* MCEngine::RenderLine(MCCodeLine * line,MCVar* xvar_scope,MCVar* xtype_sco
                 v_param->data = RET->ret_data;
                 v_param->e_type = _C_T_COMP;
                 delete RET;
-
+                after_code->data = v_param->data + " " + after_code->data;
                 after_code->expressions.insert(after_code->expressions.begin(),v_param);
                 MCRet* new_ret = RenderLine(after_code,xvar_scope,xtype_scope);
 
@@ -1049,7 +1065,7 @@ void MCEngine::PrintCode(MCCodeLine * xcode,int lev )
     for (std::vector<MCDataNode *>::iterator it = xcode->expressions.begin() ; it != xcode->expressions.end(); ++it)
     {
         MCCodeLine * line= (MCCodeLine *)*it;
-        std::cout << tabs << line->data_type << ":" << line->data << std::endl;
+        std::cout << tabs << line->e_type << ":" << line->data << std::endl;
 
         std::cout << tabs << "["  << std::endl ;
 
